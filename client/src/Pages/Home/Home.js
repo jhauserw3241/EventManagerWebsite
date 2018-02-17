@@ -6,7 +6,9 @@ class Home extends Component {
     return (
       <div className="Home">
         <p className="Home-intro">
-          This is the home page.
+          Welcome! This website is a tool to help you organize information about large events.<br />
+          <br />
+          To interact with any events, you need to login.
         </p>
       </div>
     );
