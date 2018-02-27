@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import LoginRequired from './Login/LoginRequired';
 import fire from './../fire';
 import logo from './../Images/logo.svg';
 import './../CSS/Header.css';
@@ -35,6 +34,7 @@ class Header extends Component {
 						</div>
 						<div className="nav-body">
 							<NavLink to="/home" className="nav-link">Home</NavLink>
+							<NavLink to="/events" className="nav-link">Events</NavLink>
 							{ !this.state.user ?
 								<NavLink to="/login" className="nav-link">Login</NavLink> : null }
 							{ this.state.user ?
