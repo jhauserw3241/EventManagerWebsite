@@ -1,7 +1,24 @@
-.Home {
-  text-align: center;
+body {
+	background-color: var(--body-color) !important;
 }
 
-.Home-intro {
-  font-size: large;
+.container {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: calc(100% - 40px);
+	max-width: 100%;
 }
+
+.content {
+	padding: 10px;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: #F5F5F5; /* White smoke */
+	background-color: white;
+}
+
+a, a:hover {
+	text-decoration: none;
+	color: black;
+}
+

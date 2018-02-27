@@ -1,12 +1,31 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from './../Images/logo.svg';
+import logo from './../images/header/light-green-kspact.png';
+import fire from './../fire.js';
 import './../CSS/Header.css';
 
 class Header extends Component {
-	render() {
-		var self = this;
+	constructor(props) {
+		super(props);
 
+		this.state = {
+			user: fire.auth().currentUser
+		};
+	}
+
+	componentWillMount() {
+		// Handle changes in authentication state
+        var self = this;
+        fire.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                self.setState({user: user});
+            } else {
+                self.setState({user: undefined});
+            }
+        });
+	}
+
+	render() {
 		return (
 			<div className="Header">
 				<header>
@@ -20,7 +39,7 @@ class Header extends Component {
 					</div>
 				</header>
 				<main>
-					{self.props.children}
+					{this.props.children}
 				</main>
 			</div>
 		);

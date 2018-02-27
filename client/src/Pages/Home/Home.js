@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import './../../CSS/Page.css';
+import fire from './../../fire';
 
 class Home extends Component {
-  render() {
-    return (
-      <div className="Home">
-        <p className="Home-intro">
-          Welcome! This website is a tool to help you organize information about large events.<br />
-          <br />
-          To interact with any events, you need to login.
-        </p>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div className="Home">
+				<div className="container">
+					<div className="content">
+						This is the home page. Welcome!
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 export default Home;

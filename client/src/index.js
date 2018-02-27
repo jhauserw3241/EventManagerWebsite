@@ -1,10 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
+import registerServiceWorker from './registerServiceWorker';
 import Header from './Pages/Header';
 import { Main } from './routes';
-import './CSS/index.css';
-import registerServiceWorker from './registerServiceWorker';
+import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './CSS/Page.css';
 
 const App = () => (
 	<div>
@@ -14,12 +15,13 @@ const App = () => (
 )
 
 render((
-	<BrowserRouter>
+	<HashRouter>
 		<div>
 			<App />
 		</div>
-	</BrowserRouter>),
+	</HashRouter>),
 	document.getElementById('root')
 );
 
 registerServiceWorker();
+

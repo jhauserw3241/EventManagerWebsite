@@ -1,0 +1,69 @@
+.list-container {
+	display: -webkit-box;
+}
+
+.card {
+	display: inline-flex;
+	height: 250px;
+	width: 30%;
+	border-radius: 10px;
+	margin: 10px;
+}
+
+.card-img {
+	height: 90%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.card-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.card-modal {
+	background-color: white;
+	width: 50%;
+	margin-left: 25%;
+	margin-top: 10%;
+	border-radius: 10px;
+}
+
+.ReactModal__Overlay {
+	background-color: rgba(000, 000, 000, 0.3) !important;
+}
+
+.fade {
+    transition: opacity .15s linear;
+}
+
+.row {
+	width: 100%;
+	margin: 5px !important;
+}
+
+.right {
+	float: right;
+}
+
+.form-text {
+	width: 120px;
+}
+
+.form-field {
+	width: 70%;
+}
+
+input[type="text"] {
+	width: 100%;
+}
+
+.close-btn {
+	float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+}

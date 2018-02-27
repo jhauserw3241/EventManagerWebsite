@@ -1,13 +1,9 @@
-.Header-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
+@import "Base.css";
 
 .Header {
-  background-color: #222;
-  height: 90px;
-  padding: 20px;
-  color: white;
+	background-color: var(--dark-gray);
+	border-color: var(--dark-gray);
+	color: white;
 }
 
 .navbar-header {
@@ -26,14 +22,13 @@
 .nav-link {
 	color: white;
 	padding: 2.35em !important;
-  display: inline-block !important;
-  text-decoration: none;
+	display: inline-block !important;
+	text-decoration: none;
 }
 
 .nav-link:hover {
 	color: white;
-  background-color: black;
-  text-decoration: none;
+	background-color: black;
 }
 
 .Logo-img {
@@ -48,7 +43,3 @@
   color: white;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
