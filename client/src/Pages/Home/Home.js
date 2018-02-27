@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fire from './../../fire';
+import LoginRequired from './../Login/LoginRequired';
 
 class Home extends Component {
 	render() {
@@ -8,6 +8,12 @@ class Home extends Component {
 				<div className="container">
 					<div className="content">
 						This is the home page. Welcome!
+
+						<LoginRequired>
+							<br />
+							<br />
+							Secrets!!
+						</LoginRequired>
 					</div>
 				</div>
 			</div>
