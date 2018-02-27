@@ -1,9 +1,30 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import LoginRequired from './Login/LoginRequired';
+import fire from './../fire';
 import logo from './../Images/logo.svg';
 import './../CSS/Header.css';
 
 class Header extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+            user: fire.auth().currentUser
+		};
+    }
+
+    componentDidMount() {
+        // Handle changes in authentication state
+        var self = this;
+        fire.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                self.setState({user: user});
+            } else {
+                self.setState({user: undefined});
+            }
+        });
+	}
+
 	render() {
 		return (
 			<div className="Header">
@@ -14,7 +35,10 @@ class Header extends Component {
 						</div>
 						<div className="nav-body">
 							<NavLink to="/home" className="nav-link">Home</NavLink>
-							<NavLink to="/login" className="nav-link">Login</NavLink>
+							{ !this.state.user ?
+								<NavLink to="/login" className="nav-link">Login</NavLink> : null }
+							{ this.state.user ?
+								<NavLink to="/signout" className="nav-link">Signout</NavLink> : null }
 						</div>
 					</div>
 				</header>

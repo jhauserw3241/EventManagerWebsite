@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
+import Signout from './Pages/Signout/Signout';
 
 export const Main = () => (
 	<main>
@@ -9,6 +10,7 @@ export const Main = () => (
 			<Route exact path='/' component={Home} />
 			<Route exact path='/home' component={Home} />
 			<Route exact path='/login' component={Login} />
+			<Route exact path='/signout' component={Signout} />
 		</Switch>
 	</main>
 )
