@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Event from './Event';
+import EventElement from './EventElement';
 import fire from './../../fire';
 
 class Events extends Component {
@@ -23,7 +23,7 @@ class Events extends Component {
 				<div className="container">
 					<div className="list-container">
 						{this.state.events.map(event =>
-							<Event
+							<EventElement
 								key={event.id}
 								id={event.id}
 								name={event.name}

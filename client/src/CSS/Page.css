@@ -22,3 +22,11 @@ a, a:hover {
 	color: black;
 }
 
+h1, h3 {
+	text-align: center;
+}
+
+select {
+	width: 50%;
+}
+
