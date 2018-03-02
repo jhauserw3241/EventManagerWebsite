@@ -34,7 +34,8 @@ class Header extends Component {
 						</div>
 						<div className="nav-body">
 							<NavLink to="/home" className="nav-link">Home</NavLink>
-							<NavLink to="/events" className="nav-link">Events</NavLink>
+							{ this.state.user ?
+								<NavLink to="/events" className="nav-link">Events</NavLink> : null }
 							{ !this.state.user ?
 								<NavLink to="/login" className="nav-link">Login</NavLink> : null }
 							{ !this.state.user ?
