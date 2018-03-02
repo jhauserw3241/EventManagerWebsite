@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import EventElement from './EventElement';
+import EventsList from './EventsList';
 import Toggle from 'react-bootstrap-toggle';
 import { Button } from 'react-bootstrap';
+import BootstrapTable from 'react-bootstrap-table-next';
 import fire from './../../fire';
 
 class Events extends Component {
@@ -38,6 +39,7 @@ class Events extends Component {
 		var divStyle = {
 			float: "right"
 		}
+
 		return (
 			<div className="Events">			
 				<div className="container">
@@ -53,17 +55,9 @@ class Events extends Component {
 							bsStyle={this.state.org === "cards" ? "primary" : "default"}
 							>Cards</Button>
 					</div>
-					<div className="list-container">
-						{this.state.events.map(event =>
-							<EventElement
-								org={this.state.org}
-								key={event.id}
-								id={event.id}
-								name={event.name}
-								type={event.type}
-								completed_date={event.completed_date} />
-						)}
-					</div>
+					<EventsList
+						org={this.state.org}
+						events={this.state.events} />
 				</div>
 				
 				<main>
