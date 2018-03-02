@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import EventElement from './EventElement';
 import Toggle from 'react-bootstrap-toggle';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import fire from './../../fire';
 import './../../CSS/List.css';
@@ -25,17 +26,13 @@ class EventsList extends Component {
         } else {
             var columns = [{
                 dataField: 'name',
-                text: 'Event Name'
-            }, {
-                dataField: 'type',
-                text: 'Competition Type'
+                text: 'Event'
             }];
 
             var data = [];
             this.props.events.map(event =>
                 data.push({
-                    name: event.name,
-                    type: event.type
+                    name: <Link to={"/event/" + event.id}>{event.name}</Link>
             }));
             console.log(data);
 
