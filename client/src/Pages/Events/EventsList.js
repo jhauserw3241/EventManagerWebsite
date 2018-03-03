@@ -32,9 +32,9 @@ class EventsList extends Component {
             var data = [];
             this.props.events.map(event =>
                 data.push({
+                    id: event.id,
                     name: <Link to={"/event/" + event.id}>{event.name}</Link>
             }));
-            console.log(data);
 
             return (
                 <div className="EventsList">
