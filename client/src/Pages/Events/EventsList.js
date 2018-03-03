@@ -9,6 +9,8 @@ import './../../CSS/List.css';
 
 class EventsList extends Component {	
 	render() {
+        console.log(this.props.org);
+
         if (this.props.org === "cards") {
             return (
 				<div className="EventsList list-container">
@@ -21,6 +23,10 @@ class EventsList extends Component {
                             type={event.type}
                             completed_date={event.completed_date} />
                     )}
+
+                    <main>
+                        {this.props.children}
+                    </main>
                 </div>
 			);
         } else {
@@ -29,12 +35,12 @@ class EventsList extends Component {
                 text: 'Event'
             }];
 
-            var data = [];
-            this.props.events.map(event =>
-                data.push({
+            var data = this.props.events.map(function(event) {
+                return ({
                     id: event.id,
                     name: <Link to={"/event/" + event.id}>{event.name}</Link>
-            }));
+                })
+            });
 
             return (
                 <div className="EventsList">
@@ -46,6 +52,10 @@ class EventsList extends Component {
                         hover
                         condensed
                         />
+        
+                    <main>
+                        {this.props.children}
+                    </main>
                 </div>
 			);
         }
