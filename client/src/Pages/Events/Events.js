@@ -34,26 +34,22 @@ class Events extends Component {
 	}
 	
 	render() {
-		console.log(this.state.org);
-
-		var divStyle = {
-			float: "right"
-		}
-
 		return (
 			<div className="Events">			
 				<div className="container">
-					<div style={divStyle}>
-						<Button
-							onClick={this.toggleOrganization}
-							disabled={this.state.org === "list"}
-							bsStyle={this.state.org === "list" ? "primary" : "default"}
-							>List</Button>
-						<Button
-							onClick={this.toggleOrganization}
-							disabled={this.state.org === "cards"}
-							bsStyle={this.state.org === "cards" ? "primary" : "default"}
-							>Cards</Button>
+					<div className="mod-btns">
+						<div className="org-btns">
+							<Button
+								onClick={this.toggleOrganization}
+								disabled={this.state.org === "list"}
+								bsStyle={this.state.org === "list" ? "primary" : "default"}
+								>List</Button>
+							<Button
+								onClick={this.toggleOrganization}
+								disabled={this.state.org === "cards"}
+								bsStyle={this.state.org === "cards" ? "primary" : "default"}
+								>Cards</Button>
+						</div>
 					</div>
 					<EventsList
 						org={this.state.org}

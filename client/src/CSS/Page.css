@@ -30,3 +30,11 @@ select {
 	width: 50%;
 }
 
+.org-btns {
+	float: right;
+}
+
+.mod-btns {
+	width: 100%;
+	height: 40px;
+}
