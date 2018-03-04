@@ -30,7 +30,7 @@ class EventsList extends Component {
             var columns= [
                 {
                     key: "name",
-                    name: "Name"
+                    name: "Event"
                 }
             ]
 
