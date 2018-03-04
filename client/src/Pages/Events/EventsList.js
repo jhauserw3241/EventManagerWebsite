@@ -4,6 +4,7 @@ import Toggle from 'react-bootstrap-toggle';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
+import EventTable from './EventTable';
 import fire from './../../fire';
 import './../../CSS/List.css';
 
@@ -30,34 +31,52 @@ class EventsList extends Component {
                 </div>
 			);
         } else {
-            var columns = [{
-                dataField: 'name',
-                text: 'Event'
-            }];
+            var columns= [
+                {
+                    key: "name",
+                    name: "Name"
+                }, {
+                    key: "date",
+                    name: "Date"
+                }, {
+                    key: "blank",
+                    name: "Blank"
+                }
+            ]
 
-            var data = this.props.events.map(function(event) {
-                return ({
-                    id: event.id,
-                    name: <Link to={"/event/" + event.id}>{event.name}</Link>
-                })
-            });
+            var rows = [
+                {
+                    id: 0,
+                    name: "Temp",
+                    date: "2/14/15",
+                    blank: "testing",
+                    link: "event/0"
+                },
+                {
+                    id: 1,
+                    name: "Outreach",
+                    date: "8/3/19",
+                    blank: "this is a test",
+                    link: "event/1"
+                },
+                {
+                    id: 2,
+                    name: "conference",
+                    date: "8/3/19",
+                    blank: "this is a test",
+                    link: "event/1"
+                }
+            ]
 
             return (
                 <div className="EventsList">
-                    <BootstrapTable
-                        keyField="id"
-                        data={ data }
-                        columns={ columns }
-                        striped
-                        hover
-                        condensed
-                        />
+                    <EventTable columns={columns} data={rows} />
         
                     <main>
                         {this.props.children}
                     </main>
                 </div>
-			);
+            );
         }
 	}
 }
