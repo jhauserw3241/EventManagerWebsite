@@ -10,8 +10,6 @@ import './../../CSS/List.css';
 
 class EventsList extends Component {	
 	render() {
-        console.log(this.props.org);
-
         if (this.props.org === "cards") {
             return (
 				<div className="EventsList list-container">
@@ -35,42 +33,25 @@ class EventsList extends Component {
                 {
                     key: "name",
                     name: "Name"
-                }, {
-                    key: "date",
-                    name: "Date"
-                }, {
-                    key: "blank",
-                    name: "Blank"
                 }
             ]
 
-            var rows = [
-                {
-                    id: 0,
-                    name: "Temp",
-                    date: "2/14/15",
-                    blank: "testing",
-                    link: "event/0"
-                },
-                {
-                    id: 1,
-                    name: "Outreach",
-                    date: "8/3/19",
-                    blank: "this is a test",
-                    link: "event/1"
-                },
-                {
-                    id: 2,
-                    name: "conference",
-                    date: "8/3/19",
-                    blank: "this is a test",
-                    link: "event/1"
-                }
-            ]
+            var events_count = 0;
+            var data = this.props.events.map(function(event) {
+                var temp = {
+                    id: events_count,
+                    name: event.name,
+                    link: "event/" + event.id
+                };
+
+                events_count += 1;
+
+                return temp;
+            });
 
             return (
                 <div className="EventsList">
-                    <EventTable columns={columns} data={rows} />
+                    <EventTable columns={columns} data={data} />
         
                     <main>
                         {this.props.children}
