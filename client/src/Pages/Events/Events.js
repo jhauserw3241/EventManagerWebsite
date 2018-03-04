@@ -24,9 +24,8 @@ class Events extends Component {
 	}
 
 	toggleOrganization(event) {
-		if(this.state.org === "cards") {
-			this.setState({ org: "list" });
-		} else if (this.state.org === "list") {
+		console.log(this.state.org);
+		if(this.state.org === "list") {
 			this.setState({ org: "cards" });
 		} else {
 			this.setState({ org: "list" });
