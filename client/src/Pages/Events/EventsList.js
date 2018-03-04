@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EventElement from './EventElement';
+import EventCard from './EventCard';
 import Toggle from 'react-bootstrap-toggle';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -14,13 +14,11 @@ class EventsList extends Component {
             return (
 				<div className="EventsList list-container">
                     {this.props.events.map(event =>
-                        <EventElement
-                            org={this.props.org}
+                        <EventCard
                             key={event.id}
                             id={event.id}
                             name={event.name}
-                            type={event.type}
-                            completed_date={event.completed_date} />
+                            color={event.color} />
                     )}
 
                     <main>
