@@ -15,7 +15,7 @@ export const Main = () => (
 			<Route exact path='/home' component={Home} />
 			<Route exact path='/events' component={Events} />
 			<Route exact path='/event/:id' component={Event} />
-			<Route exact path='/agenda/:id' component={Agenda} />
+			<Route exact path='/event/agenda/:id' component={Agenda} />
 			<Route exact path='/login' component={Login} />
 			<Route exact path='/signup' component={Signup} />
 			<Route exact path='/signout' component={Signout} />
