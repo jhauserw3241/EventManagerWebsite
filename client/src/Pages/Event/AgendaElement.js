@@ -33,7 +33,7 @@ class AgendaElement extends Component {
                 var agenda = this.state.agendas[agenda_id];
                 var temp = {
                     id: agenda_count,
-                    name: agenda.name,
+                    name: agenda.name ? agenda.name : "Agenda",
                     link: "agenda/" + agenda.id
                 };
     

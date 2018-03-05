@@ -23,7 +23,7 @@ class Agenda extends Component {
 		curAgendaRef.on("value", function(data) {
             var agenda = data.val()[self.state.id];
             self.setState({
-                name: agenda.name,
+                name: agenda.name ? agenda.name : "Agenda",
                 type: agenda.type,
                 path: agenda.path,
                 url: agenda.url
