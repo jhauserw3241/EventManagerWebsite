@@ -32,16 +32,29 @@ class Agenda extends Component {
     }
 
 	render() {
-		return (
-			<div className="Agenda">
-                <div className="container">
-                    <div className="content">
-                        <h1>{this.state.name}</h1>
-                        <iframe className="agenda-iframe" src={this.state.url} allowFullScreen></iframe>
+        if(this.state.type === "path") {
+            return (
+                <div className="Agenda">
+                    <div className="container">
+                        <div className="content">
+                            <h1>{this.state.name}</h1>
+                            <iframe className="agenda-iframe" src={this.state.path} allowFullScreen></iframe>
+                        </div>
                     </div>
                 </div>
-			</div>
-		);
+            );
+        } else {
+            return (
+                <div className="Agenda">
+                    <div className="container">
+                        <div className="content">
+                            <h1>{this.state.name}</h1>
+                            <iframe className="agenda-iframe" src={this.state.url} allowFullScreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
 	}
 }
 
