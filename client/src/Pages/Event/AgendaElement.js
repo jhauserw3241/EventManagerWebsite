@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AgendaTable from './../Agenda/AgendaTable';
+import AgendaTable from './AgendaTable';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
