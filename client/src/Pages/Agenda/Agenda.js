@@ -8,6 +8,7 @@ class Agenda extends Component {
 
         this.state = {
             id: this.props.match.params.id,
+            name: "",
             type: "",
             path: "",
             url: ""
@@ -21,6 +22,7 @@ class Agenda extends Component {
 		agendasRef.on("value", function(data) {
             var agenda = data.val()[self.state.id];
             self.setState({
+                name: agenda.name,
                 type: agenda.type,
                 path: agenda.path,
                 url: agenda.url
@@ -33,7 +35,7 @@ class Agenda extends Component {
 			<div className="Agenda">
                 <div className="container">
                     <div className="content">
-                        <h1>Agenda</h1><br/>
+                        <h1>{this.state.name}</h1>
                         <iframe className="agenda-iframe" src="https://www.youtube.com/embed/A6XUVjK9W4o" allowFullScreen></iframe>
                     </div>
                 </div>
