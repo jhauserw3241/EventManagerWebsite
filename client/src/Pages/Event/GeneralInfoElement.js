@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Select from 'react-select';
-import fire from './../../fire';
 import './../../CSS/Card.css';
 
 class GeneralInfoElement extends Component {
@@ -17,7 +14,7 @@ class GeneralInfoElement extends Component {
 	render() {
 		return (
 			<div className="GeneralInfoElement">
-                <h3>General Info</h3><br/>
+                <h3 className="section-header">General Info</h3>
                 <label htmlFor="selected-event-type">Type:</label>
                 <select name="selected-event-type" value={this.props.type}>
                     <option value="Conference">Conference</option>
