@@ -38,3 +38,8 @@ select {
 	width: 100%;
 	height: 40px;
 }
+
+.agenda-iframe {
+	width: 100%;
+	height: 500px;
+}
