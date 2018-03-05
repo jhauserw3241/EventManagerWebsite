@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import EventCard from './EventCard';
-import Toggle from 'react-bootstrap-toggle';
-import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import BootstrapTable from 'react-bootstrap-table-next';
 import EventTable from './EventTable';
-import fire from './../../fire';
 import './../../CSS/List.css';
 
 class EventsList extends Component {	

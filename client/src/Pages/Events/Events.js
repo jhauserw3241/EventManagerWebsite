@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import EventsList from './EventsList';
-import Toggle from 'react-bootstrap-toggle';
 import { Button } from 'react-bootstrap';
-import BootstrapTable from 'react-bootstrap-table-next';
 import fire from './../../fire';
 
 class Events extends Component {

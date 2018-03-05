@@ -15,16 +15,16 @@ class EventTable extends Component {
     
     render() {
         var headerRowStyle = {
-            "background-color": this.state.headerColor,
+            "backgroundColor": this.state.headerColor,
             "color": "white"
         };
 
         var row1Style = {
-            "background-color": this.state.rowColor1
+            "backgroundColor": this.state.rowColor1
         }
 
         var row2Style = {
-            "background-color": this.state.rowColor2
+            "backgroundColor": this.state.rowColor2
         }
 
         var columnWidthStyle = {
@@ -43,7 +43,7 @@ class EventTable extends Component {
                     </thead>
                     <tbody>
                         {this.props.data.map(d =>
-                            <tr style={((d["id"] % 2) == 0) ? row1Style : row2Style}>
+                            <tr style={((d["id"] % 2) === 0) ? row1Style : row2Style}>
                                 {this.props.columns.map(column =>
                                     <td style={columnWidthStyle}><Link to={d["link"]}>{d[column.key]}</Link></td> 
                                 )}
