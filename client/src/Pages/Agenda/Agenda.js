@@ -36,7 +36,7 @@ class Agenda extends Component {
                 <div className="container">
                     <div className="content">
                         <h1>{this.state.name}</h1>
-                        <iframe className="agenda-iframe" src="https://www.youtube.com/embed/A6XUVjK9W4o" allowFullScreen></iframe>
+                        <iframe className="agenda-iframe" src={this.state.url} allowFullScreen></iframe>
                     </div>
                 </div>
 			</div>
