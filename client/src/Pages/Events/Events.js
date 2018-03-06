@@ -61,7 +61,7 @@ class Events extends Component {
 			name: this.state.name,
 			type: this.state.type,
 			completed_date: this.state.completed_date,
-			color: "red"
+			color: "#"+((1<<24)*Math.random()|0).toString(16) // Generate random color
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
