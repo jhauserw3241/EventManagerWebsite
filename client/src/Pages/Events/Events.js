@@ -151,10 +151,6 @@ class Events extends Component {
 						events={this.state.events}
 						deleteEvent={this.deleteEvent} />
 				</div>
-				
-				<main>
-					{this.props.children}
-				</main>
 			</div>
 		);
 	}

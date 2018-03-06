@@ -15,10 +15,6 @@ class EventsList extends Component {
                             name={event.name}
                             color={event.color} />
                     )}
-
-                    <main>
-                        {this.props.children}
-                    </main>
                 </div>
 			);
         } else {
@@ -49,10 +45,6 @@ class EventsList extends Component {
                         columns={columns}
                         data={data}
                         deleteEvent={this.props.deleteEvent} />
-        
-                    <main>
-                        {this.props.children}
-                    </main>
                 </div>
             );
         }
