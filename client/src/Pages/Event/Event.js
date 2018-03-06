@@ -21,9 +21,9 @@ class Event extends Component {
         var self = this;
 
         var eventsRef = fire.database().ref("events/");
-        var curEventRef = eventsRef.orderByChild("id").equalTo(parseInt(this.props.match.params.id));
+        var curEventRef = eventsRef.orderByChild("id").equalTo(self.state.id);
         curEventRef.on("value", function(data) {
-            var event = data.val()[parseInt(self.state.id)];
+            var event = data.val()[self.state.id];
             self.setState({
                 name: event.name,
                 type: event.type,

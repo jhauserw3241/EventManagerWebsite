@@ -30,17 +30,17 @@ class EventsList extends Component {
             ]
 
             var events_count = 0;
-            var data = this.props.events.map(function(event) {
-                var temp = {
+            var data = [];
+            for(var event_id in this.props.events) {
+                var event = this.props.events[event_id];
+                data.push({
                     id: events_count,
                     name: event.name,
                     link: "event/" + event.id
-                };
+                });
 
                 events_count += 1;
-
-                return temp;
-            });
+            }
 
             return (
                 <div className="EventsList">
