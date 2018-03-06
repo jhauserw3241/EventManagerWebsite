@@ -14,6 +14,13 @@ class EventCard extends Component {
 				<div className="card-text">
 					{this.props.name}
 				</div>
+				<div className="card-mod-btns">
+					<button
+						className="btn btn-danger card-delete-btn"
+						onClick={(event) => this.props.deleteEvent(event, this.props.id)} >
+						Delete
+					</button>
+				</div>
 			</Link>
 		);
 	}
