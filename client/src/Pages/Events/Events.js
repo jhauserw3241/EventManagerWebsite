@@ -23,6 +23,7 @@ class Events extends Component {
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
 		this.addEvent = this.addEvent.bind(this);
+		this.deleteEvent = this.deleteEvent.bind(this);
 	}
 	
 	componentDidMount() {
@@ -63,9 +64,21 @@ class Events extends Component {
 			color: "red"
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
-			console.log(error.code + ": " + error.message);
 		});
-		console.log("Should be done...?")
+
+		this.closeModal();
+	}
+
+	deleteEvent(event, id) {
+		event.preventDefault();
+
+		var self = this;
+
+		var curEventRef = fire.database().ref("events").child(id);
+		curEventRef.remove()
+		.catch(function(error) {
+			this.setState({ formError: error.code + ": " + error.message });
+		});
 
 		this.closeModal();
 	}
@@ -135,7 +148,8 @@ class Events extends Component {
 					</div>
 					<EventsList
 						org={this.state.org}
-						events={this.state.events} />
+						events={this.state.events}
+						deleteEvent={this.deleteEvent} />
 				</div>
 				
 				<main>

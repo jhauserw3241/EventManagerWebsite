@@ -11,3 +11,11 @@ thead > tr > th {
 tr {
     width: 100%;
 }
+
+.table-delete-btn {
+    margin: 5px;
+    float: right;
+}
+
+.table-txt {
+}

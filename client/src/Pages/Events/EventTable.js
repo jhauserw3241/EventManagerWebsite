@@ -43,9 +43,17 @@ class EventTable extends Component {
                     </thead>
                     <tbody>
                         {this.props.data.map(d =>
-                            <tr style={((d["id"] % 2) === 0) ? row1Style : row2Style}>
+                            <tr style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                 {this.props.columns.map(column =>
-                                    <td style={columnWidthStyle}><Link to={d["link"]}>{d[column.key]}</Link></td> 
+                                    <td style={columnWidthStyle}>
+                                        <Link className="table-txt" to={d["link"]}>{d[column.key]}</Link>
+                                        { this.props.deleteEvent ?
+                                            <button
+                                                className="btn btn-danger table-delete-btn"
+                                                onClick={(event) => this.props.deleteEvent(event, d["id"])}>
+                                                Delete
+                                            </button> : null }
+                                    </td> 
                                 )}
                             </tr>
                         )}

@@ -8,7 +8,7 @@ class EventsList extends Component {
         if (this.props.org === "cards") {
             return (
 				<div className="EventsList list-container">
-                    {this.props.events.map(event =>
+                    {Object.values(this.props.events).map(event =>
                         <EventCard
                             key={event.id}
                             id={event.id}
@@ -34,7 +34,8 @@ class EventsList extends Component {
             for(var event_id in this.props.events) {
                 var event = this.props.events[event_id];
                 data.push({
-                    id: events_count,
+                    id: event.id,
+                    num: events_count,
                     name: event.name,
                     link: "event/" + event.id
                 });
@@ -44,7 +45,10 @@ class EventsList extends Component {
 
             return (
                 <div className="EventsList">
-                    <EventTable columns={columns} data={data} />
+                    <EventTable
+                        columns={columns}
+                        data={data}
+                        deleteEvent={this.props.deleteEvent} />
         
                     <main>
                         {this.props.children}
