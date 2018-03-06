@@ -5,8 +5,9 @@ import './../../CSS/Card.css';
 class EventCard extends Component {
 	render() {
 		var cardImgStyle = {
-			"background-color": this.props.color
+			"backgroundColor": this.props.color
 		};
+
 		return (
 			<Link className="EventCard card" to={"/event/" + this.props.id}>
 				<div className="card-img" style={cardImgStyle}></div>
