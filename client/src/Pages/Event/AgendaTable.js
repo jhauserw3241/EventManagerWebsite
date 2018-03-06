@@ -30,6 +30,8 @@ class AgendaTable extends Component {
         var columnWidthStyle = {
             width: 100 / this.props.columns.length + "%"
         };
+
+        console.log(this.props.data);
         
         return(
             <div className="AgendaTable">
@@ -45,7 +47,15 @@ class AgendaTable extends Component {
                         {this.props.data.map(d =>
                             <tr style={((d["id"] % 2) === 0) ? row1Style : row2Style}>
                                 {this.props.columns.map(column =>
-                                    <td style={columnWidthStyle}><Link to={d["link"]}>{d[column.key]}</Link></td> 
+                                    <td style={columnWidthStyle}>
+                                        <Link to={d["link"]}>{d[column.key]}</Link>
+                                        { this.props.deleteEvent ?
+                                            <button
+                                                className="btn btn-danger table-delete-btn"
+                                                onClick={(event) => this.props.deleteEvent(event, d["id"])}>
+                                                Delete
+                                            </button> : null }
+                                    </td> 
                                 )}
                             </tr>
                         )}

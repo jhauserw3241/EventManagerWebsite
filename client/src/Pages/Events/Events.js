@@ -79,8 +79,6 @@ class Events extends Component {
 		.catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
-
-		this.closeModal();
 	}
 	
 	render() {
@@ -90,7 +88,6 @@ class Events extends Component {
 					<Modal
 						className="modal-content"
 						isOpen={this.state.modalIsOpen}
-						onAfterOpen={this.afterOpenModal}
 						onRequestClose={this.closeModal}
 						ariaHideApp={false}
 						contentLabel="Add Event Modal">

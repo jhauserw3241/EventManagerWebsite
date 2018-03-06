@@ -34,6 +34,7 @@ class Event extends Component {
     }
 
 	render() {
+        console.log(this.state.agendas);
         return (
 			<div className="Event">
                 <div className="container">
@@ -42,7 +43,7 @@ class Event extends Component {
                         <GeneralInfoElement
                             type={this.state.type}
                             completed_date={this.state.completed_date} />
-                        <AgendaElement agenda_ids={this.state.agendas} />
+                        <AgendaElement agenda_ids={this.state.agendas} event_id={this.state.id} />
                     </div>
                 </div>
 			</div>
