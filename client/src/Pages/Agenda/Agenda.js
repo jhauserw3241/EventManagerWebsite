@@ -19,7 +19,7 @@ class Agenda extends Component {
         var self = this;
 
         var agendasRef = fire.database().ref("agendas/");
-        var curAgendaRef = agendasRef.orderByChild("id").equalTo(parseInt(this.props.match.params.id));
+        var curAgendaRef = agendasRef.orderByChild("id").equalTo(this.props.match.params.id);
 		curAgendaRef.on("value", function(data) {
             var agenda = data.val()[self.state.id];
             self.setState({
