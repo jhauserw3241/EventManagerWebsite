@@ -54,6 +54,7 @@ class Events extends Component {
 
 		var self = this;
 
+		// Create event
 		var curEventRef = fire.database().ref("events").push();
 		var event_id = curEventRef.path["pieces_"][1];
 		curEventRef.set({
@@ -61,7 +62,39 @@ class Events extends Component {
 			name: this.state.name,
 			type: this.state.type,
 			completed_date: this.state.completed_date,
-			color: "#"+((1<<24)*Math.random()|0).toString(16) // Generate random color
+			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+		}).catch(function(error) {
+			this.setState({ formError: error.code + ": " + error.message });
+		});
+
+		// Create default agenda for the event
+		var curEventAgendas = curEventRef.child("components").push();
+		var agenda_id = curEventAgendas.path["pieces_"][3];
+		curEventAgendas.set({
+			id: agenda_id,
+			component_type: "Agenda",
+			name: "Agenda",
+			content_type: "url",
+			path: "",
+			url: "https://www.google.com",
+			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+		}).catch(function(error) {
+			this.setState({ formError: error.code + ": " + error.message });
+		});
+
+		// Create default budget for the event
+		var curEventBudgets = curEventRef.child("components").push();
+		console.log(curEventBudgets);
+		var budget_id = curEventBudgets.path["pieces_"][3];
+		console.log(budget_id);
+		curEventBudgets.set({
+			id: budget_id,
+			component_type: "Budget",
+			name: "Budget",
+			content_type: "url",
+			path: "",
+			url: "https://www.stackoverflow.com",
+			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});

@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
-class Agenda extends Component {
+class EventComponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            id: this.props.match.params.id,
+            event_id: this.props.match.params.event_id,
+            component_id: this.props.match.params.component_id,
             name: "",
-            type: "",
+            content_type: "",
             path: "",
             url: ""
         };
@@ -18,23 +19,23 @@ class Agenda extends Component {
     componentDidMount() {
         var self = this;
 
-        var agendasRef = fire.database().ref("agendas/");
-        var curAgendaRef = agendasRef.orderByChild("id").equalTo(this.props.match.params.id);
-		curAgendaRef.on("value", function(data) {
-            var agenda = data.val()[self.state.id];
+        var curEventRef = fire.database().ref("events").child(this.state.event_id);
+        var curComponentRef = curEventRef.child("components").child(this.state.component_id);
+		curComponentRef.on("value", function(data) {
+            var component = data.val();
             self.setState({
-                name: agenda.name ? agenda.name : "Agenda",
-                type: agenda.type,
-                path: agenda.path,
-                url: agenda.url
+                name: component.name ? component.name : "Component",
+                content_type: component.type,
+                path: component.path,
+                url: component.url
             });
         });
     }
 
 	render() {
-        if(this.state.type === "path") {
+        if(this.state.content_type === "path") {
             return (
-                <div className="Agenda">
+                <div className="EventComponent">
                     <div className="container">
                         <div className="content">
                             <h1>{this.state.name}</h1>
@@ -45,7 +46,7 @@ class Agenda extends Component {
             );
         } else {
             return (
-                <div className="Agenda">
+                <div className="EventComponent">
                     <div className="container">
                         <div className="content">
                             <h1>{this.state.name}</h1>
@@ -58,4 +59,4 @@ class Agenda extends Component {
 	}
 }
 
-export default Agenda;
+export default EventComponent;
