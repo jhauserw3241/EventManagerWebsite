@@ -154,7 +154,7 @@ class Event extends Component {
 						</div>
                         <Button className="btn btn-success" onClick={this.openModal}>Add</Button>
                         {Object.values(this.state.components).map(comp =>
-                            <EventComponentCard color={this.props.color} name={comp.name} link={this.state.event_id + "/components/" + comp.id + "/"} />
+                            <EventComponentCard color={comp.color} name={comp.name} link={this.state.event_id + "/components/" + comp.id + "/"} />
                         )}
                     </div>
                 </div>
