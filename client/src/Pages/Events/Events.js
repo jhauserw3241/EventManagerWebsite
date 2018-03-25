@@ -263,15 +263,6 @@ class Events extends Component {
 										</select>
 									</div>
 									<div className="form-group">
-										<label htmlFor="location">Location:</label>
-										<input
-											type="text"
-											name="location"
-											className="form-control"
-											onChange={(event) => this.setState({location: event.target.value})}
-											required />
-									</div>
-									<div className="form-group">
 										<label htmlFor="project-start">Project Start Date:</label>
 										<DateTime
 											name="project-start"
@@ -301,6 +292,15 @@ class Events extends Component {
 											name="project-end"
 											onChange={(event) => this.setState({projectEnd: event._d})}
 											isValidDate={this.validProjectEnd}
+											required />
+									</div>
+									<div className="form-group">
+										<label htmlFor="location">Location:</label>
+										<input
+											type="text"
+											name="location"
+											className="form-control"
+											onChange={(event) => this.setState({location: event.target.value})}
 											required />
 									</div>
 								</div>
