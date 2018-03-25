@@ -63,18 +63,24 @@ class Login extends Component {
                             <h1 className="form-header">Login</h1>
                             <form method="POST" onSubmit={this.handleSubmit}>
                                 <fieldset>
-                                    <label htmlFor="email">Email:</label>
+                                    <label
+                                        className="login-label"
+                                        htmlFor="email">Email:</label>
                                     <input
                                         type="text"
                                         name="email"
+                                        className="login-input"
                                         onChange={(event) => this.setState({email: event.target.value})}
                                         required />
                                 </fieldset>
                                 <fieldset>
-                                    <label htmlFor="password">Password:</label>
+                                    <label
+                                        className="login-label"
+                                        htmlFor="password">Password:</label>
                                     <input
                                         type="password"
                                         name="password"
+                                        className="login-input"
                                         onChange={(event) => this.setState({password: event.target.value})}
                                         required />
                                 </fieldset>

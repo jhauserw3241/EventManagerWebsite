@@ -9,7 +9,7 @@ fieldset {
     font:80%/1 sans-serif;
 }
 
-input[type="text"], input[type="password"], textarea {
+.login-input {
     width: 50%;
 }
 
@@ -17,7 +17,7 @@ input[type="submit"] {
     margin-left: calc(50% - 40px);
 }
 
-label {
+.login-label {
     float:left;
     width:25%;
     margin-right:0.5em;

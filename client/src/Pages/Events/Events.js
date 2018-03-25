@@ -15,7 +15,11 @@ class Events extends Component {
 			modalIsOpen: false,
 			name: "",
 			type: "",
-			completed_date: "",
+			location: "",
+			projectStart: "",
+			projectEnd: "",
+			eventStart: "",
+			eventEnd: "",
 			formError: ""
 		};
 
@@ -51,7 +55,7 @@ class Events extends Component {
 
 	addEvent(event) {
 		event.preventDefault();
-
+		
 		var self = this;
 
 		// Create event
@@ -61,7 +65,11 @@ class Events extends Component {
 			id: event_id,
 			name: this.state.name,
 			type: this.state.type,
-			completed_date: this.state.completed_date,
+			location: this.state.location,
+			project_start: this.state.projectStart,
+			project_end: this.state.projectEnd,
+			event_start: this.state.eventStart,
+			event_end: this.state.eventEnd,
 			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
@@ -84,9 +92,7 @@ class Events extends Component {
 
 		// Create default budget for the event
 		var curEventBudgets = curEventRef.child("components").push();
-		console.log(curEventBudgets);
 		var budget_id = curEventBudgets.path["pieces_"][3];
-		console.log(budget_id);
 		curEventBudgets.set({
 			id: budget_id,
 			component_type: "Budget",
@@ -116,46 +122,105 @@ class Events extends Component {
 	
 	render() {
 		return (
-			<div className="Events">			
+			<div className="Events">
 				<div className="container">
-					<Modal
-						className="modal-content"
-						isOpen={this.state.modalIsOpen}
-						onRequestClose={this.closeModal}
-						ariaHideApp={false}
-						contentLabel="Add Event Modal">
-						
-						<div className="modal-header">
-							<h2>Add Event</h2>
-							<button className="close" onClick={this.closeModal}>&times;</button>
+					<div className="modal fade" id="addEventModal" tabIndex="-1" role="dialog" aria-labelledby="addEventModalTitle" aria-hidden="true">
+						<div className="modal-dialog" role="document">
+							<div className="modal-content">
+								<div className="modal-header">
+									<h5 className="modal-title" id="addEventModalTitle">Add Event</h5>
+									<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div className="modal-body">
+									<div className="form-group">
+										<label htmlFor="name">Name:</label>
+										<input
+											type="text"
+											name="name"
+											className="form-control"
+											onChange={(event) => this.setState({name: event.target.value})}
+											required />
+									</div>
+									<div className="form-group">
+										<label htmlFor="type">Type:</label>
+										<select
+											name="type"
+											className="form-control"
+											onChange={(event) => this.setState({type: event.target.value})}
+											required>
+											<option>Not Specified</option>
+											<option>Conference</option>
+											<option>Field trip</option>
+											<option>Training</option>
+											<option>Site Visit</option>
+											<option>Miscellaneous</option>
+										</select>
+									</div>
+									<div className="form-group">
+										<label htmlFor="location">Location:</label>
+										<input
+											type="text"
+											name="location"
+											className="form-control"
+											onChange={(event) => this.setState({location: event.target.value})}
+											required />
+									</div>
+									<div className="form-group">
+										<label htmlFor="project-start">Project Start Date:</label>
+										<input
+											type="text"
+											name="project-start"
+											className="form-control"
+											onChange={(event) => this.setState({projectStart: event.target.value})}
+											required />
+									</div>
+									<div className="form-group">
+										<label htmlFor="event-start">Event Start Date:</label>
+										<input
+											type="text"
+											name="event-start"
+											className="form-control"
+											onChange={(event) => this.setState({eventStart: event.target.value})}
+											required />
+									</div>
+									<div className="form-group">
+										<label htmlFor="event-end">Event End Date:</label>
+										<input
+											type="text"
+											name="event-end"
+											className="form-control"
+											onChange={(event) => this.setState({eventEnd: event.target.value})}
+											required />
+									</div>
+									<div className="form-group">
+										<label htmlFor="project-end">Project End Date:</label>
+										<input
+											type="text"
+											name="project-end"
+											className="form-control"
+											onChange={(event) => this.setState({projectEnd: event.target.value})}
+											required />
+									</div>
+								</div>
+								<div className="modal-footer">
+									<button
+										type="button"
+										className="btn btn-primary"
+										data-dismiss="modal"
+										onClick={this.addEvent}>
+										Submit
+									</button>
+								</div>
+							</div>
 						</div>
-						<div className="modal-body">
-							<form onSubmit={this.addEvent}>
-								<fieldset>
-									<label htmlFor="name">Name:</label>
-									<input
-										type="text"
-										name="name"
-										onChange={(event) => this.setState({name: event.target.value})} />
-								</fieldset>
-								<fieldset>
-									<label htmlFor="type">Type:</label>
-									<input
-										type="text"
-										name="type"
-										onChange={(event) => this.setState({type: event.target.value})} />
-								</fieldset>
-								<fieldset>
-									<label htmlFor="completed-date">Completed Date:</label>
-									<input
-										type="text"
-										name="completed-date"
-										onChange={(event) => this.setState({completed_date: event.target.value})} />
-								</fieldset>
-								<button className="btn btn-primary modal-submit-btn" type="submit">Submit</button>
-							</form>
-						</div>
-					</Modal>
+					</div>
+	
+					{ (this.state.formError !== "") ?
+						<div class="alert alert-danger">
+							<strong>Error:</strong> {this.state.formError}
+						</div> : null }
 
 					<div className="mod-btns">
 						<div className="org-btns">
@@ -173,7 +238,7 @@ class Events extends Component {
 							</Button>
 						</div>
 						<div>
-							<Button onClick={this.openModal}>Add</Button>
+							<Button data-toggle="modal" data-target="#addEventModal">Add</Button>
 						</div>
 					</div>
 					<EventsList
