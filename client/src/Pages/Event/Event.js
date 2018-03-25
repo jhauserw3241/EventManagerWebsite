@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Modal from 'react-modal';
 import fire from './../../fire';
 import './../../CSS/Card.css';
+import './../../CSS/Event.css';
 
 class Event extends Component {
     constructor(props) {
@@ -13,7 +14,11 @@ class Event extends Component {
             event_id: this.props.match.params.id,
             name: "",
             type: "",
-            completed_date: "",
+			location: "",
+			project_start: "",
+			event_start: "",
+			event_end: "",
+			project_end: "",
             components: [],
             modalIsOpen: false,
         };
@@ -33,8 +38,12 @@ class Event extends Component {
             self.setState({
                 name: event.name,
                 type: event.type,
-                completed_date: event.completed_date,
-                components: event.components
+				location: event.location,
+				project_start: event.project_start,
+				event_start: event.event_start,
+				event_end: event.event_end,
+				project_end: event.project_end,
+                components: event.components,
             });
         });
     }
@@ -129,7 +138,20 @@ class Event extends Component {
 					</Modal>
 
                     <div className="content">
-                        <h1>{this.state.name}</h1><br/>
+						<div className="event-info">
+							<div className="event-header">
+								<h1>{this.state.name}</h1>
+								<div className="event-dates">
+									Project Start: {this.state.project_start}<br />
+									Event Start: {this.state.event_start}<br />
+									Event End: {this.state.event_end}<br />
+									Project End: {this.state.project_end}
+								</div>
+							</div>
+							<div className="event-location">
+								Location: {this.state.location}
+							</div>
+						</div>
                         <Button className="btn btn-success" onClick={this.openModal}>Add</Button>
                         {Object.values(this.state.components).map(comp =>
                             <EventComponentCard color={this.props.color} name={comp.name} link={this.state.event_id + "/components/" + comp.id + "/"} />

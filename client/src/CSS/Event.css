@@ -1,0 +1,16 @@
+.event-header {
+    display: inline-flex;
+    width: 100%;
+}
+
+.event-header>h1 {
+    width: 100%;
+}
+
+.event-dates {
+    white-space: nowrap;
+}
+
+.event-location {
+    text-align: center;
+}
