@@ -39,8 +39,10 @@ class Events extends Component {
 	}
 	
 	componentDidMount() {
+		var user_id = fire.auth().currentUser.uid;
+
 		var eventsRef = fire.database().ref("events");
-		eventsRef.orderByChild("name").on("value", (data) =>
+		eventsRef.orderByChild("owner_id").equalTo(user_id).on("value", (data) =>
 			this.setState({ events: data.val() }));
 	}
 
