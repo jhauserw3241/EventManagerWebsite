@@ -152,7 +152,9 @@ class Event extends Component {
 								Location: {this.state.location}
 							</div>
 						</div>
-                        <Button className="btn btn-success" onClick={this.openModal}>Add</Button>
+						<div className="mod-btns">
+                        	<Button className="btn btn-success" onClick={this.openModal}>Add</Button>
+						</div>
                         {Object.values(this.state.components).map(comp =>
                             <EventComponentCard color={comp.color} name={comp.name} link={this.state.event_id + "/components/" + comp.id + "/"} />
                         )}
