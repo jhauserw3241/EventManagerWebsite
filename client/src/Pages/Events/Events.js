@@ -5,6 +5,10 @@ import Modal from 'react-modal';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 
+// CSS and JS for datetime picker
+import "./../../../node_modules/react-datetime/css/react-datetime.css";
+import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
+
 class Events extends Component {
 	constructor(props) {
 		super(props);
@@ -28,6 +32,10 @@ class Events extends Component {
 		this.closeModal = this.closeModal.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
+		this.validProjectStart = this.validProjectStart.bind(this);
+		this.validEventStart = this.validEventStart.bind(this);
+		this.validEventEnd = this.validEventEnd.bind(this);
+		this.validProjectEnd = this.validProjectEnd.bind(this);
 	}
 	
 	componentDidMount() {
@@ -55,7 +63,7 @@ class Events extends Component {
 
 	addEvent(event) {
 		event.preventDefault();
-		
+
 		var self = this;
 
 		// Create event
@@ -119,6 +127,102 @@ class Events extends Component {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
 	}
+
+	validProjectStart(current) {
+		var valid = true;
+
+		// Check that the project start is before the event start
+		if(	(this.state.eventStart != "") &&
+			current.isAfter(this.state.eventStart)) {
+			valid = false;
+		}
+
+		// Check that the project start is before the event end
+		if(	(this.state.eventEnd != "") &&
+			current.isAfter(this.state.eventEnd)) {
+			valid = false;
+		}
+
+		// Check that the project start is before the project end
+		if(	(this.state.projectEnd != "") &&
+			current.isAfter(this.state.projectEnd)) {
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	validEventStart(current) {
+		var valid = true;
+
+		// Check that the event start is after the project start
+		if(	(this.state.projectStart != "") &&
+			current.isBefore(this.state.projectStart)) {
+			valid = false;
+		}
+
+		// Check that the event start is before the event end
+		if(	(this.state.eventEnd != "") &&
+			current.isAfter(this.state.eventEnd)) {
+			valid = false;
+		}
+
+		// Check that the event start is before the project end
+		if(	(this.state.projectEnd != "") &&
+			current.isAfter(this.state.projectEnd)) {
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	validEventEnd(current) {
+		var valid = true;
+
+		// Check that the event end is after the project start
+		if(	(this.state.projectStart != "") &&
+			current.isBefore(this.state.projectStart)) {
+			valid = false;
+		}
+
+		// Check that the event end is after the event start
+		if(	(this.state.eventStart != "") &&
+			current.isBefore(this.state.eventStart)) {
+			valid = false;
+		}
+
+		// Check that the event end is before the project end
+		if(	(this.state.projectEnd != "") &&
+			current.isAfter(this.state.projectEnd)) {
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	validProjectEnd(current) {
+		var valid = true;
+
+		// Check that the project end is after the project start
+		if(	(this.state.projectStart != "") &&
+			current.isBefore(this.state.projectStart)) {
+			valid = false;
+		}
+
+		// Check that the project end is after the event start
+		if(	(this.state.eventStart != "") &&
+			current.isBefore(this.state.eventStart)) {
+			valid = false;
+		}
+
+		// Check that the project end is after the event end
+		if(	(this.state.eventEnd != "") &&
+			current.isBefore(this.state.eventEnd)) {
+			valid = false;
+		}
+
+		return valid;
+	}
 	
 	render() {
 		return (
@@ -169,38 +273,34 @@ class Events extends Component {
 									</div>
 									<div className="form-group">
 										<label htmlFor="project-start">Project Start Date:</label>
-										<input
-											type="text"
+										<DateTime
 											name="project-start"
-											className="form-control"
-											onChange={(event) => this.setState({projectStart: event.target.value})}
+											onChange={(event) => this.setState({projectStart: event._d})}
+											isValidDate={this.validProjectStart}
 											required />
 									</div>
 									<div className="form-group">
 										<label htmlFor="event-start">Event Start Date:</label>
-										<input
-											type="text"
+										<DateTime
 											name="event-start"
-											className="form-control"
-											onChange={(event) => this.setState({eventStart: event.target.value})}
+											onChange={(event) => this.setState({eventStart: event._d})}
+											isValidDate={this.validEventStart}
 											required />
 									</div>
 									<div className="form-group">
 										<label htmlFor="event-end">Event End Date:</label>
-										<input
-											type="text"
+										<DateTime
 											name="event-end"
-											className="form-control"
-											onChange={(event) => this.setState({eventEnd: event.target.value})}
+											onChange={(event) => this.setState({eventEnd: event._d})}
+											isValidDate={this.validEventEnd}
 											required />
 									</div>
 									<div className="form-group">
 										<label htmlFor="project-end">Project End Date:</label>
-										<input
-											type="text"
+										<DateTime
 											name="project-end"
-											className="form-control"
-											onChange={(event) => this.setState({projectEnd: event.target.value})}
+											onChange={(event) => this.setState({projectEnd: event._d})}
+											isValidDate={this.validProjectEnd}
 											required />
 									</div>
 								</div>
