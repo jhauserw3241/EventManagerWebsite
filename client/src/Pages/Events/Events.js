@@ -132,19 +132,19 @@ class Events extends Component {
 		var valid = true;
 
 		// Check that the project start is before the event start
-		if(	(this.state.eventStart != "") &&
+		if(	(this.state.eventStart !== "") &&
 			current.isAfter(this.state.eventStart)) {
 			valid = false;
 		}
 
 		// Check that the project start is before the event end
-		if(	(this.state.eventEnd != "") &&
+		if(	(this.state.eventEnd !== "") &&
 			current.isAfter(this.state.eventEnd)) {
 			valid = false;
 		}
 
 		// Check that the project start is before the project end
-		if(	(this.state.projectEnd != "") &&
+		if(	(this.state.projectEnd !== "") &&
 			current.isAfter(this.state.projectEnd)) {
 			valid = false;
 		}
@@ -156,19 +156,19 @@ class Events extends Component {
 		var valid = true;
 
 		// Check that the event start is after the project start
-		if(	(this.state.projectStart != "") &&
+		if(	(this.state.projectStart !== "") &&
 			current.isBefore(this.state.projectStart)) {
 			valid = false;
 		}
 
 		// Check that the event start is before the event end
-		if(	(this.state.eventEnd != "") &&
+		if(	(this.state.eventEnd !== "") &&
 			current.isAfter(this.state.eventEnd)) {
 			valid = false;
 		}
 
 		// Check that the event start is before the project end
-		if(	(this.state.projectEnd != "") &&
+		if(	(this.state.projectEnd !== "") &&
 			current.isAfter(this.state.projectEnd)) {
 			valid = false;
 		}
@@ -180,19 +180,19 @@ class Events extends Component {
 		var valid = true;
 
 		// Check that the event end is after the project start
-		if(	(this.state.projectStart != "") &&
+		if(	(this.state.projectStart !== "") &&
 			current.isBefore(this.state.projectStart)) {
 			valid = false;
 		}
 
 		// Check that the event end is after the event start
-		if(	(this.state.eventStart != "") &&
+		if(	(this.state.eventStart !== "") &&
 			current.isBefore(this.state.eventStart)) {
 			valid = false;
 		}
 
 		// Check that the event end is before the project end
-		if(	(this.state.projectEnd != "") &&
+		if(	(this.state.projectEnd !== "") &&
 			current.isAfter(this.state.projectEnd)) {
 			valid = false;
 		}
@@ -204,19 +204,19 @@ class Events extends Component {
 		var valid = true;
 
 		// Check that the project end is after the project start
-		if(	(this.state.projectStart != "") &&
+		if(	(this.state.projectStart !== "") &&
 			current.isBefore(this.state.projectStart)) {
 			valid = false;
 		}
 
 		// Check that the project end is after the event start
-		if(	(this.state.eventStart != "") &&
+		if(	(this.state.eventStart !== "") &&
 			current.isBefore(this.state.eventStart)) {
 			valid = false;
 		}
 
 		// Check that the project end is after the event end
-		if(	(this.state.eventEnd != "") &&
+		if(	(this.state.eventEnd !== "") &&
 			current.isBefore(this.state.eventEnd)) {
 			valid = false;
 		}
