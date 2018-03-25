@@ -32,9 +32,15 @@ class People extends Component {
 
 					{this.state.users.map(person =>
 						<PersonCard
-							color={person.color}
+							key={person.id}
+							id={person.id}
 							first_name={person.first_name}
-							last_name={person.last_name} />
+							last_name={person.last_name}
+							email={person.email}
+							address={person.address}
+							notes={person.notes}
+							phone_number={person.phone_number}
+							color={person.color} />
                     )}
 				</div>
 			</div>

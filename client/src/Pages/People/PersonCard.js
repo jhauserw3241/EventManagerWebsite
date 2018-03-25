@@ -10,7 +10,7 @@ class PersonCard extends Component {
 
 		return (
 			<div className="PersonCard card">
-                <div className="modal fade" id="personInfoModal" tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
+                <div className="modal fade" id={"personInfoModal-" + this.props.id} tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -26,7 +26,8 @@ class PersonCard extends Component {
                                         type="text"
                                         name="firstName"
                                         className="form-control"
-                                        value={this.props.first_name} />
+                                        value={this.props.first_name}
+                                        required />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="lastName">Last Name:</label>
@@ -34,7 +35,43 @@ class PersonCard extends Component {
                                         type="text"
                                         name="lastName"
                                         className="form-control"
-                                        value={this.props.last_name} />
+                                        value={this.props.last_name}
+                                        required />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email:</label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        className="form-control"
+                                        value={this.props.email}
+                                        required />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="address">Address:</label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        className="form-control"
+                                        value={this.props.address}
+                                        required />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="notes">Notes:</label>
+                                    <textarea
+                                        type="text"
+                                        name="notes"
+                                        className="form-control"
+                                        value={this.props.notes}></textarea>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="phone_number">Phone Number:</label>
+                                    <input
+                                        type="text"
+                                        name="phone_number"
+                                        className="form-control"
+                                        value={this.props.phone_number}
+                                        required />
                                 </div>
                             </div>
                             <div className="modal-footer">
@@ -53,11 +90,11 @@ class PersonCard extends Component {
                     className="card-img"
                     style={cardImgStyle}
                     data-toggle="modal"
-                    data-target="#personInfoModal"></div>
+                    data-target={"#personInfoModal-" + this.props.id}></div>
 				<div
                     className="card-text"
                     data-toggle="modal"
-                    data-target="#personInfoModal">
+                    data-target={"#personInfoModal-" + this.props.id}>
                     {this.props.first_name} {this.props.last_name}
 				</div>
 			</div>
