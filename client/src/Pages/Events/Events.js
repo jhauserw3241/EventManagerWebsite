@@ -6,6 +6,7 @@ import fire from './../../fire';
 import './../../CSS/Modal.css';
 
 // CSS and JS for datetime picker
+import moment from './../../../node_modules/moment/moment';
 import "./../../../node_modules/react-datetime/css/react-datetime.css";
 import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
 
@@ -73,13 +74,15 @@ class Events extends Component {
 		var event_id = curEventRef.path["pieces_"][1];
 		curEventRef.set({
 			id: event_id,
-			name: this.state.name,
-			type: this.state.type,
-			location: this.state.location,
-			project_start: this.state.projectStart,
-			project_end: this.state.projectEnd,
-			event_start: this.state.eventStart,
-			event_end: this.state.eventEnd,
+			name: self.state.name,
+			type: self.state.type,
+			location: self.state.location,
+			project_start: moment(self.state.projectStart).format('MMMM DD, YYYY HH:mm'),
+			project_end: moment(self.state.eventStart).format('MMMM DD, YYYY HH:mm'),
+			event_start: moment(self.state.eventEnd).format('MMMM DD, YYYY HH:mm'),
+			event_end: moment(self.state.projectEnd).format('MMMM DD, YYYY HH:mm'),
+			owner_id: fire.auth().currentUser.uid,
+			blah: "blah",
 			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
