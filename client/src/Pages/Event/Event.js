@@ -69,8 +69,8 @@ class Event extends Component {
             component_type: "test",
 			name: this.state.name,
 			content_type: this.state.type,
-            path: this.state.path,
-            url: this.state.url,
+            path: this.state.path ? this.state.path : "",
+            url: this.state.url ? this.state.url : "",
 			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
@@ -102,21 +102,24 @@ class Event extends Component {
 									<input
 										type="text"
 										name="component_type"
-										onChange={(event) => this.setState({component_type: event.target.value})} />
+										onChange={(event) => this.setState({component_type: event.target.value})}
+										required />
 								</fieldset>
                                 <fieldset>
 									<label htmlFor="name">Name:</label>
 									<input
 										type="text"
 										name="name"
-										onChange={(event) => this.setState({name: event.target.value})} />
+										onChange={(event) => this.setState({name: event.target.value})}
+										required />
 								</fieldset>
 								<fieldset>
 									<label htmlFor="content_type">Content Type:</label>
 									<input
 										type="text"
 										name="content_type"
-										onChange={(event) => this.setState({content_type: event.target.value})} />
+										onChange={(event) => this.setState({content_type: event.target.value})}
+										required />
 								</fieldset>
 								<fieldset>
 									<label htmlFor="path">Path:</label>
