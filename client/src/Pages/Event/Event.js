@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import EventComponentCard from './EventComponentCard';
+import PartnersComponentCard from './PartnersComponentCard';
 import { Button } from 'react-bootstrap';
 import Modal from 'react-modal';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/Event.css';
+import PartnerComponent from '../PartnerComponent/PartnerComponent';
 
 class Event extends Component {
     constructor(props) {
@@ -166,6 +168,10 @@ class Event extends Component {
 								component_id={comp.id}
 								link={this.state.event_id + "/components/" + comp.id + "/"} />
 						)}
+						<PartnersComponentCard
+							color="red"
+							name="Partners"
+							link={this.state.event_id + "/partners/"} />
                     </div>
                 </div>
 			</div>

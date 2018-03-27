@@ -15,7 +15,7 @@ class Events extends Component {
 		super(props);
 
 		this.state = {
-			events: [],
+			events: {},
 			org: "list",
 			modalIsOpen: false,
 			name: "",
@@ -40,11 +40,34 @@ class Events extends Component {
 	}
 	
 	componentDidMount() {
+		var self = this;
+
 		var user_id = fire.auth().currentUser.uid;
 
+		// Get all the projects that the current user is the owner of
 		var eventsRef = fire.database().ref("events");
-		eventsRef.orderByChild("owner_id").equalTo(user_id).on("value", (data) =>
-			this.setState({ events: data.val() }));
+		eventsRef.on("value", function(data) {
+			var events = data.val() ? data.val() : [];
+
+			for(var event_id in events) {
+				var event = events[event_id];
+
+				// Check if user is owner
+				if(event.owner_id === user_id) {
+					var temp = self.state.events;
+					temp[event.id] = event;
+					self.setState({ events: temp });
+				}
+
+				// Check if user is a event partner
+				var partners = event.partners ? event.partners : [];
+				if(user_id in partners) {
+					var temp = self.state.events;
+					temp[event.id] = event;
+					self.setState({ events: temp });
+				}
+			}
+		});
 	}
 
 	toggleOrganization(event) {
@@ -129,6 +152,25 @@ class Events extends Component {
 		var curEventRef = fire.database().ref("events").child(id);
 		curEventRef.remove()
 		.catch(function(error) {
+			this.setState({ formError: error.code + ": " + error.message });
+		});
+	}
+
+	addEventPartner(event, id) {
+		event.preventDefault();
+
+		// Add a partner for the event
+		var curEventAgendas = fire.database().ref("events").child(id).child("components").push();
+		var agenda_id = curEventAgendas.path["pieces_"][3];
+		curEventAgendas.set({
+			id: agenda_id,
+			component_type: "Agenda",
+			name: "Agenda",
+			content_type: "url",
+			path: "",
+			url: "https://www.google.com",
+			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
 	}
@@ -349,6 +391,7 @@ class Events extends Component {
 					<EventsList
 						org={this.state.org}
 						events={this.state.events}
+						addEventPartner={this.addEventPartner}
 						deleteEvent={this.deleteEvent} />
 				</div>
 			</div>
