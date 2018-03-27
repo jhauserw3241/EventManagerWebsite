@@ -43,7 +43,7 @@ class Event extends Component {
 				event_start: event.event_start,
 				event_end: event.event_end,
 				project_end: event.project_end,
-                components: event.components,
+                components: event.components ? Object.values(event.components) : [],
             });
         });
     }
@@ -158,9 +158,14 @@ class Event extends Component {
 						<div className="mod-btns">
                         	<Button className="btn btn-success" onClick={this.openModal}>Add</Button>
 						</div>
-                        {Object.values(this.state.components).map(comp =>
-                            <EventComponentCard color={comp.color} name={comp.name} link={this.state.event_id + "/components/" + comp.id + "/"} />
-                        )}
+                        {this.state.components.map(comp =>
+							<EventComponentCard
+								color={comp.color}
+								name={comp.name}
+								event_id={this.state.event_id}
+								component_id={comp.id}
+								link={this.state.event_id + "/components/" + comp.id + "/"} />
+						)}
                     </div>
                 </div>
 			</div>
