@@ -295,6 +295,9 @@ class Event extends Component {
 								name={comp.name}
 								event_id={this.state.event_id}
 								component_id={comp.id}
+								event_owner_id={this.state.event_owner_id}
+								event_partners={this.state.event_partners}
+								people={this.state.people}
 								link={this.state.event_id + "/components/" + comp.id + "/"} />
 						)}
 						<PartnersComponentCard
