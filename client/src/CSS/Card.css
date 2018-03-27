@@ -23,6 +23,10 @@
 	text-overflow: ellipsis;
 }
 
+.card-btns {
+	height: 60px;
+}
+
 .card-delete-btn {
 	margin-left: calc(50% - 40px);
 	margin-top: 5px;
