@@ -14,19 +14,21 @@ class Event extends Component {
 
         this.state = {
             event_id: this.props.match.params.id,
-            name: "",
-            type: "",
-			location: "",
+            event_name: "",
+            event_type: "",
+			event_location: "",
 			project_start: "",
 			event_start: "",
 			event_end: "",
 			project_end: "",
-            components: [],
-            modalIsOpen: false,
+			components: [],
+			component_type: "",
+			component_name: "",
+			content_type: "",
+			component_path: "",
+			component_url: "",
         };
 
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
         this.addComponent = this.addComponent.bind(this);
     }
 
@@ -38,9 +40,9 @@ class Event extends Component {
         curEventRef.on("value", function(data) {
             var event = data.val();
             self.setState({
-                name: event.name,
-                type: event.type,
-				location: event.location,
+                event_name: event.name,
+                event_type: event.type,
+				event_location: event.location,
 				project_start: event.project_start,
 				event_start: event.event_start,
 				event_end: event.event_end,
@@ -48,14 +50,6 @@ class Event extends Component {
                 components: event.components ? Object.values(event.components) : [],
             });
         });
-    }
-
-    openModal() {
-        this.setState({modalIsOpen: true});
-    }
-
-    closeModal() {
-        this.setState({modalIsOpen: false});
     }
 
     addComponent(event) {
@@ -68,84 +62,98 @@ class Event extends Component {
 		var component_id = curCompenentRef.path["pieces_"][3];
 		curCompenentRef.set({
             id: component_id,
-            component_type: "test",
-			name: this.state.name,
-			content_type: this.state.type,
-            path: this.state.path ? this.state.path : "",
-            url: this.state.url ? this.state.url : "",
+            component_type: this.state.component_type,
+			name: this.state.component_name,
+			content_type: this.state.content_type,
+            path: this.state.component_path ? this.state.component_path : "",
+            url: this.state.component_url ? this.state.component_url : "",
 			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
-
-		this.closeModal();
     }
 
 	render() {
         return (
 			<div className="Event">
-                <div className="container">
-                    <Modal
-                        className="modal-content"
-                        id="addComponentModal"
-						isOpen={this.state.modalIsOpen}
-						onRequestClose={this.closeModal}
-						ariaHideApp={false}
-						contentLabel="Add Component Modal">
-						
-						<div className="modal-header">
-							<h2>Add Component</h2>
-							<button className="close" onClick={this.closeModal}>&times;</button>
-						</div>
-						<div className="modal-body">
-							<form onSubmit={this.addComponent}>
-                                <fieldset>
-									<label htmlFor="component_type">Component Type:</label>
-									<input
-										type="text"
-										name="component_type"
-										onChange={(event) => this.setState({component_type: event.target.value})}
-										required />
-								</fieldset>
-                                <fieldset>
-									<label htmlFor="name">Name:</label>
-									<input
-										type="text"
-										name="name"
-										onChange={(event) => this.setState({name: event.target.value})}
-										required />
-								</fieldset>
-								<fieldset>
-									<label htmlFor="content_type">Content Type:</label>
-									<input
-										type="text"
-										name="content_type"
-										onChange={(event) => this.setState({content_type: event.target.value})}
-										required />
-								</fieldset>
-								<fieldset>
-									<label htmlFor="path">Path:</label>
-									<input
-										type="text"
-										name="path"
-										onChange={(event) => this.setState({path: event.target.value})} />
-								</fieldset>
-                                <fieldset>
-									<label htmlFor="url">URL:</label>
-									<input
-										type="text"
-										name="url"
-										onChange={(event) => this.setState({url: event.target.value})} />
-								</fieldset>
-								<button className="btn btn-primary modal-submit-btn" type="submit">Submit</button>
-							</form>
-						</div>
-					</Modal>
+				<div className="modal fade" id={"addComponentModal-" + this.props.id} tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="addComponentModalTitle">Add Component</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <label htmlFor="componentType">Component Type:</label>
+                                    <input
+                                        type="text"
+                                        name="componentType"
+                                        className="form-control"
+                                        onChange={(event) => this.setState({ component_type: event.target.value })}
+                                        required />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="componentName">Component Name:</label>
+                                    <input
+                                        type="text"
+                                        name="componentName"
+                                        className="form-control"
+                                        onChange={(event) => this.setState({ component_name: event.target.value })}
+                                        required />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="contentType">Content Type:</label>
+                                    <input
+                                        type="text"
+                                        name="contentType"
+                                        className="form-control"
+                                        onChange={(event) => this.setState({ content_type: event.target.value })}
+                                        required />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="componentPath">Path:</label>
+                                    <input
+                                        type="text"
+                                        name="componentPath"
+                                        className="form-control"
+                                        onChange={(event) => this.setState({ component_path: event.target.value })} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="componentUrl">URL:</label>
+                                    <input
+                                        type="text"
+                                        name="componentUrl"
+                                        className="form-control"
+                                        onChange={(event) => this.setState({ component_url: event.target.value })} />
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+								<button
+                                    type="button"
+                                    className="btn btn-success"
+                                    data-dismiss="modal"
+									onClick={this.addComponent}>
+                                    Add
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    data-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div className="container">
                     <div className="content">
 						<div className="event-info">
 							<div className="event-header">
-								<h1>{this.state.name}</h1>
+								<h1>{this.state.event_name}</h1>
 								<div className="event-dates">
 									Project Start: {this.state.project_start}<br />
 									Event Start: {this.state.event_start}<br />
@@ -154,11 +162,17 @@ class Event extends Component {
 								</div>
 							</div>
 							<div className="event-location">
-								Location: {this.state.location}
+								Location: {this.state.event_location}<br />
+								Type: {this.state.event_type}
 							</div>
 						</div>
 						<div className="mod-btns">
-                        	<Button className="btn btn-success" onClick={this.openModal}>Add</Button>
+                        	<Button
+								className="btn btn-success"
+								data-toggle="modal"
+								data-target={"#addComponentModal-" + this.props.id}>
+								Add Component
+							</Button>
 						</div>
                         {this.state.components.map(comp =>
 							<EventComponentCard
