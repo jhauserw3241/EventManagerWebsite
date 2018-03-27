@@ -7,6 +7,7 @@ import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/Event.css';
 import PartnerComponent from '../PartnerComponent/PartnerComponent';
+import { POINT_CONVERSION_HYBRID } from 'constants';
 
 class Event extends Component {
     constructor(props) {
@@ -21,20 +22,28 @@ class Event extends Component {
 			event_start: "",
 			event_end: "",
 			project_end: "",
+			owner_id: "",
 			components: [],
 			component_type: "",
 			component_name: "",
 			content_type: "",
 			component_path: "",
 			component_url: "",
+			people: [],
+			event_partners: [],
+			updated_event_partners: [],
         };
 
-        this.addComponent = this.addComponent.bind(this);
+		this.addComponent = this.addComponent.bind(this);
+		this.createSelectItems = this.createSelectItems.bind(this);
+		this.onDropdownSelected = this.onDropdownSelected.bind(this);
+		this.addPartners = this.addPartners.bind(this);
     }
 
     componentDidMount() {
         var self = this;
 
+		// Get information about this event
         var eventsRef = fire.database().ref("events/");
         var curEventRef = eventsRef.child(self.state.event_id);
         curEventRef.on("value", function(data) {
@@ -47,9 +56,23 @@ class Event extends Component {
 				event_start: event.event_start,
 				event_end: event.event_end,
 				project_end: event.project_end,
+				owner_id: event.owner_id,
                 components: event.components ? Object.values(event.components) : [],
             });
-        });
+		});
+		
+		// Get list of all people
+		var peopleRef = fire.database().ref("users");
+		peopleRef.on("value", (data) =>
+			this.setState({ people: data.val() ? data.val() : [] }));
+
+		// Get list of current partners
+		var partnersRef = fire.database().ref("events").child(this.state.event_id).child("partners");
+		partnersRef.on("value", (data) =>
+			this.setState({
+				event_partners: data.val() ? data.val() : [],
+				updated_event_partners: data.val() ? data.val() : [],
+			}));
     }
 
     addComponent(event) {
@@ -71,7 +94,53 @@ class Event extends Component {
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
-    }
+	}
+	
+	createSelectItems() {
+		var items = [];
+		var options_count = 0;
+		for (var person_id in this.state.people) {
+			var person = this.state.people[person_id];
+			items.push(
+				<option
+					key={options_count}
+					value={person_id}
+					// Check if the person is already added to the event
+					disabled={
+						(person_id == this.state.owner_id) ||
+						(Object.keys(this.state.event_partners).indexOf(person_id) > -1)
+					}>
+					{person.first_name + " " + person.last_name}
+				</option>);
+
+			options_count += 1;
+		}
+		return items;
+	}  
+   
+	onDropdownSelected(event) {
+		var person_id = event.target.value;
+
+		// Check if person is already added as partner
+		if(Object.keys(this.state.event_partners).indexOf(person_id) <= -1) {
+			// Get person information
+			var person = this.state.people[person_id];
+			var person_name = person.first_name + " " + person.last_name;
+
+			// Add person to list of partners
+			var temp = this.state.updated_event_partners;
+			temp[person_id] = person_name;
+			this.setState({ updated_event_partners: temp });
+		}
+	}
+
+	addPartners() {
+		// Update list of event partners
+		var eventRef = fire.database().ref("events").child(this.state.event_id);
+		eventRef.update({
+			partners: this.state.updated_event_partners,
+		});
+	}
 
 	render() {
         return (
@@ -149,6 +218,46 @@ class Event extends Component {
                     </div>
                 </div>
 
+				<div className="modal fade" id={"addPartnerModal-" + this.props.id} tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="addPartnerModalTitle">Add Event Partner</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <label htmlFor="partnerName">Partner Name:</label>
+									<select
+										label="partnerName"
+										className="form-control"
+										onChange={this.onDropdownSelected}
+										multiple>
+										{this.createSelectItems()}
+									</select>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+								<button
+                                    type="button"
+                                    className="btn btn-success"
+                                    data-dismiss="modal"
+									onClick={this.addPartners}>
+                                    Add
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    data-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="container">
                     <div className="content">
 						<div className="event-info">
@@ -172,6 +281,12 @@ class Event extends Component {
 								data-toggle="modal"
 								data-target={"#addComponentModal-" + this.props.id}>
 								Add Component
+							</Button>
+							<Button
+								className="btn btn-success"
+								data-toggle="modal"
+								data-target={"#addPartnerModal-" + this.props.id}>
+								Add Partner
 							</Button>
 						</div>
                         {this.state.components.map(comp =>
