@@ -13,14 +13,16 @@ class Signup extends Component {
             email: "",
             password: "",
             confirmPassword: "",
+            phone_number: "",
             address: "",
             notes: "",
-            phone_number: "",
+            pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
             redirect: false
         }
 
         this.signUp = this.signUp.bind(this);
+        this.handlePic = this.handlePic.bind(this);
 
         //console.log("Start the signup class");
     }
@@ -44,9 +46,6 @@ class Signup extends Component {
                 // Get info for current user
                 var user = fire.auth().currentUser;
 
-                console.log(user);
-                console.log(user.uid);
-
                 // Add user information to firebase DB
                 fire.database().ref('/users/' + user.uid)
                 .set({
@@ -54,14 +53,15 @@ class Signup extends Component {
                     first_name: self.state.first_name,
                     last_name: self.state.last_name,
                     email: self.state.email,
+                    phone_number: self.state.phone_number,
                     address: self.state.address,
                     notes: self.state.notes,
-                    phone_number: self.state.phone_number,
+                    pic: self.state.pic,
                 }).catch(function(error) {
                     self.setState({ formError: error.code + ": " + error.message });
                 });
 
-                this.setState({redirect: true});
+                self.setState({redirect: true});
 
                 // This is commented out for debug purposes
                 // This will be officially added later on in the project
@@ -74,6 +74,23 @@ class Signup extends Component {
                 self.setState({ formError: error.code + ": " + error.message });
             });
         }
+    }
+
+    handlePic(event) {
+        event.preventDefault();
+        var self = this;
+
+        var file = event.target.files[0];
+        var ref = fire.storage().ref('Profiles').child(file.name);        
+        ref.put(file).then(()=>{
+            ref.getDownloadURL().then((url) => {
+                self.setState({pic: url});
+            }).catch((err) => {
+                self.setState({ formError: err.code + ": " + err.message });
+            });
+        }).catch((error) => {
+            self.setState({ formError: error.code + ": " + error.message });
+        });
     }
 
 	render() {
@@ -169,6 +186,15 @@ class Signup extends Component {
                                     className="form-control"
                                     value={this.state.notes}
                                     onChange={(event) => this.setState({notes: event.target.value})}></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="pic">Picture:</label>
+                                <input
+                                    type="file"
+                                    name="pic"
+                                    className="form-control"
+                                    accept="image/*"
+                                    onChange={this.handlePic}/>
                             </div>
                             <input
                                 type="button"

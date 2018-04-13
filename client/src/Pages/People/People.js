@@ -37,9 +37,10 @@ class People extends Component {
 							first_name={person.first_name}
 							last_name={person.last_name}
 							email={person.email}
+							phone_number={person.phone_number}
 							address={person.address}
 							notes={person.notes}
-							phone_number={person.phone_number}
+							pic={person.pic}
 							color={person.color} />
                     )}
 				</div>

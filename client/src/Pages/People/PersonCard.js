@@ -4,9 +4,11 @@ import './../../CSS/Card.css';
 
 class PersonCard extends Component {
 	render() {
+        console.log(this.props.pic);
+
 		var cardImgStyle = {
-			"backgroundColor": this.props.color
-		};
+            backgroundImage: `url(${this.props.pic})`
+		}
 
 		return (
 			<div className="PersonCard card">
