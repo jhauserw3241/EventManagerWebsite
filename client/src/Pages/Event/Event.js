@@ -289,18 +289,20 @@ class Event extends Component {
 								Add Partner
 							</Button>
 						</div>
-                        {this.state.components.map(comp =>
-							<EventComponentCard
-								color={comp.color}
-								name={comp.name}
-								event_id={this.state.event_id}
-								component_id={comp.id}
-								link={this.state.event_id + "/components/" + comp.id + "/"} />
-						)}
-						<PartnersComponentCard
-							color="red"
-							name="Partners"
-							link={this.state.event_id + "/partners/"} />
+						<div className="list-container">
+							{this.state.components.map(comp =>
+								<EventComponentCard
+									color={comp.color}
+									name={comp.name}
+									event_id={this.state.event_id}
+									component_id={comp.id}
+									link={this.state.event_id + "/components/" + comp.id + "/"} />
+							)}
+							<PartnersComponentCard
+								color="red"
+								name="Partners"
+								link={this.state.event_id + "/partners/"} />
+						</div>
                     </div>
                 </div>
 			</div>
