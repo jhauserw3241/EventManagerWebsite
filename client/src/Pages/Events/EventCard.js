@@ -9,7 +9,7 @@ class EventCard extends Component {
 		};
 
 		return (
-			<Link className="EventCard card" to={"/event/" + this.props.id}>
+			<Link className="EventCard side-card" to={"/event/" + this.props.id}>
 				<div className="card-img" style={cardImgStyle}></div>
 				<div className="card-text">
 					{this.props.name}

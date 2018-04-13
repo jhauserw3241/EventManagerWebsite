@@ -25,7 +25,7 @@ class EventComponentCard extends Component {
 		};
 
 		return (
-			<Link className="EventComponentCard card" to={this.props.link}>
+			<Link className="EventComponentCard side-card" to={this.props.link}>
 				<div className="card-img" style={cardImgStyle}></div>
 				<div className="card-text">
 					{this.props.name}

@@ -10,7 +10,7 @@ class PartnersComponentCard extends Component {
 		};
 
 		return (
-			<Link className="PartnersComponentCard card" to={this.props.link}>
+			<Link className="PartnersComponentCard side-card" to={this.props.link}>
 				<div className="card-img" style={cardImgStyle}></div>
 				<div className="card-text">
 					{this.props.name}
