@@ -60,12 +60,12 @@ class PersonCard extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="address">Address:</label>
-                                    <input
+                                    <textarea
                                         type="text"
                                         name="address"
                                         className="form-control"
                                         value={this.props.address}
-                                        required />
+                                        required></textarea>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="notes">Notes:</label>
