@@ -27,7 +27,7 @@ class Event extends Component {
 			component_type: "",
 			component_name: "",
 			content_type: "",
-			component_path: "",
+			component_file: "",
 			component_url: "",
 			people: [],
 			event_partners: [],
@@ -38,6 +38,7 @@ class Event extends Component {
 		this.createSelectItems = this.createSelectItems.bind(this);
 		this.onDropdownSelected = this.onDropdownSelected.bind(this);
 		this.addPartners = this.addPartners.bind(this);
+		this.handlePic = this.handlePic.bind(this);
     }
 
     componentDidMount() {
@@ -88,7 +89,7 @@ class Event extends Component {
             component_type: this.state.component_type,
 			name: this.state.component_name,
 			content_type: this.state.content_type,
-            path: this.state.component_path ? this.state.component_path : "",
+            file: this.state.component_file ? this.state.component_file : "",
             url: this.state.component_url ? this.state.component_url : "",
 			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
 		}).catch(function(error) {
@@ -142,6 +143,23 @@ class Event extends Component {
 		});
 	}
 
+    handlePic(event) {
+        event.preventDefault();
+        var self = this;
+
+        var file = event.target.files[0];
+        var ref = fire.storage().ref('Component Files').child(file.name);        
+        ref.put(file).then(()=>{
+            ref.getDownloadURL().then((url) => {
+                self.setState({component_file: url});
+            }).catch((err) => {
+                self.setState({ formError: err.code + ": " + err.message });
+            });
+        }).catch((error) => {
+            self.setState({ formError: error.code + ": " + error.message });
+        });
+    }
+
 	render() {
         return (
 			<div className="Event">
@@ -182,19 +200,20 @@ class Event extends Component {
                                         onChange={(event) => this.setState({ content_type: event.target.value })}
                                         required>
 										<option>Not Specified</option>
-										<option value="path">Path</option>
+										<option value="file">File</option>
 										<option value="url">URL</option>
 									</select>
                                 </div>
-								{ (this.state.content_type === "path") ? 
+								{ (this.state.content_type === "file") ? 
 									<div className="form-group">
-                                    <label htmlFor="componentPath">Path:</label>
-                                    <input
-                                        type="text"
-                                        name="componentPath"
-                                        className="form-control"
-                                        onChange={(event) => this.setState({ component_path: event.target.value })} />
+										<label htmlFor="componentFile">File:</label>
+										<input
+											type="file"
+											name="componentFile"
+											className="form-control"
+											onChange={this.handlePic}/>
 									</div> : null }
+                                
 								{ (this.state.content_type === "url") ? 
 									<div className="form-group">
 										<label htmlFor="componentUrl">URL:</label>

@@ -11,7 +11,7 @@ class EventComponent extends Component {
             component_id: this.props.match.params.component_id,
             name: "",
             content_type: "",
-            path: "",
+            file: "",
             url: ""
         };
     }
@@ -26,20 +26,22 @@ class EventComponent extends Component {
             self.setState({
                 name: component.name ? component.name : "Component",
                 content_type: component.type,
-                path: component.path,
+                file: component.file,
                 url: component.url
             });
         });
     }
 
 	render() {
-        if(this.state.content_type === "path") {
+        console.log(this.state.file);
+
+        if(this.state.content_type === "file") {
             return (
                 <div className="EventComponent">
                     <div className="container">
                         <div className="content">
                             <h1>{this.state.name}</h1>
-                            <iframe className="agenda-iframe" src={this.state.path} allowFullScreen></iframe>
+                            <iframe className="agenda-iframe" src={'"' + this.state.file + '"'} allowFullScreen></iframe>
                         </div>
                     </div>
                 </div>
