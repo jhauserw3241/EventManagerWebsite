@@ -175,29 +175,35 @@ class Event extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="contentType">Content Type:</label>
-                                    <input
-                                        type="text"
+									<select
+										type="text"
                                         name="contentType"
                                         className="form-control"
                                         onChange={(event) => this.setState({ content_type: event.target.value })}
-                                        required />
+                                        required>
+										<option>Not Specified</option>
+										<option value="path">Path</option>
+										<option value="url">URL</option>
+									</select>
                                 </div>
-                                <div className="form-group">
+								{ (this.state.content_type === "path") ? 
+									<div className="form-group">
                                     <label htmlFor="componentPath">Path:</label>
                                     <input
                                         type="text"
                                         name="componentPath"
                                         className="form-control"
                                         onChange={(event) => this.setState({ component_path: event.target.value })} />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="componentUrl">URL:</label>
-                                    <input
-                                        type="text"
-                                        name="componentUrl"
-                                        className="form-control"
-                                        onChange={(event) => this.setState({ component_url: event.target.value })} />
-                                </div>
+									</div> : null }
+								{ (this.state.content_type === "url") ? 
+									<div className="form-group">
+										<label htmlFor="componentUrl">URL:</label>
+										<input
+											type="text"
+											name="componentUrl"
+											className="form-control"
+											onChange={(event) => this.setState({ component_url: event.target.value })} />
+									</div> : null }
                             </div>
                             <div className="modal-footer">
 								<button
