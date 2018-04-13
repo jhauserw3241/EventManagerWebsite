@@ -142,6 +142,16 @@ class Signup extends Component {
                                     required />
                             </div>
                             <div className="form-group">
+                                <label htmlFor="phone_number">Phone Number:</label>
+                                <input
+                                    type="text"
+                                    name="phone_number"
+                                    className="form-control"
+                                    value={this.state.phone_number}
+                                    onChange={(event) => this.setState({phone_number: event.target.value})}
+                                    required />
+                            </div>
+                            <div className="form-group">
                                 <label htmlFor="address">Address:</label>
                                 <input
                                     type="text"
@@ -159,16 +169,6 @@ class Signup extends Component {
                                     className="form-control"
                                     value={this.state.notes}
                                     onChange={(event) => this.setState({notes: event.target.value})}></textarea>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="phone_number">Phone Number:</label>
-                                <input
-                                    type="text"
-                                    name="phone_number"
-                                    className="form-control"
-                                    value={this.state.phone_number}
-                                    onChange={(event) => this.setState({phone_number: event.target.value})}
-                                    required />
                             </div>
                             <input
                                 type="button"
