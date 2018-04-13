@@ -62,28 +62,24 @@ class Login extends Component {
     
                             <h1 className="form-header">Login</h1>
                             <form method="POST" onSubmit={this.handleSubmit}>
-                                <fieldset>
-                                    <label
-                                        className="login-label"
-                                        htmlFor="email">Email:</label>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email:</label>
                                     <input
                                         type="text"
                                         name="email"
-                                        className="login-input"
+                                        className="form-control"
                                         onChange={(event) => this.setState({email: event.target.value})}
                                         required />
-                                </fieldset>
-                                <fieldset>
-                                    <label
-                                        className="login-label"
-                                        htmlFor="password">Password:</label>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="password">Password:</label>
                                     <input
                                         type="password"
                                         name="password"
-                                        className="login-input"
+                                        className="form-control"
                                         onChange={(event) => this.setState({password: event.target.value})}
                                         required />
-                                </fieldset>
+                                </div>
                                 <input type="submit" value="Submit" />
                             </form>
                         </div>
