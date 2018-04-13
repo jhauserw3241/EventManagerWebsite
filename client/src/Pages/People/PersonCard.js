@@ -50,6 +50,15 @@ class PersonCard extends Component {
                                         required />
                                 </div>
                                 <div className="form-group">
+                                    <label htmlFor="phone_number">Phone Number:</label>
+                                    <input
+                                        type="text"
+                                        name="phone_number"
+                                        className="form-control"
+                                        value={this.props.phone_number}
+                                        required />
+                                </div>
+                                <div className="form-group">
                                     <label htmlFor="address">Address:</label>
                                     <input
                                         type="text"
@@ -65,15 +74,6 @@ class PersonCard extends Component {
                                         name="notes"
                                         className="form-control"
                                         value={this.props.notes}></textarea>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="phone_number">Phone Number:</label>
-                                    <input
-                                        type="text"
-                                        name="phone_number"
-                                        className="form-control"
-                                        value={this.props.phone_number}
-                                        required />
                                 </div>
                             </div>
                             <div className="modal-footer">
