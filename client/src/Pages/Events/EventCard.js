@@ -10,11 +10,11 @@ class EventCard extends Component {
 
 		return (
 			<Link className="EventCard side-card" to={"/event/" + this.props.id}>
-				<div className="card-img" style={cardImgStyle}></div>
-				<div className="card-text">
+				<div className="side-card-img" style={cardImgStyle}></div>
+				<div className="side-card-text">
 					{this.props.name}
 				</div>
-				<div className="card-mod-btns">
+				<div className="side-card-mod-btns">
 					<button
 						className="btn btn-danger card-delete-btn"
 						onClick={(event) => this.props.deleteEvent(event, this.props.id)} >
