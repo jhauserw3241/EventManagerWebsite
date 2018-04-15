@@ -33,31 +33,18 @@ class EventComponent extends Component {
     }
 
 	render() {
-        console.log(this.state.file);
-
-        if(this.state.content_type === "file") {
-            return (
-                <div className="EventComponent">
-                    <div className="container">
-                        <div className="content">
-                            <h1>{this.state.name}</h1>
+        return (
+            <div className="EventComponent">
+                <div className="container">
+                    <div className="content">
+                        <h1>{this.state.name}</h1>
+                        {(this.state.content_type === "file") ? 
                             <iframe className="agenda-iframe" src={'"' + this.state.file + '"'} allowFullScreen></iframe>
-                        </div>
+                            : <iframe className="agenda-iframe" src={this.state.url} allowFullScreen></iframe> }
                     </div>
                 </div>
-            );
-        } else {
-            return (
-                <div className="EventComponent">
-                    <div className="container">
-                        <div className="content">
-                            <h1>{this.state.name}</h1>
-                            <iframe className="agenda-iframe" src={this.state.url} allowFullScreen></iframe>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
+            </div>
+        );
 	}
 }
 
