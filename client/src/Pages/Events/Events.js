@@ -275,7 +275,15 @@ class Events extends Component {
 		return (
 			<div className="Events">
 				<div className="container">
-					<div className="modal fade" id="addEventModal" tabIndex="-1" role="dialog" aria-labelledby="addEventModalTitle" aria-hidden="true">
+					<div
+						className="modal fade"
+						id="addEventModal"
+						tabIndex="-1"
+						role="dialog"
+						data-backdrop="static"
+						data-keyboard={false}
+						aria-labelledby="addEventModalTitle"
+						aria-hidden="true">
 						<div className="modal-dialog" role="document">
 							<div className="modal-content">
 								<div className="modal-header">
