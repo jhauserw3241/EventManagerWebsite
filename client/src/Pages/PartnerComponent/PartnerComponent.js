@@ -10,20 +10,47 @@ class PartnerComponent extends Component {
         this.state = {
             event_id: this.props.match.params.event_id,
             partners: [],
+            owner_id: "",
             headerColor: "#1C191E",
             rowColor1: "white",
             rowColor2: "#DAE1E8",
         }
+        
+        this.allowEdit = this.allowEdit.bind(this);
+        this.removeEdit = this.removeEdit.bind(this);
     }
 
     componentDidMount() {
+        var self = this;
+
         // Get event partner's names
-        var eventPartnersRef = fire.database().ref("events").child(this.state.event_id).child("partners");
-        eventPartnersRef.on("value", (data) =>
-            this.setState({ partners: data.val() ? data.val() : [] }));
+        fire.database().ref("events").child(this.state.event_id).on("value", function(data) {
+            var event = data.val();
+
+            self.setState({
+                owner_id: event.owner_id,
+                partners: event.partners,
+            });
+        });
+    }
+
+    allowEdit(partner_id) {
+        // Get event partner's names
+        fire.database().ref("events").child(this.state.event_id).child("partners").child(partner_id).update({
+            priv: "Edit",
+        });
+    }
+
+    removeEdit(partner_idid) {
+
     }
 
     render() {
+        // Revert to home page if the user isn't logged in
+        if(!fire.auth().currentUser) {
+            window.location = "/";
+        }
+
         // Get data
         var columns= [
             {
@@ -45,6 +72,7 @@ class PartnerComponent extends Component {
                 num: people_count,
                 name: partner.name,
                 role: partner.role,
+                priv: partner.priv,
             });
 
             people_count += 1;
@@ -64,8 +92,11 @@ class PartnerComponent extends Component {
             "backgroundColor": this.state.rowColor2
         }
 
+        var cur_user_id = fire.auth().currentUser.uid;
+        var numColumns = (cur_user_id === this.state.owner_id) ? (columns.length + 1) : columns.length;
+
         var columnWidthStyle = {
-            width: 100 / columns.length + "%"
+            width: 100 / numColumns + "%"
         };
         
 	    return(
@@ -82,6 +113,12 @@ class PartnerComponent extends Component {
                                             className="partner-th"
                                             style={columnWidthStyle}>{column.name}</th>
                                     )}
+                                    {(cur_user_id === this.state.owner_id) ? 
+                                        <th
+                                            className="partner-th"
+                                            style={columnWidthStyle}>
+                                            Privilege Level
+                                        </th> : null}
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,6 +133,24 @@ class PartnerComponent extends Component {
                                                 {d[column.key]}
                                             </td> 
                                         )}
+                                        <td
+                                            className="partner-td"
+                                            style={columnWidthStyle}>
+                                            {((cur_user_id === this.state.owner_id) && (d["priv"] === "Edit")) ?
+                                                <button
+                                                    className="btn btn-danger"
+                                                    onClick={() => this.removeEdit(d["id"])}>
+                                                    Remove Edit
+                                                </button> : null }
+                                            {((cur_user_id === this.state.owner_id) && (d["priv"] === "View")) ? 
+                                                <button
+                                                    className="btn btn-success"
+                                                    onClick={() => this.allowEdit(d["id"])}>
+                                                    Allow Edit
+                                                </button> : null }
+                                            {((cur_user_id === this.state.owner_id) && (d["priv"] === "Owner")) ?
+                                                d["priv"] : null }
+                                        </td>
                                     </tr>
                                 )}
                             </tbody>

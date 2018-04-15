@@ -71,7 +71,6 @@ class Events extends Component {
 	}
 
 	toggleOrganization(event) {
-		console.log(this.state.org);
 		if(this.state.org === "list") {
 			this.setState({ org: "cards" });
 		} else {
@@ -101,6 +100,7 @@ class Events extends Component {
 			partnersList[owner_id] = {
 				name: user_name,
 				role: "Owner",
+				priv: "Edit",
 			}
 
 			// Create event

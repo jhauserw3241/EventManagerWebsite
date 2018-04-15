@@ -61,7 +61,7 @@ class Event extends Component {
                 components: event.components ? Object.values(event.components) : [],
             });
 		});
-		
+
 		// Get list of all people
 		var peopleRef = fire.database().ref("users");
 		peopleRef.on("value", (data) =>
@@ -138,13 +138,13 @@ class Event extends Component {
 			// Get person information
 			var person = this.state.people[person_id];
 			var person_name = person.first_name + " " + person.last_name;
-			var role = "Contributer";
 
 			// Add person to list of partners
 			var temp = this.state.updated_event_partners;
 			temp[person_id] = {
 				name: person_name,
-				role: role,
+				role: "Contributor",
+				priv: "View",
 			};
 			this.setState({ updated_event_partners: temp });
 		}
