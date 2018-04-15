@@ -1,5 +1,6 @@
 .event-header {
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: auto auto auto;
     width: 100%;
 }
 
@@ -9,8 +10,9 @@
 
 .event-dates {
     white-space: nowrap;
+    width: 40px;
 }
 
-.event-location {
+.event-base-info {
     text-align: center;
 }

@@ -311,17 +311,18 @@ class Event extends Component {
                     <div className="content">
 						<div className="event-info">
 							<div className="event-header">
-								<h1>{this.state.event_name}</h1>
+								<div className="header-left-buffer"></div>
+								<div className="event-base-info">
+									<h1>{this.state.event_name}</h1>
+									Location: {this.state.event_location}<br />
+									Type: {this.state.event_type}
+								</div>
 								<div className="event-dates">
 									Project Start: {this.state.project_start}<br />
 									Event Start: {this.state.event_start}<br />
 									Event End: {this.state.event_end}<br />
 									Project End: {this.state.project_end}
 								</div>
-							</div>
-							<div className="event-location">
-								Location: {this.state.event_location}<br />
-								Type: {this.state.event_type}
 							</div>
 						</div>
 						<div className="mod-btns">
