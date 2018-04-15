@@ -271,6 +271,10 @@ class Events extends Component {
 	}
 	
 	render() {
+		if(!fire.auth().currentUser) {
+			window.location = "/"
+		}
+
 		return (
 			<div className="Events">
 				<div className="container">
