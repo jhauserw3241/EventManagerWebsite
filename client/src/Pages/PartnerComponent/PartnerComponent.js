@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fire from './../../fire';
 import './../../CSS/Card.css';
+import './../../CSS/PartnerTable.css';
 
 class PartnerComponent extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class PartnerComponent extends Component {
     componentDidMount() {
         // Get event partner's names
         var eventPartnersRef = fire.database().ref("events").child(this.state.event_id).child("partners");
-        eventPartnersRef.orderByChild("name").on("value", (data) =>
+        eventPartnersRef.on("value", (data) =>
             this.setState({ partners: data.val() ? data.val() : [] }));
     }
 
@@ -30,19 +31,20 @@ class PartnerComponent extends Component {
                 name: "Name"
             },
             {
-                key: "components",
-                name: "Components"
+                key: "role",
+                name: "Role"
             },
         ]
 
         var people_count = 0;
         var data = [];
         for(var partner_id in this.state.partners) {
+            var partner = this.state.partners[partner_id];
             data.push({
                 id: partner_id,
                 num: people_count,
-                name: this.state.partners[partner_id],
-                components: "All",
+                name: partner.name,
+                role: partner.role,
             });
 
             people_count += 1;
@@ -70,14 +72,14 @@ class PartnerComponent extends Component {
             <div className="PartnerComponent">
                 <div className="container">
                     <div className="content">
-                        <table className="custom-table">
+                        <table className="partner-table">
                             <thead>
                                 <tr
-                                    className="custom-tr"
+                                    className="partner-tr"
                                     style={headerRowStyle}>
                                     {columns.map(column =>
                                         <th
-                                            className="custom-th"
+                                            className="partner-th"
                                             style={columnWidthStyle}>{column.name}</th>
                                     )}
                                 </tr>
@@ -85,11 +87,11 @@ class PartnerComponent extends Component {
                             <tbody>
                                 {data.map(d =>
                                     <tr
-                                        className="custom-tr"
+                                        className="partner-tr"
                                         style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                         {columns.map(column =>
                                             <td
-                                                className="custom-td"
+                                                className="partner-td"
                                                 style={columnWidthStyle}>
                                                 {d[column.key]}
                                             </td> 

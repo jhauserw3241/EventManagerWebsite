@@ -92,52 +92,65 @@ class Events extends Component {
 
 		var self = this;
 
-		// Create event
-		var curEventRef = fire.database().ref("events").push();
-		var event_id = curEventRef.path["pieces_"][1];
-		curEventRef.set({
-			id: event_id,
-			name: self.state.name,
-			type: self.state.type,
-			location: self.state.location,
-			project_start: moment(self.state.projectStart).format('MMMM DD, YYYY HH:mm'),
-			project_end: moment(self.state.eventStart).format('MMMM DD, YYYY HH:mm'),
-			event_start: moment(self.state.eventEnd).format('MMMM DD, YYYY HH:mm'),
-			event_end: moment(self.state.projectEnd).format('MMMM DD, YYYY HH:mm'),
-			owner_id: fire.auth().currentUser.uid,
-			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
-		}).catch(function(error) {
-			this.setState({ formError: error.code + ": " + error.message });
-		});
+		var owner_id = fire.auth().currentUser.uid;
+		fire.database().ref("users").child(owner_id).on("value", function(data) {
+			var user = data.val();
+			var user_name = user.first_name + " " + user.last_name;
 
-		// Create default agenda for the event
-		var curEventAgendas = curEventRef.child("components").push();
-		var agenda_id = curEventAgendas.path["pieces_"][3];
-		curEventAgendas.set({
-			id: agenda_id,
-			component_type: "Agenda",
-			name: "Agenda",
-			content_type: "url",
-			path: "",
-			url: "https://www.google.com",
-			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
-		}).catch(function(error) {
-			this.setState({ formError: error.code + ": " + error.message });
-		});
+			var partnersList = {};
+			partnersList[owner_id] = {
+				name: user_name,
+				role: "Owner",
+			}
 
-		// Create default budget for the event
-		var curEventBudgets = curEventRef.child("components").push();
-		var budget_id = curEventBudgets.path["pieces_"][3];
-		curEventBudgets.set({
-			id: budget_id,
-			component_type: "Budget",
-			name: "Budget",
-			content_type: "url",
-			path: "",
-			url: "https://www.stackoverflow.com",
-			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
-		}).catch(function(error) {
-			this.setState({ formError: error.code + ": " + error.message });
+			// Create event
+			var curEventRef = fire.database().ref("events").push();
+			var event_id = curEventRef.path["pieces_"][1];
+			curEventRef.set({
+				id: event_id,
+				name: self.state.name,
+				type: self.state.type,
+				location: self.state.location,
+				project_start: moment(self.state.projectStart).format('MMMM DD, YYYY HH:mm'),
+				project_end: moment(self.state.eventStart).format('MMMM DD, YYYY HH:mm'),
+				event_start: moment(self.state.eventEnd).format('MMMM DD, YYYY HH:mm'),
+				event_end: moment(self.state.projectEnd).format('MMMM DD, YYYY HH:mm'),
+				owner_id: owner_id,
+				partners: partnersList,
+				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+			}).catch(function(error) {
+				this.setState({ formError: error.code + ": " + error.message });
+			});
+
+			// Create default agenda for the event
+			var curEventAgendas = curEventRef.child("components").push();
+			var agenda_id = curEventAgendas.path["pieces_"][3];
+			curEventAgendas.set({
+				id: agenda_id,
+				component_type: "Agenda",
+				name: "Agenda",
+				content_type: "url",
+				path: "",
+				url: "https://www.google.com",
+				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+			}).catch(function(error) {
+				this.setState({ formError: error.code + ": " + error.message });
+			});
+
+			// Create default budget for the event
+			var curEventBudgets = curEventRef.child("components").push();
+			var budget_id = curEventBudgets.path["pieces_"][3];
+			curEventBudgets.set({
+				id: budget_id,
+				component_type: "Budget",
+				name: "Budget",
+				content_type: "url",
+				path: "",
+				url: "https://www.stackoverflow.com",
+				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+			}).catch(function(error) {
+				this.setState({ formError: error.code + ": " + error.message });
+			});
 		});
 
 		this.closeModal();

@@ -138,20 +138,23 @@ class Event extends Component {
 			// Get person information
 			var person = this.state.people[person_id];
 			var person_name = person.first_name + " " + person.last_name;
+			var role = "Contributer";
 
 			// Add person to list of partners
 			var temp = this.state.updated_event_partners;
-			temp[person_id] = person_name;
+			temp[person_id] = {
+				name: person_name,
+				role: role,
+			};
 			this.setState({ updated_event_partners: temp });
 		}
 	}
 
 	addPartners() {
-		// Update list of event partners
-		var eventRef = fire.database().ref("events").child(this.state.event_id);
-		eventRef.update({
-			partners: this.state.updated_event_partners,
-		});
+		// Update curriculum information
+        var updates = {};
+        updates['/events/' + this.state.event_id + "/partners/"] = this.state.updated_event_partners;
+         fire.database().ref().update(updates);
 	}
 
     handlePic(event) {
