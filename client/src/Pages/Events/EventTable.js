@@ -33,19 +33,29 @@ class EventTable extends Component {
         
         return(
             <div className="EventTable">
-                <table>
+                <table className="events-table">
                     <thead>
-                        <tr style={headerRowStyle}>
+                        <tr
+                            className="events-tr"
+                            style={headerRowStyle}>
                             {this.props.columns.map(column =>
-                                <th style={columnWidthStyle}>{column.name}</th>
+                                <th
+                                    className="events-th"
+                                    style={columnWidthStyle}>
+                                    {column.name}
+                                </th>
                             )}
                         </tr>
                     </thead>
                     <tbody>
                         {this.props.data.map(d =>
-                            <tr style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
+                            <tr
+                                className="events-tr"
+                                style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                 {this.props.columns.map(column =>
-                                    <td style={columnWidthStyle}>
+                                    <td
+                                        className="events-td"
+                                        style={columnWidthStyle}>
                                         <div className="colorBox" style={{"backgroundColor": d["color"]}}></div>
                                         <Link className="table-txt" to={d["link"]}>{d[column.key]}</Link>
                                         { this.props.deleteEvent ?

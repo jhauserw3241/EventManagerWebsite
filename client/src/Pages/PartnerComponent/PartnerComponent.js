@@ -70,19 +70,27 @@ class PartnerComponent extends Component {
             <div className="PartnerComponent">
                 <div className="container">
                     <div className="content">
-                        <table>
+                        <table className="custom-table">
                             <thead>
-                                <tr style={headerRowStyle}>
+                                <tr
+                                    className="custom-tr"
+                                    style={headerRowStyle}>
                                     {columns.map(column =>
-                                        <th style={columnWidthStyle}>{column.name}</th>
+                                        <th
+                                            className="custom-th"
+                                            style={columnWidthStyle}>{column.name}</th>
                                     )}
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.map(d =>
-                                    <tr style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
+                                    <tr
+                                        className="custom-tr"
+                                        style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                         {columns.map(column =>
-                                            <td style={columnWidthStyle}>
+                                            <td
+                                                className="custom-td"
+                                                style={columnWidthStyle}>
                                                 {d[column.key]}
                                             </td> 
                                         )}

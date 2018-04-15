@@ -1,20 +1,18 @@
-.events-table {
+.partner-table {
     background-color: white;
     width: 100%;
 }
 
-.events-th {
+.partner-th {
     width: 50%;
     border-bottom: 1px solid black;
 }
 
-.events-tr {
+.partner-tr {
     width: 100%;
 }
 
-.events-td {
-    display: grid;
-    grid-template-columns: 45px auto 100px;
+.partner-td {
 }
 
 .table-delete-btn {
