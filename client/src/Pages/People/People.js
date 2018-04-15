@@ -30,19 +30,21 @@ class People extends Component {
 							<strong>Error:</strong> {this.state.formError}
 						</div> : null }
 
-					{this.state.users.map(person =>
-						<PersonCard
-							key={person.id}
-							id={person.id}
-							first_name={person.first_name}
-							last_name={person.last_name}
-							email={person.email}
-							phone_number={person.phone_number}
-							address={person.address}
-							notes={person.notes}
-							pic={person.pic}
-							color={person.color} />
-                    )}
+					<div className="list-container">
+						{this.state.users.map(person =>
+							<PersonCard
+								key={person.id}
+								id={person.id}
+								first_name={person.first_name}
+								last_name={person.last_name}
+								email={person.email}
+								phone_number={person.phone_number}
+								address={person.address}
+								notes={person.notes}
+								pic={person.pic}
+								color={person.color} />
+						)}
+					</div>
 				</div>
 			</div>
 		);

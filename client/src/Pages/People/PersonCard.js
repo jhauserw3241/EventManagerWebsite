@@ -11,7 +11,7 @@ class PersonCard extends Component {
 		}
 
 		return (
-			<div className="PersonCard card">
+			<div className="PersonCard people-card">
                 <div className="modal fade" id={"personInfoModal-" + this.props.id} tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
@@ -89,15 +89,17 @@ class PersonCard extends Component {
                 </div>
 
 				<div
-                    className="card-img"
+                    className="people-card-img"
                     style={cardImgStyle}
                     data-toggle="modal"
                     data-target={"#personInfoModal-" + this.props.id}></div>
 				<div
-                    className="card-text"
+                    className="people-card-text"
                     data-toggle="modal"
                     data-target={"#personInfoModal-" + this.props.id}>
-                    {this.props.first_name} {this.props.last_name}
+                    <strong>{this.props.first_name} {this.props.last_name}</strong><br />
+                    {this.props.email}<br />
+                    {this.props.phone_number}
 				</div>
 			</div>
 		);

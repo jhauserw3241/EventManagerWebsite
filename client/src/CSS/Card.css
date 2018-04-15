@@ -3,10 +3,35 @@
 	flex-wrap: wrap;
 }
 
+.people-card {
+	display: grid;
+	grid-template-columns: 100px auto;
+	width: 23%;
+	border-radius: 10px;
+	margin: 10px;
+	background-color: white;
+	background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.people-card-img {
+	height: 100px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	border-radius: 10px;
+}
+
+.people-card-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 5px;
+}
+
 .card {
 	display: inline-flex;
-	height: 250px;
 	width: 23%;
+	height: 250px;
 	border-radius: 10px;
 	margin: 10px;
 }
