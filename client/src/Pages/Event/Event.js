@@ -163,7 +163,15 @@ class Event extends Component {
 	render() {
         return (
 			<div className="Event">
-				<div className="modal fade" id={"addComponentModal-" + this.props.id} tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
+				<div
+					className="modal fade"
+					id={"addComponentModal-" + this.props.id}
+					tabIndex="-1"
+					role="dialog"
+					data-backdrop="static"
+					data-keyboard={false}
+					aria-labelledby="personInfoModalTitle"
+					aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
