@@ -45,7 +45,7 @@ class EventComponent extends Component {
 
 		var self = this;
 
-		// Edit event
+		// Edit event component
         var updates = {};
         updates['/events/' + this.state.event_id + '/components/' + this.state.component_id] = {
             id: this.state.component_id,
@@ -55,7 +55,7 @@ class EventComponent extends Component {
             file: this.state.file,
             url: this.state.url,
 			color: this.state.color
-		};
+        };
         fire.database().ref().update(updates);
 	}
 

@@ -42,32 +42,35 @@ class Events extends Component {
 	componentDidMount() {
 		var self = this;
 
-		var user_id = fire.auth().currentUser.uid;
+		// Verify that the user is logged in
+		if(fire.auth().currentUser) {
+			var user_id = fire.auth().currentUser.uid;
 
-		// Get all the projects that the current user is the owner of
-		var eventsRef = fire.database().ref("events");
-		eventsRef.on("value", function(data) {
-			var events = data.val() ? data.val() : [];
+			// Get all the projects that the current user is the owner of
+			var eventsRef = fire.database().ref("events");
+			eventsRef.on("value", function(data) {
+				var events = data.val() ? data.val() : [];
 
-			for(var event_id in events) {
-				var event = events[event_id];
+				for(var event_id in events) {
+					var event = events[event_id];
 
-				// Check if user is owner
-				if(event.owner_id === user_id) {
-					var temp = self.state.events;
-					temp[event.id] = event;
-					self.setState({ events: temp });
+					// Check if user is owner
+					if(event.owner_id === user_id) {
+						var temp = self.state.events;
+						temp[event.id] = event;
+						self.setState({ events: temp });
+					}
+
+					// Check if user is a event partner
+					var partners = event.partners ? event.partners : [];
+					if(user_id in partners) {
+						var temp = self.state.events;
+						temp[event.id] = event;
+						self.setState({ events: temp });
+					}
 				}
-
-				// Check if user is a event partner
-				var partners = event.partners ? event.partners : [];
-				if(user_id in partners) {
-					var temp = self.state.events;
-					temp[event.id] = event;
-					self.setState({ events: temp });
-				}
-			}
-		});
+			});
+		}
 	}
 
 	toggleOrganization(event) {

@@ -9,6 +9,11 @@ import './../../CSS/Event.css';
 import PartnerComponent from '../PartnerComponent/PartnerComponent';
 import { POINT_CONVERSION_HYBRID } from 'constants';
 
+// CSS and JS for datetime picker
+import moment from './../../../node_modules/moment/moment';
+import "./../../../node_modules/react-datetime/css/react-datetime.css";
+import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
+
 class Event extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +28,7 @@ class Event extends Component {
 			event_end: "",
 			project_end: "",
 			owner_id: "",
+			event_color: "",
 			components: [],
 			component_type: "",
 			component_name: "",
@@ -34,6 +40,11 @@ class Event extends Component {
 			updated_event_partners: [],
         };
 
+		this.editEvent = this.editEvent.bind(this);
+		this.validProjectStart = this.validProjectStart.bind(this);
+		this.validEventStart = this.validEventStart.bind(this);
+		this.validEventEnd = this.validEventEnd.bind(this);
+		this.validProjectEnd = this.validProjectEnd.bind(this);
 		this.addComponent = this.addComponent.bind(this);
 		this.createSelectItems = this.createSelectItems.bind(this);
 		this.onDropdownSelected = this.onDropdownSelected.bind(this);
@@ -58,6 +69,7 @@ class Event extends Component {
 				event_end: event.event_end,
 				project_end: event.project_end,
 				owner_id: event.owner_id,
+				event_color: event.color,
                 components: event.components ? Object.values(event.components) : [],
             });
 		});
@@ -74,7 +86,128 @@ class Event extends Component {
 				event_partners: data.val() ? data.val() : [],
 				updated_event_partners: data.val() ? data.val() : [],
 			}));
-    }
+	}
+	
+	editEvent(event) {
+		event.preventDefault();
+
+		var self = this;
+
+		// Edit event component
+        var updates = {};
+        updates['/events/' + self.state.event_id] = {
+            id: self.state.event_id,
+			name: self.state.event_name,
+			type: self.state.event_type,
+			location: self.state.event_location,
+			project_start: moment(self.state.project_start).format('MMMM DD, YYYY HH:mm'),
+			project_end: moment(self.state.event_start).format('MMMM DD, YYYY HH:mm'),
+			event_start: moment(self.state.event_end).format('MMMM DD, YYYY HH:mm'),
+			event_end: moment(self.state.project_end).format('MMMM DD, YYYY HH:mm'),
+			owner_id: self.state.owner_id,
+			components: self.state.components,
+			color: self.state.event_color,
+        };
+        fire.database().ref().update(updates);
+	}
+
+
+
+	validProjectStart(current) {
+		var valid = true;
+
+		// Check that the project start is before the event start
+		if(	(this.state.event_start !== "") &&
+			current.isAfter(this.state.event_start)) {
+			valid = false;
+		}
+
+		// Check that the project start is before the event end
+		if(	(this.state.event_end !== "") &&
+			current.isAfter(this.state.event_end)) {
+			valid = false;
+		}
+
+		// Check that the project start is before the project end
+		if(	(this.state.project_end !== "") &&
+			current.isAfter(this.state.project_end)) {
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	validEventStart(current) {
+		var valid = true;
+
+		// Check that the event start is after the project start
+		if(	(this.state.project_start !== "") &&
+			current.isBefore(this.state.project_start)) {
+			valid = false;
+		}
+
+		// Check that the event start is before the event end
+		if(	(this.state.event_end !== "") &&
+			current.isAfter(this.state.event_end)) {
+			valid = false;
+		}
+
+		// Check that the event start is before the project end
+		if(	(this.state.project_end !== "") &&
+			current.isAfter(this.state.project_end)) {
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	validEventEnd(current) {
+		var valid = true;
+
+		// Check that the event end is after the project start
+		if(	(this.state.project_start !== "") &&
+			current.isBefore(this.state.project_start)) {
+			valid = false;
+		}
+
+		// Check that the event end is after the event start
+		if(	(this.state.event_start !== "") &&
+			current.isBefore(this.state.event_start)) {
+			valid = false;
+		}
+
+		// Check that the event end is before the project end
+		if(	(this.state.project_end !== "") &&
+			current.isAfter(this.state.project_end)) {
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	validProjectEnd(current) {
+		var valid = true;
+
+		// Check that the project end is after the project start
+		if(	(this.state.project_start !== "") &&
+			current.isBefore(this.state.project_start)) {
+			valid = false;
+		}
+
+		// Check that the project end is after the event start
+		if(	(this.state.event_start !== "") &&
+			current.isBefore(this.state.event_start)) {
+			valid = false;
+		}
+
+		// Check that the project end is after the event end
+		if(	(this.state.event_end !== "") &&
+			current.isBefore(this.state.event_end)) {
+			valid = false;
+		}
+
+		return valid;
+	}
 
     addComponent(event) {
         event.preventDefault();
@@ -174,6 +307,110 @@ class Event extends Component {
 	render() {
         return (
 			<div className="Event">
+				<div
+					className="modal fade"
+					id="editEventModal"
+					tabIndex="-1"
+					role="dialog"
+					data-backdrop="static"
+					data-keyboard={false}
+					aria-labelledby="editEventModalTitle"
+					aria-hidden="true">
+					<div className="modal-dialog" role="document">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h5 className="modal-title" id="editEventModalTitle">Add Event</h5>
+								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div className="modal-body">
+								<div className="form-group">
+									<label htmlFor="name">Name:</label>
+									<input
+										type="text"
+										name="name"
+										className="form-control"
+										value={this.state.event_name}
+										onChange={(event) => this.setState({event_name: event.target.value})}
+										required />
+								</div>
+								<div className="form-group">
+									<label htmlFor="type">Type:</label>
+									<select
+										name="type"
+										className="form-control"
+										value={this.state.event_type}
+										onChange={(event) => this.setState({event_type: event.target.value})}
+										required>
+										<option>Not Specified</option>
+										<option>Conference</option>
+										<option>Field trip</option>
+										<option>Training</option>
+										<option>Site Visit</option>
+										<option>Miscellaneous</option>
+									</select>
+								</div>
+								<div className="form-group">
+									<label htmlFor="project-start">Project Start Date:</label>
+									<DateTime
+										name="project-start"
+										value={this.state.project_start}
+										onChange={(event) => this.setState({project_start: event._d})}
+										isValidDate={this.validProjectStart}
+										required />
+								</div>
+								<div className="form-group">
+									<label htmlFor="event-start">Event Start Date:</label>
+									<DateTime
+										name="event-start"
+										value={this.state.event_start}
+										onChange={(event) => this.setState({event_start: event._d})}
+										isValidDate={this.validEventStart}
+										required />
+								</div>
+								<div className="form-group">
+									<label htmlFor="event-end">Event End Date:</label>
+									<DateTime
+										name="event-end"
+										value={this.state.event_end}
+										onChange={(event) => this.setState({event_end: event._d})}
+										isValidDate={this.validEventEnd}
+										required />
+								</div>
+								<div className="form-group">
+									<label htmlFor="project-end">Project End Date:</label>
+									<DateTime
+										name="project-end"
+										value={this.state.project_end}
+										onChange={(event) => this.setState({project_end: event._d})}
+										isValidDate={this.validProjectEnd}
+										required />
+								</div>
+								<div className="form-group">
+									<label htmlFor="location">Location:</label>
+									<input
+										type="text"
+										name="location"
+										className="form-control"
+										value={this.state.event_location}
+										onChange={(event) => this.setState({event_location: event.target.value})}
+										required />
+								</div>
+							</div>
+							<div className="modal-footer">
+								<button
+									type="button"
+									className="btn btn-primary"
+									data-dismiss="modal"
+									onClick={this.editEvent}>
+									Save
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div
 					className="modal fade"
 					id={"addComponentModal-" + this.props.id}
@@ -336,6 +573,12 @@ class Event extends Component {
 								data-toggle="modal"
 								data-target={"#addPartnerModal-" + this.props.id}>
 								Add Partner
+							</Button>
+							<Button
+								className="btn btn-warning"
+								data-toggle="modal"
+								data-target={"#editEventModal"}>
+								Edit Event
 							</Button>
 						</div>
                         {this.state.components.map(comp =>
