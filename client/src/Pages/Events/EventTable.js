@@ -46,6 +46,7 @@ class EventTable extends Component {
                             <tr style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                 {this.props.columns.map(column =>
                                     <td style={columnWidthStyle}>
+                                        <div className="colorBox" style={{"backgroundColor": d["color"]}}></div>
                                         <Link className="table-txt" to={d["link"]}>{d[column.key]}</Link>
                                         { this.props.deleteEvent ?
                                             <button

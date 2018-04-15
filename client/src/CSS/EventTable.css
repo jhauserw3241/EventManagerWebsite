@@ -12,10 +12,22 @@ tr {
     width: 100%;
 }
 
+td {
+    display: grid;
+    grid-template-columns: 45px auto 100px;
+}
+
 .table-delete-btn {
     margin: 5px;
     float: right;
 }
 
 .table-txt {
+    padding-top: 10px;
+}
+
+.colorBox {
+    width: 35px;
+    height: 35px;
+    margin: 5px;
 }

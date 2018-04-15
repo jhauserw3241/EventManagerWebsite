@@ -33,7 +33,8 @@ class EventsList extends Component {
                     id: event.id,
                     num: events_count,
                     name: event.name,
-                    link: "event/" + event.id
+                    link: "event/" + event.id,
+                    color: event.color,
                 });
 
                 events_count += 1;
