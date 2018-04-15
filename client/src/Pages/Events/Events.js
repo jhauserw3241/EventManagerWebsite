@@ -105,7 +105,6 @@ class Events extends Component {
 			event_start: moment(self.state.eventEnd).format('MMMM DD, YYYY HH:mm'),
 			event_end: moment(self.state.projectEnd).format('MMMM DD, YYYY HH:mm'),
 			owner_id: fire.auth().currentUser.uid,
-			blah: "blah",
 			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
 		}).catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });

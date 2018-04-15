@@ -92,7 +92,18 @@ class Event extends Component {
             file: this.state.component_file ? this.state.component_file : "",
             url: this.state.component_url ? this.state.component_url : "",
 			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
-		}).catch(function(error) {
+		})
+		.then(function() {
+			// Reset event component fields to be the defaults
+			self.setState({
+				component_type: "",
+				component_name: "",
+				content_type: "",
+				component_file: "",
+				component_url: "",
+			});
+		})
+		.catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
 	}
@@ -186,7 +197,8 @@ class Event extends Component {
                                     <input
                                         type="text"
                                         name="componentType"
-                                        className="form-control"
+										className="form-control"
+										value={this.state.component_type}
                                         onChange={(event) => this.setState({ component_type: event.target.value })}
                                         required />
                                 </div>
@@ -196,6 +208,7 @@ class Event extends Component {
                                         type="text"
                                         name="componentName"
                                         className="form-control"
+										value={this.state.component_name}
                                         onChange={(event) => this.setState({ component_name: event.target.value })}
                                         required />
                                 </div>
@@ -204,7 +217,8 @@ class Event extends Component {
 									<select
 										type="text"
                                         name="contentType"
-                                        className="form-control"
+										className="form-control"
+										value={this.state.content_type}
                                         onChange={(event) => this.setState({ content_type: event.target.value })}
                                         required>
 										<option>Not Specified</option>
@@ -219,6 +233,7 @@ class Event extends Component {
 											type="file"
 											name="componentFile"
 											className="form-control"
+											value={this.state.file}
 											onChange={this.handlePic}/>
 									</div> : null }
                                 
@@ -229,6 +244,7 @@ class Event extends Component {
 											type="text"
 											name="componentUrl"
 											className="form-control"
+											value={this.state.url}
 											onChange={(event) => this.setState({ component_url: event.target.value })} />
 									</div> : null }
                             </div>
