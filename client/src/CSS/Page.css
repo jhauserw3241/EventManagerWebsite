@@ -52,3 +52,7 @@ select {
 .section-header {
 	text-decoration: underline;
 }
+
+.btn {
+	margin: 5px;
+}
