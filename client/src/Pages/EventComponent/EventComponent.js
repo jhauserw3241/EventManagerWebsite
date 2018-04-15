@@ -100,13 +100,18 @@ class EventComponent extends Component {
                             <div className="modal-body">
                                 <div className="form-group">
                                     <label htmlFor="componentType">Component Type:</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="componentType"
                                         className="form-control"
                                         value={this.state.component_type}
                                         onChange={(event) => this.setState({component_type: event.target.value})}
-                                        required />
+                                        required>
+                                        <option>Not Specified</option>
+                                        <option value="agenda">Agenda</option>
+                                        <option value="budget">Budget</option>
+                                        <option value="meetingNotes">Meeting Notes</option>
+                                        <option value="other">Other</option>
+                                    </select>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="name">Name:</label>
@@ -127,10 +132,8 @@ class EventComponent extends Component {
                                         onChange={(event) => this.setState({content_type: event.target.value})}
                                         required>
                                         <option>Not Specified</option>
-                                        <option
-                                            value="file">File</option>
-                                        <option
-                                            value="url">URL</option>
+                                        <option value="file">File</option>
+                                        <option value="url">URL</option>
                                     </select>
                                 </div>
                                 { (this.state.content_type === "file") ? 
