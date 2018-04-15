@@ -34,6 +34,7 @@ class Event extends Component {
 			updated_event_partners: [],
         };
 
+		this.canEditEvent = this.canEditEvent.bind(this);
 		this.addComponent = this.addComponent.bind(this);
 		this.createSelectItems = this.createSelectItems.bind(this);
 		this.onDropdownSelected = this.onDropdownSelected.bind(this);
@@ -45,9 +46,7 @@ class Event extends Component {
         var self = this;
 
 		// Get information about this event
-        var eventsRef = fire.database().ref("events/");
-        var curEventRef = eventsRef.child(self.state.event_id);
-        curEventRef.on("value", function(data) {
+        fire.database().ref("events").child(self.state.event_id).on("value", function(data) {
             var event = data.val();
             self.setState({
                 event_name: event.name,
@@ -58,7 +57,9 @@ class Event extends Component {
 				event_end: event.event_end,
 				project_end: event.project_end,
 				owner_id: event.owner_id,
-                components: event.components ? Object.values(event.components) : [],
+				components: event.components ? Object.values(event.components) : [],
+				partners: event.partners ? event.partners : {},
+				updated_event_partners: event.partners ? event.partners : {},
             });
 		});
 
@@ -66,15 +67,26 @@ class Event extends Component {
 		var peopleRef = fire.database().ref("users");
 		peopleRef.on("value", (data) =>
 			this.setState({ people: data.val() ? data.val() : [] }));
+	}
+	
+	canEditEvent() {
+		var cur_user_id = fire.auth().currentUser.uid;
 
-		// Get list of current partners
-		var partnersRef = fire.database().ref("events").child(this.state.event_id).child("partners");
-		partnersRef.on("value", (data) =>
-			this.setState({
-				event_partners: data.val() ? data.val() : [],
-				updated_event_partners: data.val() ? data.val() : [],
-			}));
-    }
+		// Check if the user is the event owner
+		if(cur_user_id === this.state.owner_id) {
+			return true;
+		}
+
+		// Check if the user is a partner with edit privileges
+		for(var partner_id in this.state.partners) {
+			var partner = this.state.partners[partner_id];
+			if(cur_user_id === partner_id) {
+				return (partner.priv === "Edit") || (partner.priv === "Owner");
+			}
+		}
+
+		return false;
+	}
 
     addComponent(event) {
         event.preventDefault();
@@ -333,20 +345,21 @@ class Event extends Component {
 								</div>
 							</div>
 						</div>
-						<div className="mod-btns">
-                        	<Button
-								className="btn btn-success"
-								data-toggle="modal"
-								data-target={"#addComponentModal-" + this.props.id}>
-								Add Component
-							</Button>
-							<Button
-								className="btn btn-success"
-								data-toggle="modal"
-								data-target={"#addPartnerModal-" + this.props.id}>
-								Add Partner
-							</Button>
-						</div>
+						{(this.canEditEvent()) ?
+							<div className="mod-btns">
+								<Button
+									className="btn btn-success"
+									data-toggle="modal"
+									data-target={"#addComponentModal-" + this.props.id}>
+									Add Component
+								</Button>
+								<Button
+									className="btn btn-success"
+									data-toggle="modal"
+									data-target={"#addPartnerModal-" + this.props.id}>
+									Add Partner
+								</Button>
+							</div> : null }
                         {this.state.components.map(comp =>
 							<EventComponentCard
 								color={comp.color}

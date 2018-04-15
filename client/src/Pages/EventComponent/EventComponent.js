@@ -8,6 +8,8 @@ class EventComponent extends Component {
 
         this.state = {
             event_id: this.props.match.params.event_id,
+            event_owner_id: "",
+            event_partners: {},
             component_id: this.props.match.params.component_id,
             component_type: "",
             name: "",
@@ -17,6 +19,7 @@ class EventComponent extends Component {
             color: "",
         };
 
+        this.canEditComponent = this.canEditComponent.bind(this);
         this.editComponent = this.editComponent.bind(this);
         this.handleFile = this.handleFile.bind(this);
     }
@@ -24,11 +27,12 @@ class EventComponent extends Component {
     componentDidMount() {
         var self = this;
 
+        // Get information about the event component
         var curEventRef = fire.database().ref("events").child(this.state.event_id);
         var curComponentRef = curEventRef.child("components").child(this.state.component_id);
 		curComponentRef.on("value", function(data) {
-            var component = data.val();
-            console.log(component);
+            var component = data.val() ? data.val() : {};
+
             self.setState({
                 component_type: component.component_type,
                 name: component.name ? component.name : "Component",
@@ -38,6 +42,35 @@ class EventComponent extends Component {
                 color: component.color,
             });
         });
+
+        // Get information about the event
+        fire.database().ref("events").child(this.state.event_id).on("value", function(data) {
+            var event = data.val() ? data.val() : {};
+
+            self.setState({
+                event_owner_id: event.owner_id,
+                event_partners: event.partners,
+            });
+        });
+    }
+
+    canEditComponent() {
+		var cur_user_id = fire.auth().currentUser.uid;
+
+		// Check if the user is the event owner
+		if(cur_user_id === this.state.event_owner_id) {
+			return true;
+		}
+
+		// Check if the user is a partner with edit privileges
+		for(var partner_id in this.state.event_partners) {
+			var partner = this.state.event_partners[partner_id];
+			if(cur_user_id === partner_id) {
+				return (partner.priv === "Edit") || (partner.priv === "Owner");
+			}
+		}
+
+		return false;
     }
 
     editComponent(event) {
@@ -173,10 +206,11 @@ class EventComponent extends Component {
                 <div className="container">
                     <div className="content">
                         <h1>{this.state.name}</h1>
-                        <button
+                        {(this.canEditComponent()) ? 
+                            <button
                             className="btn btn-warning"
                             data-toggle="modal"
-                            data-target="#editEventComponentModal">Edit</button>
+                            data-target="#editEventComponentModal">Edit</button> : null }
                         {(this.state.content_type === "file") ? 
                             <iframe className="agenda-iframe" src={this.state.file} allowFullScreen></iframe>
                             : <iframe className="agenda-iframe" src={this.state.url} allowFullScreen></iframe> }
