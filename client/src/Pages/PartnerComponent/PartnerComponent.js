@@ -35,14 +35,15 @@ class PartnerComponent extends Component {
     }
 
     allowEdit(partner_id) {
-        // Get event partner's names
         fire.database().ref("events").child(this.state.event_id).child("partners").child(partner_id).update({
             priv: "Edit",
         });
     }
 
-    removeEdit(partner_idid) {
-
+    removeEdit(partner_id) {
+        fire.database().ref("events").child(this.state.event_id).child("partners").child(partner_id).update({
+            priv: "View",
+        });
     }
 
     render() {
