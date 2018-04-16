@@ -29,6 +29,7 @@ class PersonCard extends Component {
                                         name="firstName"
                                         className="form-control"
                                         value={this.props.first_name}
+                                        disabled={true}
                                         required />
                                 </div>
                                 <div className="form-group">
@@ -38,6 +39,7 @@ class PersonCard extends Component {
                                         name="lastName"
                                         className="form-control"
                                         value={this.props.last_name}
+                                        disabled={true}
                                         required />
                                 </div>
                                 <div className="form-group">
@@ -47,6 +49,7 @@ class PersonCard extends Component {
                                         name="email"
                                         className="form-control"
                                         value={this.props.email}
+                                        disabled={true}
                                         required />
                                 </div>
                                 <div className="form-group">
@@ -56,6 +59,7 @@ class PersonCard extends Component {
                                         name="phone_number"
                                         className="form-control"
                                         value={this.props.phone_number}
+                                        disabled={true}
                                         required />
                                 </div>
                                 <div className="form-group">
@@ -65,6 +69,7 @@ class PersonCard extends Component {
                                         name="address"
                                         className="form-control"
                                         value={this.props.address}
+                                        disabled={true}
                                         required></textarea>
                                 </div>
                                 <div className="form-group">
@@ -73,7 +78,9 @@ class PersonCard extends Component {
                                         type="text"
                                         name="notes"
                                         className="form-control"
-                                        value={this.props.notes}></textarea>
+                                        value={this.props.notes}
+                                        disabled={true}
+                                        ></textarea>
                                 </div>
                             </div>
                             <div className="modal-footer">
