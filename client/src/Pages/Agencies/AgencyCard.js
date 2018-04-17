@@ -52,7 +52,6 @@ class PersonCard extends Component {
     getSharedEvents() {
         var self = this;
 
-        var event_ids = [];
         var event_names = [];
 
         if(!fire.auth().currentUser) {
@@ -62,37 +61,26 @@ class PersonCard extends Component {
         var cur_user_id = fire.auth().currentUser.uid;
 
         fire.database().ref("users").child(self.props.id).child("events").on("value", function(person_events_data) {
-            var person_event_ids = person_events_data.val() ? Object.values(person_events_data.val()) : {};
+            var person_events = person_events_data.val() ? person_events_data.val() : {};
 
             fire.database().ref("users").child(cur_user_id).child("events").on("value", function(cur_user_events_data) {
-                var cur_user_event_ids = cur_user_events_data.val() ? Object.values(cur_user_events_data.val()) : {};
+                var cur_user_events = cur_user_events_data.val() ? cur_user_events_data.val() : {};
 
-                for(var person_event_index in person_event_ids) {
-                    for(var cur_user_event_index in cur_user_event_ids) {
-                        var person_event_id = person_event_ids[person_event_index];
-                        var cur_user_event_id = cur_user_event_ids[cur_user_event_index];
+                console.log(self.props.first_name + " " + self.props.last_name);
+                console.log(person_events);
+                console.log(cur_user_events);
+
+                for(var person_event_id in person_events) {
+                    for(var cur_user_event_id in cur_user_events) {
                         // Check if the event is shared
                         if(person_event_id === cur_user_event_id) {
-                            event_ids.push(cur_user_event_id);
+                            var event_name = cur_user_events[cur_user_event_id].name;
+                            event_names.push(event_name);
                         }
                     }
                 }
-                
-                // Get event name
-                fire.database().ref("events").once("value", function(data) {
-                    var events = data.val() ? Object.values(data.val()) : [];
 
-                    for(var id_index in event_ids) {
-                        var id = event_ids[id_index];
-                        for(var event_index in events) {
-                            var event = events[event_index];
-                            if(id === event.id) {
-                                event_names.push(event.name);
-                            }
-                        }
-                    }
-                })
-
+                console.log(event_names);
                 self.setState({ shared_events: event_names });
             });
         });

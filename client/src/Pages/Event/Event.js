@@ -123,9 +123,11 @@ class Event extends Component {
 
 		var self = this;
 
+		fire.database().ref('/events/' + self.state.event_id).set(this.state);
+
 		// Edit event component
-        var updates = {};
-        updates['/events/' + self.state.event_id] = {
+		var updates = {};
+		updates['/events/' + self.state.event_id] = {
             id: self.state.event_id,
 			name: self.state.updated_event_name,
 			type: self.state.updated_event_type,
@@ -309,10 +311,12 @@ class Event extends Component {
 	}
 
 	addPartners() {
-		// Update curriculum information
         var updates = {};
-        updates['/events/' + this.state.event_id + "/partners/"] = this.state.updated_event_partners;
-         fire.database().ref().update(updates);
+		updates['/events/' + this.state.event_id + "/partners/"] = this.state.updated_event_partners;
+		for(var person_id in this.state.updated_event_partners) {
+			updates['/users/' + person_id + '/events/' + this.state.event_id] = this.state.event_id;
+		}
+        fire.database().ref().update(updates);
 	}
 
     handlePic(event) {

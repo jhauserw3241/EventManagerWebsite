@@ -95,7 +95,7 @@ class Events extends Component {
 		var self = this;
 
 		var owner_id = fire.auth().currentUser.uid;
-		fire.database().ref("users").child(owner_id).on("value", function(data) {
+		fire.database().ref("users").child(owner_id).once("value", function(data) {
 			var user = data.val();
 			var user_name = user.first_name + " " + user.last_name;
 
@@ -124,6 +124,12 @@ class Events extends Component {
 			}).catch(function(error) {
 				this.setState({ formError: error.code + ": " + error.message });
 			});
+
+
+			// Add this event to the list of events that is being tracked for the current user
+			var updates = {};
+			updates['/users/' + owner_id + '/events/' + event_id] = event_id;
+			fire.database().ref().update(updates);
 
 			// Create default agenda for the event
 			var curEventAgendas = curEventRef.child("components").push();

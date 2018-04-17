@@ -35,6 +35,11 @@ class Profile extends Component {
         var user = fire.auth().currentUser;
         console.log(user);
 
+        // Return if the user isn't logged in
+        if(!user) {
+            return;
+        }
+
         var userRef = fire.database().ref("users");
         userRef.on("value", function(data) {
             console.log(data.val())
