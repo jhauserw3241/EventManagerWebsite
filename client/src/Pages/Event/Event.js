@@ -123,7 +123,7 @@ class Event extends Component {
 
 		var self = this;
 
-		fire.database().ref('/events/' + self.state.event_id).set(this.state);
+		//fire.database().ref('/events/' + self.state.event_id).set(this.state);
 
 		// Edit event component
 		var updates = {};
@@ -132,10 +132,10 @@ class Event extends Component {
 			name: self.state.updated_event_name,
 			type: self.state.updated_event_type,
 			location: self.state.updated_event_location,
-			project_start: moment(self.state.updated_project_start).format('MMMM DD, YYYY HH:mm'),
-			project_end: moment(self.state.updated_event_start).format('MMMM DD, YYYY HH:mm'),
-			event_start: moment(self.state.updated_event_end).format('MMMM DD, YYYY HH:mm'),
-			event_end: moment(self.state.updated_project_end).format('MMMM DD, YYYY HH:mm'),
+			project_start: this.formatDateTime(self.state.updated_project_start),
+			project_end: this.formatDateTime(self.state.updated_event_start),
+			event_start: this.formatDateTime(self.state.updated_event_end),
+			event_end: this.formatDateTime(self.state.updated_project_end),
 			owner_id: self.state.owner_id,
 			components: self.state.components,
 			color: self.state.event_color,
@@ -144,11 +144,6 @@ class Event extends Component {
 	}
 
 	validProjectStart(current) {
-		console.log(current);
-		console.log(this.state.updated_event_start);
-		console.log(this.state.updated_event_end);
-		console.log(this.state.updated_project_end);
-
 		// Check that the project start is before the event start
 		if(	(this.state.updated_event_start !== "") &&
 			current.isAfter(this.state.updated_event_start)) {
@@ -319,6 +314,10 @@ class Event extends Component {
         fire.database().ref().update(updates);
 	}
 
+	formatDateTime(momentObj) {
+		return moment(momentObj).format('MMMM DD, YYYY HH:mm');
+	}
+
     handlePic(event) {
         event.preventDefault();
         var self = this;
@@ -387,7 +386,7 @@ class Event extends Component {
 									<label htmlFor="project-start">Project Start Date:</label>
 									<DateTime
 										name="project-start"
-										value={this.state.updated_project_start}
+										value={this.formatDateTime(this.state.updated_project_start)}
 										onChange={(event) => this.setState({updated_project_start: event._d})}
 										isValidDate={this.validProjectStart}
 										required />
@@ -396,7 +395,7 @@ class Event extends Component {
 									<label htmlFor="event-start">Event Start Date:</label>
 									<DateTime
 										name="event-start"
-										value={this.state.updated_event_start}
+										value={this.formatDateTime(this.state.updated_event_start)}
 										onChange={(event) => this.setState({updated_event_start: event._d})}
 										isValidDate={this.validEventStart}
 										required />
@@ -405,7 +404,7 @@ class Event extends Component {
 									<label htmlFor="event-end">Event End Date:</label>
 									<DateTime
 										name="event-end"
-										value={this.state.updated_event_end}
+										value={this.formatDateTime(this.state.updated_event_end)}
 										onChange={(event) => this.setState({updated_event_end: event._d})}
 										isValidDate={this.validEventEnd}
 										required />
@@ -414,7 +413,7 @@ class Event extends Component {
 									<label htmlFor="project-end">Project End Date:</label>
 									<DateTime
 										name="project-end"
-										value={this.state.updated_project_end}
+										value={this.formatDateTime(this.state.updated_project_end)}
 										onChange={(event) => this.setState({updated_project_end: event._d})}
 										isValidDate={this.validProjectEnd}
 										required />
@@ -592,10 +591,10 @@ class Event extends Component {
 									Type: {this.state.event_type}
 								</div>
 								<div className="event-dates">
-									Project Start: {this.state.updated_project_start}<br />
-									Event Start: {this.state.updated_event_start}<br />
-									Event End: {this.state.updated_event_end}<br />
-									Project End: {this.state.updated_project_end}
+									Project Start: {this.formatDateTime(this.state.updated_project_start)}<br />
+									Event Start: {this.formatDateTime(this.state.updated_event_start)}<br />
+									Event End: {this.formatDateTime(this.state.updated_event_end)}<br />
+									Project End: {this.formatDateTime(this.state.updated_project_end)}
 								</div>
 							</div>
 						</div>
