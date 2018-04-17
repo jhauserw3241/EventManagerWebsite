@@ -16,12 +16,14 @@ class Agencies extends Component {
 	}
 	
 	componentDidMount() {
-		var agenciesRef = fire.database().ref("agencies");
-		agenciesRef.on("value", (data) =>
+		fire.database().ref("agencies").on("value", (data) =>
 			this.setState({ agencies: data.val() ? Object.values(data.val()) : [] }));
 	}
 	
 	render() {
+		if(!fire.auth().currentUser) {
+			window.location = "/";
+		}
 		return (
 			<div className="Agencies">
 				<div className="container">
@@ -31,12 +33,15 @@ class Agencies extends Component {
 						</div> : null }
 
 					<div className="list-container">
-						{this.state.agencies.map(person =>
+						{this.state.agencies.map(agency =>
 							<AgencyCard
-								key={person.id}
-								id={person.id}
-								name={person.name}
-								color={person.color} />
+								key={agency.id}
+								id={agency.id}
+								name={agency.name}
+								aliases={agency.alias}
+								people_ids={agency.people ? Object.values(agency.people) : []}
+								pic={agency.pic}
+								color={agency.color} />
 						)}
 					</div>
 				</div>
