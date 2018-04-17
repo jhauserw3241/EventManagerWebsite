@@ -15,8 +15,9 @@ class PartnersComponentCard extends Component {
 				<div className="card-text">
 					{this.props.name}
 				</div>
-				<div className="card-btns">
-				</div>
+				{(this.props.canEditEvent()) ?
+					<div className="card-btns">
+					</div> : null }
 			</Link>
 		);
 	}

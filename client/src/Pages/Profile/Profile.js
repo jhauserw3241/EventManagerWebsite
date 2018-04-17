@@ -33,7 +33,6 @@ class Profile extends Component {
 
         // Get user information
         var user = fire.auth().currentUser;
-        console.log(user);
 
         // Return if the user isn't logged in
         if(!user) {

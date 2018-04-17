@@ -30,13 +30,14 @@ class EventComponentCard extends Component {
 				<div className="card-text">
 					{this.props.name}
 				</div>
-				<div className="card-btns">
-					<button
-						className="btn btn-danger card-delete-btn"
-						onClick={this.deleteComponent}>
-						Delete
-					</button>
-				</div>
+				{(this.props.canEditEvent()) ?
+					<div className="card-btns">
+						<button
+							className="btn btn-danger card-delete-btn"
+							onClick={this.deleteComponent}>
+							Delete
+						</button>
+					</div> : null }
 			</Link>
 		);
 	}
