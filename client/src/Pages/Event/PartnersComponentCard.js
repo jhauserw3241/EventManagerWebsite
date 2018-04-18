@@ -10,13 +10,13 @@ class PartnersComponentCard extends Component {
 		};
 
 		return (
-			<Link className="PartnersComponentCard card" to={this.props.link}>
-				<div className="card-img" style={cardImgStyle}></div>
-				<div className="card-text">
+			<Link className="PartnersComponentCard side-card" to={this.props.link}>
+				<div className="side-card-img" style={cardImgStyle}></div>
+				<div className="side-card-text">
 					{this.props.name}
 				</div>
 				{(this.props.canEditEvent()) ?
-					<div className="card-btns">
+					<div className="side-card-btns">
 					</div> : null }
 			</Link>
 		);

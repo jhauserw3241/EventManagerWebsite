@@ -598,41 +598,43 @@ class Event extends Component {
 								</div>
 							</div>
 						</div>
-						{(this.canEditEvent()) ?
-							<div className="mod-btns">
-								<Button
-									className="btn btn-success"
-									data-toggle="modal"
-									data-target={"#addComponentModal-" + this.props.id}>
-									Add Component
-								</Button>
-								<Button
-									className="btn btn-success"
-									data-toggle="modal"
-									data-target={"#addPartnerModal-" + this.props.id}>
-									Add Partner
-								</Button>
-								<Button
-									className="btn btn-warning"
-									data-toggle="modal"
-									data-target={"#editEventModal"}>
-									Edit Event
-								</Button>
-							</div> : null }
-                        {this.state.components.map(comp =>
-							<EventComponentCard
-								color={comp.color}
-								name={comp.name}
-								event_id={this.state.event_id}
-								component_id={comp.id}
+						<div className="list-container">
+							{(this.canEditEvent()) ?
+								<div className="mod-btns">
+									<Button
+										className="btn btn-success"
+										data-toggle="modal"
+										data-target={"#addComponentModal-" + this.props.id}>
+										Add Component
+									</Button>
+									<Button
+										className="btn btn-success"
+										data-toggle="modal"
+										data-target={"#addPartnerModal-" + this.props.id}>
+										Add Partner
+									</Button>
+									<Button
+										className="btn btn-warning"
+										data-toggle="modal"
+										data-target={"#editEventModal"}>
+										Edit Event
+									</Button>
+								</div> : null }
+							{this.state.components.map(comp =>
+								<EventComponentCard
+									color={comp.color}
+									name={comp.name}
+									event_id={this.state.event_id}
+									component_id={comp.id}
+									canEditEvent={this.canEditEvent}
+									link={this.state.event_id + "/components/" + comp.id + "/"} />
+							)}
+							<PartnersComponentCard
+								color="red"
+								name="Partners"
 								canEditEvent={this.canEditEvent}
-								link={this.state.event_id + "/components/" + comp.id + "/"} />
-						)}
-						<PartnersComponentCard
-							color="red"
-							name="Partners"
-							canEditEvent={this.canEditEvent}
-							link={this.state.event_id + "/partners/"} />
+								link={this.state.event_id + "/partners/"} />
+						</div>
                     </div>
                 </div>
 			</div>

@@ -25,13 +25,13 @@ class EventComponentCard extends Component {
 		};
 
 		return (
-			<Link className="EventComponentCard card" to={this.props.link}>
-				<div className="card-img" style={cardImgStyle}></div>
-				<div className="card-text">
+			<Link className="EventComponentCard side-card" to={this.props.link}>
+				<div className="side-card-img" style={cardImgStyle}></div>
+				<div className="side-card-text">
 					{this.props.name}
 				</div>
 				{(this.props.canEditEvent()) ?
-					<div className="card-btns">
+					<div className="side-card-btns">
 						<button
 							className="btn btn-danger card-delete-btn"
 							onClick={this.deleteComponent}>

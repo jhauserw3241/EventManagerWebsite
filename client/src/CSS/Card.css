@@ -29,11 +29,20 @@
 }
 
 .card {
+<<<<<<< HEAD
 	display: inline-flex;
+=======
+	display: flex;
+	height: 250px;
+>>>>>>> ChangeCardAes
 	width: 23%;
 	height: 250px;
 	border-radius: 10px;
 	margin: 10px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 5px 5px 5px grey;
+	background-color: white;
 }
 
 .card-img {
@@ -53,6 +62,45 @@
 }
 
 .card-delete-btn {
+	margin-left: calc(50% - 40px);
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.side-card {
+	display: flex;
+	height: 70px;
+	width: 45%;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 10px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 5px 5px 5px grey;
+	background-color: white;
+}
+
+.side-card-img {
+	height: 50px;
+	width: 50px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+.side-card-text {
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 10px;
+	text-overflow: ellipsis;
+	width: 80%;
+}
+
+.side-card-btns {
+	height: 60px;
+	float: right;
+}
+
+.side-card-delete-btn {
 	margin-left: calc(50% - 40px);
 	margin-top: 5px;
 	margin-bottom: 5px;
