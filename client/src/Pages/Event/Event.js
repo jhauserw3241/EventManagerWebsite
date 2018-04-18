@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SketchPicker } from 'react-color';
 import EventComponentCard from './EventComponentCard';
 import PartnersComponentCard from './PartnersComponentCard';
 import { Button } from 'react-bootstrap';
@@ -36,6 +37,7 @@ class Event extends Component {
 			updated_project_end: "",
 			owner_id: "",
 			event_color: "",
+			updated_event_color: "",
 			components: [],
 			component_type: "",
 			component_name: "",
@@ -58,6 +60,7 @@ class Event extends Component {
 		this.onDropdownSelected = this.onDropdownSelected.bind(this);
 		this.addPartners = this.addPartners.bind(this);
 		this.handlePic = this.handlePic.bind(this);
+		this.handleChangeComplete = this.handleChangeComplete.bind(this);
     }
 
     componentDidMount() {
@@ -84,6 +87,7 @@ class Event extends Component {
 				owner_id: event.owner_id,
 				components: event.components ? Object.values(event.components) : [],
 				event_color: event.color,
+				updated_event_color: event.color,
 				partners: event.partners ? event.partners : {},
 				updated_event_partners: event.partners ? event.partners : {},
             });
@@ -123,7 +127,7 @@ class Event extends Component {
 
 		var self = this;
 
-		//fire.database().ref('/events/' + self.state.event_id).set(this.state);
+		console.log(self.state.updated_event_color);
 
 		// Edit event component
 		var updates = {};
@@ -138,7 +142,7 @@ class Event extends Component {
 			event_end: this.formatDateTime(self.state.updated_project_end),
 			owner_id: self.state.owner_id,
 			components: self.state.components,
-			color: self.state.event_color,
+			color: self.state.updated_event_color,
         };
         fire.database().ref().update(updates);
 	}
@@ -333,7 +337,11 @@ class Event extends Component {
         }).catch((error) => {
             self.setState({ formError: error.code + ": " + error.message });
         });
-    }
+	}
+
+	handleChangeComplete = (color) => {
+	  this.setState({ updated_event_color: color.hex });
+	};
 
 	render() {
         return (
@@ -427,6 +435,12 @@ class Event extends Component {
 										value={this.state.updated_event_location}
 										onChange={(event) => this.setState({updated_event_location: event.target.value})}
 										required />
+								</div>
+								<div className="form-group">
+									<label htmlFor="color">Color:</label>
+									<SketchPicker
+										color={this.state.updated_event_color}
+										onChangeComplete={ this.handleChangeComplete } />
 								</div>
 							</div>
 							<div className="modal-footer">
