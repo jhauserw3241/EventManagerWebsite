@@ -587,14 +587,14 @@ class Event extends Component {
 								<div className="header-left-buffer"></div>
 								<div className="event-base-info">
 									<h1>{this.state.event_name}</h1>
-									Location: {this.state.event_location}<br />
-									Type: {this.state.event_type}
+									<strong>Location:</strong> {this.state.event_location}<br />
+									<strong>Type:</strong> {this.state.event_type}
 								</div>
 								<div className="event-dates">
-									Project Start: {this.formatDateTime(this.state.updated_project_start)}<br />
-									Event Start: {this.formatDateTime(this.state.updated_event_start)}<br />
-									Event End: {this.formatDateTime(this.state.updated_event_end)}<br />
-									Project End: {this.formatDateTime(this.state.updated_project_end)}
+									<strong>Project Start:</strong> {this.formatDateTime(this.state.updated_project_start)}<br />
+									<strong>Event Start:</strong> {this.formatDateTime(this.state.updated_event_start)}<br />
+									<strong>Event End:</strong> {this.formatDateTime(this.state.updated_event_end)}<br />
+									<strong>Project End:</strong> {this.formatDateTime(this.state.updated_project_end)}
 								</div>
 							</div>
 						</div>
