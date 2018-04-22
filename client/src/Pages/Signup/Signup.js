@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import  { Redirect } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/Form.css';
+import AgencyTags from './../AgencyTags';
 
 class Signup extends Component {
     constructor(props) {
@@ -185,6 +186,10 @@ class Signup extends Component {
                                     className="form-control"
                                     value={this.state.notes}
                                     onChange={(event) => this.setState({notes: event.target.value})}></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="agencies">Agencies:</label>
+                                <AgencyTags />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="pic">Picture:</label>
