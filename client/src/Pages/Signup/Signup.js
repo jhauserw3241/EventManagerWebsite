@@ -55,6 +55,7 @@ class Signup extends Component {
                     address: self.state.address,
                     notes: self.state.notes,
                     pic: self.state.pic,
+                    status: "pending member",
                 }).catch(function(error) {
                     self.setState({ formError: error.code + ": " + error.message });
                 });
