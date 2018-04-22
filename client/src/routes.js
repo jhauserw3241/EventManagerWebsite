@@ -8,6 +8,7 @@ import Events from './Pages/Events/Events';
 import Event from './Pages/Event/Event';
 import EventComponent from './Pages/EventComponent/EventComponent';
 import PartnerComponent from './Pages/PartnerComponent/PartnerComponent';
+import Dashboard from './Pages/Dashboard/Dashboard';
 import Profile from './Pages/Profile/Profile';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
@@ -25,6 +26,7 @@ export const Main = () => (
 			<Route exact path='/event/:id' component={Event} />
 			<Route exact path='/event/:event_id/components/:component_id' component={EventComponent} />
 			<Route exact path='/event/:event_id/partners' component={PartnerComponent} />
+			<Route exact path='/dashboard' component={Dashboard} />
 			<Route exact path='/profile' component={Profile} />
 			<Route exact path='/login' component={Login} />
 			<Route exact path='/signup' component={Signup} />

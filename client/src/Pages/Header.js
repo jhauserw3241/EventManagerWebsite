@@ -37,13 +37,11 @@ class Header extends Component {
 							{ this.state.user ?
 								<NavLink to="/people" className="nav-link">People</NavLink> : null }
 							{ this.state.user ?
-								<NavLink to="/memberapproval" className="nav-link">Member Approval</NavLink> : null }
-							{ this.state.user ?
 								<NavLink to="/agencies" className="nav-link">Agencies</NavLink> : null }
 							{ this.state.user ?
 								<NavLink to="/events" className="nav-link">Events</NavLink> : null }
 							{ this.state.user ?
-								<NavLink to="/profile" className="nav-link">Profile</NavLink> : null }
+								<NavLink to="/dashboard" className="nav-link">Dashboard</NavLink> : null }
 							{ !this.state.user ?
 								<NavLink to="/login" className="nav-link">Login</NavLink> : null }
 							{ !this.state.user ?
