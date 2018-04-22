@@ -18,7 +18,13 @@ class AddPartnerModal extends Component {
     }
 
     componentDidMount() {
-        var self = this;
+		var self = this;
+		
+		if(!fire.auth().currentUser) {
+			return;
+		}
+
+		var cur_member_id = fire.auth().currentUser.uid;
 
 		// Get information about this event
         fire.database().ref("events").child(self.props.event_id).child("partners").on("value", (data) =>
@@ -26,8 +32,25 @@ class AddPartnerModal extends Component {
 
 		// Get list of all people
 		var peopleRef = fire.database().ref("users");
-		peopleRef.on("value", (data) =>
-			this.setState({ people: data.val() ? data.val() : {} }));
+		peopleRef.on("value", function(data) {
+			var members = data.val() ? data.val() : {};
+			var filteredMembers = {};
+
+			for(var member_id in members) {
+				var member = members[member_id];
+
+				if(	(member.status === "admin") ||
+					(member.status === "member") ||
+					((member.status === "placeholder") &&
+					(member.public === true)) ||
+					((member.status === "placeholder") &&
+					(member.creator_id === cur_member_id))) {
+					filteredMembers[member_id] = member;
+				}
+			}
+
+			self.setState({ people: filteredMembers });
+		});
 	}
 	
 	createSelectItems() {
