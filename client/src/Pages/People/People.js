@@ -16,9 +16,21 @@ class People extends Component {
 	}
 	
 	componentDidMount() {
-		var usersRef = fire.database().ref("users");
-		usersRef.orderByChild("name").on("value", (data) =>
-			this.setState({ users: data.val() ? Object.values(data.val()) : [] }));
+		var self = this;
+		fire.database().ref("users").on("value", function(data) {
+			var members = data.val() ? data.val() : [];
+			var filteredMembers = [];
+
+			for(var member_id in members) {
+				var member = members[member_id];
+
+				if((member.status === "admin") || (member.status === "member")) {
+					filteredMembers.push(member);
+				}
+			}
+
+			self.setState({ users: filteredMembers });
+		});
 	}
 	
 	render() {
