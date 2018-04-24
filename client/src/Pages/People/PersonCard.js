@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AgencyTags from './../Common/AgencyTags';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
@@ -8,20 +9,15 @@ class PersonCard extends Component {
         super(props);
 
         this.state = {
-            all_agencies: [],
             person_agencies: [],
             shared_events: [],
         }
 
-        this.getAllAgencies = this.getAllAgencies.bind(this);
         this.getAssociatedAgencies = this.getAssociatedAgencies.bind(this);
         this.getSharedEvents = this.getSharedEvents.bind(this);
     }
 
-    componentDidMount() {
-        // Get a list of all the agencies names
-        this.getAllAgencies();
-        
+    componentDidMount() {        
         // Get a list of the agencies that the person is associated with
         this.getAssociatedAgencies();
 
@@ -29,24 +25,20 @@ class PersonCard extends Component {
         this.getSharedEvents();
     }
 
-    getAllAgencies() {
-        var self = this;
-        fire.database().ref("agencies").on("value", function(data) {
-            var agency_names = [];
-            var agencies = data.val() ? Object.values(data.val()) : [];
-
-            for(var agency_id in agencies) {
-                var agency = agencies[agency_id];
-                agency_names.push(agency.name);
-            }
-
-            self.setState({ all_agencies: agency_names });
-        });
-    }
-
     getAssociatedAgencies() {
-        fire.database().ref("users").child(this.props.id).child("agencies").on("value", (data) =>
-            this.setState({ person_agencies: data.val() ? Object.values(data.val()) : [] }));
+        var self = this;
+        fire.database().ref("users").child(this.props.id).child("agencies").on("value", function(data) {
+            var agencies = data.val() ? data.val() : [];
+
+            var updatedAgencies = agencies.map((agency) => {
+                return {
+                    id: agency,
+                    text: agency,
+                }
+            });
+
+            self.setState({ person_agencies: updatedAgencies });
+        });
     }
 
     getSharedEvents() {
@@ -99,6 +91,8 @@ class PersonCard extends Component {
     }
 
 	render() {
+        console.log(this.state.person_agencies);
+
 		var cardImgStyle = {
             backgroundImage: `url(${this.props.pic})`
 		}
@@ -177,12 +171,9 @@ class PersonCard extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="agencies">Associated Agencies:</label>
-                                    <input
-                                        name="agencies"
-                                        className="form-control"
-                                        value={this.state.person_agencies.join(", ")}
-                                        disabled={true}
-                                        />
+                                    <AgencyTags
+                                        tags={this.state.person_agencies}
+                                        readOnly={true} />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="events">Shared Events:</label>

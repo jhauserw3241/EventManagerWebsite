@@ -192,7 +192,7 @@ class People extends Component {
 											accept="image/*"
 											onChange={this.handlePic}/>
 									</div>
-									<div class="form-check">
+									<div className="form-check">
 										<input
 											type="checkbox"
 											className="form-check-input"
@@ -223,7 +223,7 @@ class People extends Component {
 					</div>
 
 					{ (this.state.formError !== "") ?
-						<div class="alert alert-danger">
+						<div className="alert alert-danger">
 							<strong>Error:</strong> {this.state.formError}
 						</div> : null }
 

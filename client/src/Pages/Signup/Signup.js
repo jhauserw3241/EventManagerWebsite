@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import  { Redirect } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/Form.css';
-import AgencyTags from './../AgencyTags';
+import AgencyTags from './../Common/AgencyTags';
 
 class Signup extends Component {
     constructor(props) {
