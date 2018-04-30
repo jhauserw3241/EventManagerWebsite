@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import  { Redirect } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/Form.css';
-import AgencyTags from './../Common/AgencyTags';
+import AgencyTags from './../Common/PersonAgencyTags';
 
 class Signup extends Component {
     constructor(props) {
@@ -17,13 +17,19 @@ class Signup extends Component {
             phone_number: "",
             address: "",
             notes: "",
+            tags: [],
             pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
             redirect: false
         }
 
         this.signUp = this.signUp.bind(this);
+        this.formatAgencyTagsForDB = this.formatAgencyTagsForDB.bind(this);
         this.handlePic = this.handlePic.bind(this);
+        this.handleAgencyDelete = this.handleAgencyDelete.bind(this);
+        this.handleAgencyAddition = this.handleAgencyAddition.bind(this);
+        this.handleAgencyDrag = this.handleAgencyDrag.bind(this);
+        this.handleAgencyTagClick = this.handleAgencyTagClick.bind(this);
     }
 
     signUp(event) {
@@ -55,6 +61,7 @@ class Signup extends Component {
                     phone_number: self.state.phone_number,
                     address: self.state.address,
                     notes: self.state.notes,
+                    agencies: self.formatAgencyTagsForDB(),
                     pic: self.state.pic,
                     status: "pending member",
                 }).catch(function(error) {
@@ -76,6 +83,12 @@ class Signup extends Component {
         }
     }
 
+    formatAgencyTagsForDB() {
+        return this.state.tags.map((tag) => {
+            return tag.text;
+        });
+    }
+
     handlePic(event) {
         event.preventDefault();
         var self = this;
@@ -91,6 +104,30 @@ class Signup extends Component {
         }).catch((error) => {
             self.setState({ formError: error.code + ": " + error.message });
         });
+    }
+
+    handleAgencyDelete(i) {
+      var tags = this.state.tags.filter((tag, index) => index !== i);
+      this.setState({ tags: tags });
+    }
+  
+    handleAgencyAddition(tag) {
+      var tags = [...this.state.tags, ...[tag]];
+      this.setState({ tags: tags });
+    }
+  
+    handleAgencyDrag(tag, currPos, newPos) {
+      const tags = [...this.state.tags];
+      const newTags = tags.slice();
+  
+      newTags.splice(currPos, 1);
+      newTags.splice(newPos, 0, tag);
+
+      this.setState({ tags: newTags });
+    }
+
+    handleAgencyTagClick(index) {
+        // Do nothing
     }
 
 	render() {
@@ -189,7 +226,13 @@ class Signup extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="agencies">Agencies:</label>
-                                <AgencyTags />
+                                <AgencyTags
+                                    tags={this.state.tags}
+                                    shouldStore={false}
+                                    handleDelete={this.handleAgencyDelete}
+                                    handleAddition={this.handleAgencyAddition}
+                                    handleDrag={this.handleAgencyDrags}
+                                    handleTagClick={this.handleAgencyTagClick} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="pic">Picture:</label>
