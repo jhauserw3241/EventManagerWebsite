@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AgencyTags from './../Common/PersonAgencyTags';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
@@ -14,14 +15,11 @@ class MemberRequestCard extends Component {
 
         this.acceptMember = this.acceptMember.bind(this);
         this.declineMember = this.declineMember.bind(this);
-        this.getAllAgencies = this.getAllAgencies.bind(this);
         this.getAssociatedAgencies = this.getAssociatedAgencies.bind(this);
+        this.handleAgencyTagClick = this.handleAgencyTagClick.bind(this);
     }
 
-    componentDidMount() {
-        // Get a list of all the agencies names
-        this.getAllAgencies();
-        
+    componentDidMount() {        
         // Get a list of the agencies that the person is associated with
         this.getAssociatedAgencies();
     }
@@ -38,24 +36,22 @@ class MemberRequestCard extends Component {
         fire.database().ref().update(updates);
     }
 
-    getAllAgencies() {
-        var self = this;
-        fire.database().ref("agencies").on("value", function(data) {
-            var agency_names = [];
-            var agencies = data.val() ? Object.values(data.val()) : [];
-
-            for(var agency_id in agencies) {
-                var agency = agencies[agency_id];
-                agency_names.push(agency.name);
-            }
-
-            self.setState({ all_agencies: agency_names });
-        });
-    }
-
     getAssociatedAgencies() {
         fire.database().ref("users").child(this.props.id).child("agencies").on("value", (data) =>
             this.setState({ person_agencies: data.val() ? Object.values(data.val()) : [] }));
+    }
+
+    formatTags(list) {
+        return list.map(item => {
+            return {
+                id: item,
+                text: item
+            };
+        });
+    }
+
+    handleAgencyTagClick(index) {
+        // Do nothing
     }
 
 	render() {
@@ -137,12 +133,10 @@ class MemberRequestCard extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="agencies">Associated Agencies:</label>
-                                    <input
-                                        name="agencies"
-                                        className="form-control"
-                                        value={this.state.person_agencies.join(", ")}
-                                        disabled={true}
-                                        />
+                                    <AgencyTags
+                                        tags={this.formatTags(Object.values(this.props.agencies))}
+                                        id={this.props.id}
+                                        handleTagClick={this.handleAgencyTagClick} />
                                 </div>
                             </div>
                             <div className="modal-footer">

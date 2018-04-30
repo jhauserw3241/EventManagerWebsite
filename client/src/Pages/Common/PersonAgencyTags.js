@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import  { Redirect } from 'react-router-dom';
 import TagInput from './TagInput';
 import fire from './../../fire';
 import './../../CSS/Tag.css';
@@ -11,7 +12,7 @@ class PersonAgencyTags extends Component {
 
     this.state = {
       tags: this.props.tags,
-      suggestions: [],
+      suggestions: []
     };
 
     this.handleDelete = this.handleDelete.bind(this);
@@ -22,6 +23,22 @@ class PersonAgencyTags extends Component {
 
   componentWillMount() {
     var self = this;
+
+    // Get tags
+    if(this.props.id) {
+      fire.database().ref("users").child(this.props.id).child("agencies").on("value", function(data) {
+        var agencies = data.val() ? Object.values(data.val()) : [];
+  
+        var updatedAgencies = agencies.map((agency) => {
+          return {
+            id: agency,
+            text: agency,
+          };
+        });
+  
+        self.setState({ tags: updatedAgencies });
+      });
+    }
 
     // Get suggestions
     fire.database().ref("agencies").on("value", function(data) {
@@ -39,11 +56,12 @@ class PersonAgencyTags extends Component {
   }
 
   handleDelete(i) {
+    console.log("handle delete triggered")
     var tags = this.state.tags.filter((tag, index) => index !== i);
     var updatedTags = tags.map((tag) => {
       return tag.text;
     });
-    fire.database().ref("user").child(this.props.id).child("agencies")
+    fire.database().ref("users").child(this.props.id).child("agencies")
     .set(updatedTags);
   }
 

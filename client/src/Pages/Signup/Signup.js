@@ -44,8 +44,6 @@ class Signup extends Component {
 
         // Add user if no problems
         if(this.state.formError === "") {
-            console.log(fire.auth().currentUser);
-
             fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(function(data) {
                 // Get info for current user
@@ -84,9 +82,16 @@ class Signup extends Component {
     }
 
     formatAgencyTagsForDB() {
-        return this.state.tags.map((tag) => {
+        /*
+        var updatedTags = [];
+        for(var tag_id in this.state.tags) {
+            var tag = this.state.tags[tag_id];
+            updatedTags[tag] = tag;
+        }*/
+        var updatedTags = this.state.tags.map(tag => {
             return tag.text;
         });
+        return updatedTags;
     }
 
     handlePic(event) {

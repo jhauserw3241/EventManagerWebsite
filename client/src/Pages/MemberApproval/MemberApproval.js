@@ -55,6 +55,7 @@ class MemberApproval extends Component {
 								phone_number={member.phone_number}
 								address={member.address}
 								notes={member.notes}
+								agencies={member.agencies}
 								pic={member.pic} />
 						)}
 					</div>
