@@ -10,7 +10,7 @@ import Modal from 'react-modal';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/Event.css';
-import PartnerComponent from '../PartnerComponent/PartnerComponent';
+import EventPartnerComponent from '../EventPartnerComponent/EventPartnerComponent';
 import { POINT_CONVERSION_HYBRID } from 'constants';
 
 // CSS and JS for datetime picker

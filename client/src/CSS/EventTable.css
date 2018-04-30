@@ -1,18 +1,18 @@
-.events-table {
+.events-table, .products-table {
     background-color: white;
     width: 100%;
 }
 
-.events-th {
+.events-th, .products-th {
     width: 50%;
     border-bottom: 1px solid black;
 }
 
-.events-tr {
+.events-tr, .events-tr {
     width: 100%;
 }
 
-.events-td {
+.events-td, .products-td {
     display: grid;
     grid-template-columns: 45px auto 100px;
 }

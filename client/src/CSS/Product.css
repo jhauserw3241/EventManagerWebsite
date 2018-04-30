@@ -1,0 +1,13 @@
+.product-header {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 100%;
+}
+
+.product-header>h1 {
+    width: 100%;
+}
+
+.product-base-info {
+    text-align: center;
+}

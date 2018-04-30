@@ -7,7 +7,10 @@ import Agencies from './Pages/Agencies/Agencies';
 import Events from './Pages/Events/Events';
 import Event from './Pages/Event/Event';
 import EventComponent from './Pages/EventComponent/EventComponent';
-import PartnerComponent from './Pages/PartnerComponent/PartnerComponent';
+import EventPartnerComponent from './Pages/EventPartnerComponent/EventPartnerComponent';
+import Products from './Pages/Products/Products';
+import Product from './Pages/Product/Product';
+import ProductPartnerComponent from './Pages/ProductPartnerComponent/ProductPartnerComponent';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Profile from './Pages/Profile/Profile';
 import Login from './Pages/Login/Login';
@@ -25,7 +28,10 @@ export const Main = () => (
 			<Route exact path='/events' component={Events} />
 			<Route exact path='/event/:id' component={Event} />
 			<Route exact path='/event/:event_id/components/:component_id' component={EventComponent} />
-			<Route exact path='/event/:event_id/partners' component={PartnerComponent} />
+			<Route exact path='/event/:event_id/partners' component={EventPartnerComponent} />
+			<Route exact path='/products' component={Products} />
+			<Route exact path='/product/:id' component={Product} />
+			<Route exact path='/product/:product_id/partners' component={ProductPartnerComponent} />
 			<Route exact path='/dashboard' component={Dashboard} />
 			<Route exact path='/profile' component={Profile} />
 			<Route exact path='/login' component={Login} />

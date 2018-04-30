@@ -3,12 +3,12 @@ import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/PartnerTable.css';
 
-class PartnerComponent extends Component {
+class ProductPartnerComponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            event_id: this.props.match.params.event_id,
+            product_id: this.props.match.params.product_id,
             partners: [],
             owner_id: "",
             headerColor: "#1C191E",
@@ -24,7 +24,7 @@ class PartnerComponent extends Component {
         var self = this;
 
         // Get event partner's names
-        fire.database().ref("events").child(this.state.event_id).on("value", function(data) {
+        fire.database().ref("products").child(this.state.product_id).on("value", function(data) {
             var event = data.val();
 
             self.setState({
@@ -35,13 +35,13 @@ class PartnerComponent extends Component {
     }
 
     allowEdit(partner_id) {
-        fire.database().ref("events").child(this.state.event_id).child("partners").child(partner_id).update({
+        fire.database().ref("products").child(this.state.product_id).child("partners").child(partner_id).update({
             priv: "Edit",
         });
     }
 
     removeEdit(partner_id) {
-        fire.database().ref("events").child(this.state.event_id).child("partners").child(partner_id).update({
+        fire.database().ref("products").child(this.state.product_id).child("partners").child(partner_id).update({
             priv: "View",
         });
     }
@@ -101,7 +101,7 @@ class PartnerComponent extends Component {
         };
         
 	    return(
-            <div className="PartnerComponent">
+            <div className="ProductPartnerComponent">
                 <div className="container">
                     <div className="content">
                         <table className="partner-table">
@@ -163,4 +163,4 @@ class PartnerComponent extends Component {
     }
 }
 
-export default PartnerComponent;
+export default ProductPartnerComponent;
