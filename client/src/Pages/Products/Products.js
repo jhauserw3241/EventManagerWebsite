@@ -34,26 +34,23 @@ class Products extends Component {
 		var productsRef = fire.database().ref("products");
 		productsRef.on("value", function(data) {
 			var products = data.val() ? data.val() : {};
-			console.log(products);
 
+			var temp = {};
 			for(var product_id in products) {
 				var product = products[product_id];
 
 				// Check if user is owner
 				if(product.owner_id === user_id) {
-					var temp = self.state.products;
 					temp[product.id] = product;
-					self.setState({ products: temp });
 				}
 
 				// Check if user is a event partner
 				var partners = product.partners ? product.partners : [];
 				if(user_id in partners) {
-					var temp = self.state.products;
-					temp[products.id] = product;
-					self.setState({ products: temp });
+					temp[product.id] = product;
 				}
 			}
+			self.setState({ products: temp });
 		});
 	}
 
@@ -78,7 +75,6 @@ class Products extends Component {
 		fire.database().ref("users").child(owner_id).once("value", function(data) {
 			var user = data.val();
 			var user_name = user.first_name + " " + user.last_name;
-			console.log(user_name);
 
 			var partnersList = {};
 			partnersList[owner_id] = {
@@ -86,12 +82,10 @@ class Products extends Component {
 				role: "Owner",
 				priv: "Owner",
 			}
-			console.log(partnersList);
 
 			// Create event
 			var curProductRef = fire.database().ref("products").push();
-			var product_id = curProductRef.path["pieces_"][1];
-			console.log(product_id);
+			var product_id = curProductRef.key;
 			curProductRef.set({
 				id: product_id,
 				name: self.state.name,
@@ -99,11 +93,9 @@ class Products extends Component {
 				owner_id: owner_id,
 				partners: partnersList,
 				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
-			}).catch(function(error) {
-				this.setState({ formError: error.code + ": " + error.message });
 			});
 
-			// Add this event to the list of events that is being tracked for the current user
+			// Add this product to the list of products that is being tracked for the current user
 			var updates = {};
 			updates['/users/' + owner_id + '/products/' + product_id] = product_id;
 			fire.database().ref().update(updates);
@@ -121,25 +113,6 @@ class Products extends Component {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
 	}
-
-	/*addProductPartner(event, id) {
-		event.preventDefault();
-
-		// Add a partner for the event
-		var curProductPartners = fire.database().ref("products").child(id).child("components").push();
-		var partner_id = curProductPartners.path["pieces_"][3];
-		curProductPartners.set({
-			id: partner_id,
-			component_type: "Agenda",
-			name: "Agenda",
-			content_type: "url",
-			path: "",
-			url: "https://www.google.com",
-			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
-		}).catch(function(error) {
-			this.setState({ formError: error.code + ": " + error.message });
-		});
-	}*/
 	
 	render() {
 		if(!fire.auth().currentUser) {

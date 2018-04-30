@@ -5,7 +5,7 @@ import './../../CSS/List.css';
 
 class ProductsList extends Component {	
 	render() {
-        console.log(this.props.products);
+        console.log('props.products', this.props.products);
         if (this.props.org === "cards") {
             return (
 				<div className="ProductsList list-container">
