@@ -7,10 +7,6 @@ import {
 	validPlanningEnd,
 	formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
-
-// CSS and JS for datetime picker
-import moment from './../../../node_modules/moment/moment';
-import "./../../../node_modules/react-datetime/css/react-datetime.css";
 import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
 
 class EditEventModal extends Component {
@@ -22,10 +18,10 @@ class EditEventModal extends Component {
 			name: "",
 			type: "",
 			location: "",
-			project_start: "",
+			planning_start: "",
 			event_start: "",
 			event_end: "",
-			project_end: "",
+			planning_end: "",
 			color: "",
         };
 
@@ -43,10 +39,10 @@ class EditEventModal extends Component {
 				name: event.name,
 				type: event.type,
 				location: event.location,
-				project_start: event.project_start,
+				planning_start: event.planning_start,
 				event_start: event.event_end,
 				event_end: event.event_end,
-				project_end: event.project_end,
+				planning_end: event.planning_end,
 				color: event.color,	
 			});
 		});
@@ -62,16 +58,12 @@ class EditEventModal extends Component {
 		updates['/events/' + self.state.id + '/name'] = self.state.name;
 		updates['/events/' + self.state.id + '/type'] = self.state.type;
 		updates['/events/' + self.state.id + '/location'] = self.state.location;
-		updates['/events/' + self.state.id + '/project_start'] = formatDateTime(self.state.project_start);
+		updates['/events/' + self.state.id + '/planning_start'] = formatDateTime(self.state.planning_start);
 		updates['/events/' + self.state.id + '/event_start'] = formatDateTime(self.state.event_start);
 		updates['/events/' + self.state.id + '/event_end'] = formatDateTime(self.state.event_end);
-		updates['/events/' + self.state.id + '/project_end'] = formatDateTime(self.state.project_end);
+		updates['/events/' + self.state.id + '/planning_end'] = formatDateTime(self.state.planning_end);
 		updates['/events/' + self.state.id + '/color'] = self.state.color;
         fire.database().ref().update(updates);
-	}
-
-	formatDateTime(momentObj) {
-		return moment(momentObj).format('MMMM DD, YYYY HH:mm');
 	}
 
 	changeEventColor = (color) => {
@@ -125,55 +117,55 @@ class EditEventModal extends Component {
 								</select>
 							</div>
 							<div className="form-group">
-								<label htmlFor="project-start">Project Start Date:</label>
+								<label htmlFor="planning-start">Planning Start:</label>
 								<DateTime
-									name="project-start"
-									value={this.formatDateTime(this.state.project_start)}
-									onChange={(event) => this.setState({ project_start: event._d })}
+									name="planning-start"
+									value={formatDateTime(this.state.planning_start)}
+									onChange={(event) => this.setState({ planning_start: event._d })}
 									isValidDate={(current) => validPlanningStart(
 										current,
 										this.state.event_start,
 										this.state.event_end,
-										this.state.project_end,
+										this.state.planning_end,
 									)}
 									required />
 							</div>
 							<div className="form-group">
-								<label htmlFor="event-start">Event Start Date:</label>
+								<label htmlFor="event-start">Event Start:</label>
 								<DateTime
 									name="event-start"
-									value={this.formatDateTime(this.state.event_start)}
+									value={formatDateTime(this.state.event_start)}
 									onChange={(event) => this.setState({ event_start: event._d })}
 									isValidDate={(current) => validEventStart(
-										this.state.project_start,
+										this.state.planning_start,
 										current,
 										this.state.event_end,
-										this.state.project_end,
+										this.state.planning_end,
 									)}
 									required />
 							</div>
 							<div className="form-group">
-								<label htmlFor="event-end">Event End Date:</label>
+								<label htmlFor="event-end">Event End:</label>
 								<DateTime
 									name="event-end"
-									value={this.formatDateTime(this.state.event_end)}
+									value={formatDateTime(this.state.event_end)}
 									onChange={(event) => this.setState({ event_end: event._d })}
 									isValidDate={(current) => validEventEnd(
-										this.state.project_start,
+										this.state.planning_start,
 										this.state.event_start,
 										current,
-										this.state.project_end,
+										this.state.planning_end,
 									)}
 									required />
 							</div>
 							<div className="form-group">
-								<label htmlFor="project-end">Project End Date:</label>
+								<label htmlFor="planning-end">Planning End Date:</label>
 								<DateTime
-									name="project-end"
-									value={this.formatDateTime(this.state.project_end)}
-									onChange={(event) => this.setState({ project_end: event._d })}
+									name="planning-end"
+									value={formatDateTime(this.state.planning_end)}
+									onChange={(event) => this.setState({ planning_end: event._d })}
 									isValidDate={(current) => validPlanningEnd(
-										this.state.project_start,
+										this.state.planning_start,
 										this.state.event_start,
 										this.state.event_end,
 										current,

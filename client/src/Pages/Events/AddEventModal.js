@@ -8,10 +8,6 @@ import {
 	formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
-
-// CSS and JS for datetime picker
-import moment from './../../../node_modules/moment/moment';
-import "./../../../node_modules/react-datetime/css/react-datetime.css";
 import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
 
 class AddEventModal extends Component {
@@ -22,8 +18,8 @@ class AddEventModal extends Component {
 			name: "",
 			type: "",
 			location: "",
-			projectStart: "",
-			projectEnd: "",
+			planningStart: "",
+			planningEnd: "",
 			eventStart: "",
 			eventEnd: "",
 		};
@@ -56,10 +52,10 @@ class AddEventModal extends Component {
 				name: self.state.name,
 				type: self.state.type,
 				location: self.state.location,
-				project_start: formatDateTime(self.state.projectStart),
-				project_end: formatDateTime(self.state.eventStart),
-				event_start: formatDateTime(self.state.eventEnd),
-				event_end: formatDateTime(self.state.projectEnd),
+				planning_start: formatDateTime(self.state.planningStart),
+				event_start: formatDateTime(self.state.eventStart),
+				event_end: formatDateTime(self.state.eventEnd),
+				planning_end: formatDateTime(self.state.planningEnd),
 				owner_id: owner_id,
 				partners: partnersList,
 				color: generateColor(),
@@ -150,51 +146,51 @@ class AddEventModal extends Component {
 								</select>
 							</div>
 							<div className="form-group">
-								<label htmlFor="project-start">Project Start Date:</label>
+								<label htmlFor="planning-start">Planning Start:</label>
 								<DateTime
-									name="project-start"
-									onChange={(event) => this.setState({projectStart: event._d})}
+									name="planning-start"
+									onChange={(event) => this.setState({planningStart: event._d})}
 									isValidDate={(current) => validPlanningStart(
 										current,
 										this.state.eventStart,
 										this.state.eventEnd,
-										this.state.projectEnd,
+										this.state.planningEnd,
 									)}
 									required />
 							</div>
 							<div className="form-group">
-								<label htmlFor="event-start">Event Start Date:</label>
+								<label htmlFor="event-start">Event Start:</label>
 								<DateTime
 									name="event-start"
 									onChange={(event) => this.setState({eventStart: event._d})}
 									isValidDate={(current) => validEventStart(
-										this.state.projectStart,
+										this.state.planningStart,
 										current,
 										this.state.eventEnd,
-										this.state.projectEnd,
+										this.state.planningEnd,
 									)}
 									required />
 							</div>
 							<div className="form-group">
-								<label htmlFor="event-end">Event End Date:</label>
+								<label htmlFor="event-end">Event End:</label>
 								<DateTime
 									name="event-end"
 									onChange={(event) => this.setState({eventEnd: event._d})}
 									isValidDate={(current) => validEventEnd(
-										this.state.projectStart,
+										this.state.planningStart,
 										this.state.eventStart,
 										current,
-										this.state.projectEnd,
+										this.state.planningEnd,
 									)}
 									required />
 							</div>
 							<div className="form-group">
-								<label htmlFor="project-end">Project End Date:</label>
+								<label htmlFor="planning-end">Planning End:</label>
 								<DateTime
-									name="project-end"
-									onChange={(event) => this.setState({projectEnd: event._d})}
+									name="planning-end"
+									onChange={(event) => this.setState({planningEnd: event._d})}
 									isValidDate={(current) => validPlanningEnd(
-										this.state.projectStart,
+										this.state.planningStart,
 										this.state.eventStart,
 										this.state.eventEnd,
 										current,

@@ -10,11 +10,6 @@ import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/Event.css';
 
-// CSS and JS for datetime picker
-import moment from './../../../node_modules/moment/moment';
-import "./../../../node_modules/react-datetime/css/react-datetime.css";
-import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
-
 class Event extends Component {
     constructor(props) {
         super(props);
@@ -48,10 +43,10 @@ class Event extends Component {
 				event_name: event.name,
 				event_type: event.type,
 				event_location: event.location,
-				project_start: event.project_start,
+				planning_start: event.planning_start,
 				event_start: event.event_start,
 				event_end: event.event_end,
-				project_end: event.project_end,
+				planning_end: event.planning_end,
 				owner_id: event.owner_id,
 				components: event.components ? Object.values(event.components) : [],
 				event_color: event.color,
@@ -103,10 +98,10 @@ class Event extends Component {
 									<strong>Type:</strong> {this.state.event_type}
 								</div>
 								<div className="event-dates">
-									<strong>Project Start:</strong> {formatDateTime(this.state.project_start)}<br />
+									<strong>Planningn Start:</strong> {formatDateTime(this.state.planning_start)}<br />
 									<strong>Event Start:</strong> {formatDateTime(this.state.event_start)}<br />
 									<strong>Event End:</strong> {formatDateTime(this.state.event_end)}<br />
-									<strong>Project End:</strong> {formatDateTime(this.state.project_end)}
+									<strong>Planning End:</strong> {formatDateTime(this.state.planning_end)}
 								</div>
 							</div>
 						</div>
