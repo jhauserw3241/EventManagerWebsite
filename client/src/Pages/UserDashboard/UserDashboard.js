@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import DashboardCard from './DashboardCard';
+import UserDashboardCard from './UserDashboardCard';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 
-class Dashboard extends Component {
+class UserDashboard extends Component {
 	constructor(props) {
 		super(props);
 
@@ -28,7 +28,7 @@ class Dashboard extends Component {
 			window.location = "/";
 		}
 		return (
-			<div className="Dashboard">
+			<div className="UserDashboard">
 				<div className="container">
 					{ (this.state.formError !== "") ?
 						<div class="alert alert-danger">
@@ -36,16 +36,21 @@ class Dashboard extends Component {
 						</div> : null }
 
 					<div className="list-container">
-						<DashboardCard
+						<UserDashboardCard
 							key={0}
 							name="Profile"
 							pic={this.state.member.pic}
 							link="/profile" />
-						<DashboardCard
+						<UserDashboardCard
 							key={1}
 							name="Member Approval"
 							pic="https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74"
 							link="/memberapproval" />
+						<UserDashboardCard
+							key={2}
+							name="Aesthetic Settings"
+							pic="https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Faesthetic_settings.png?alt=media&token=c083f7ae-77d7-4e30-b503-a42b219f62a9"
+							link="/aestheticsettings" />
 					</div>
 				</div>
 			</div>
@@ -53,4 +58,4 @@ class Dashboard extends Component {
 	}
 }
 
-export default Dashboard;
+export default UserDashboard;

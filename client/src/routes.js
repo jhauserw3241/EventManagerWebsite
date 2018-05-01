@@ -11,8 +11,9 @@ import EventPartnerComponent from './Pages/EventPartnerComponent/EventPartnerCom
 import Products from './Pages/Products/Products';
 import Product from './Pages/Product/Product';
 import ProductPartnerComponent from './Pages/ProductPartnerComponent/ProductPartnerComponent';
-import Dashboard from './Pages/Dashboard/Dashboard';
+import UserDashboard from './Pages/UserDashboard/UserDashboard';
 import Profile from './Pages/Profile/Profile';
+import AestheticSettings from './Pages/AestheticSettings/AestheticSettings';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
 import Signout from './Pages/Signout/Signout';
@@ -32,8 +33,9 @@ export const Main = () => (
 			<Route exact path='/products' component={Products} />
 			<Route exact path='/product/:id' component={Product} />
 			<Route exact path='/product/:product_id/partners' component={ProductPartnerComponent} />
-			<Route exact path='/dashboard' component={Dashboard} />
+			<Route exact path='/dashboard' component={UserDashboard} />
 			<Route exact path='/profile' component={Profile} />
+			<Route exact path='/aestheticsettings' component={AestheticSettings} />
 			<Route exact path='/login' component={Login} />
 			<Route exact path='/signup' component={Signup} />
 			<Route exact path='/signout' component={Signout} />

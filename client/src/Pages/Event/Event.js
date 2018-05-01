@@ -98,7 +98,7 @@ class Event extends Component {
 									<strong>Type:</strong> {this.state.event_type}
 								</div>
 								<div className="event-dates">
-									<strong>Planningn Start:</strong> {formatDateTime(this.state.planning_start)}<br />
+									<strong>Planning Start:</strong> {formatDateTime(this.state.planning_start)}<br />
 									<strong>Event Start:</strong> {formatDateTime(this.state.event_start)}<br />
 									<strong>Event End:</strong> {formatDateTime(this.state.event_end)}<br />
 									<strong>Planning End:</strong> {formatDateTime(this.state.planning_end)}

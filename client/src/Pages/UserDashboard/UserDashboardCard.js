@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './../../CSS/Card.css';
 
-class DashboardCard extends Component {
+class UserDashboardCard extends Component {
 	render() {
 		var cardImgStyle = {
             backgroundImage: `url(${this.props.pic})`
 		}
 
 		return (
-			<Link className="DashboardCard people-card" to={this.props.link}>
+			<Link className="UserDashboardCard people-card" to={this.props.link}>
 				<div
                     className="people-card-img"
                     style={cardImgStyle}></div>
@@ -21,4 +21,4 @@ class DashboardCard extends Component {
 	}
 }
 
-export default DashboardCard;
+export default UserDashboardCard;
