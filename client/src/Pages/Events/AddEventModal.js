@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { generateColor } from './../Common/Colors';
+import { validPlanningStart, validEventStart, validEventEnd, validPlanningEnd } from './../Common/EventHelpers';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 
@@ -23,10 +24,6 @@ class AddEventModal extends Component {
 		};
 
 		this.addEvent = this.addEvent.bind(this);
-		this.validProjectStart = this.validProjectStart.bind(this);
-		this.validEventStart = this.validEventStart.bind(this);
-		this.validEventEnd = this.validEventEnd.bind(this);
-		this.validProjectEnd = this.validProjectEnd.bind(this);
 	}
 
 	addEvent(event) {
@@ -102,102 +99,6 @@ class AddEventModal extends Component {
 			});
 		});
 	}
-
-	validProjectStart(current) {
-		var valid = true;
-
-		// Check that the project start is before the event start
-		if(	(this.state.eventStart !== "") &&
-			current.isAfter(this.state.eventStart)) {
-			valid = false;
-		}
-
-		// Check that the project start is before the event end
-		if(	(this.state.eventEnd !== "") &&
-			current.isAfter(this.state.eventEnd)) {
-			valid = false;
-		}
-
-		// Check that the project start is before the project end
-		if(	(this.state.projectEnd !== "") &&
-			current.isAfter(this.state.projectEnd)) {
-			valid = false;
-		}
-
-		return valid;
-	}
-
-	validEventStart(current) {
-		var valid = true;
-
-		// Check that the event start is after the project start
-		if(	(this.state.projectStart !== "") &&
-			current.isBefore(this.state.projectStart)) {
-			valid = false;
-		}
-
-		// Check that the event start is before the event end
-		if(	(this.state.eventEnd !== "") &&
-			current.isAfter(this.state.eventEnd)) {
-			valid = false;
-		}
-
-		// Check that the event start is before the project end
-		if(	(this.state.projectEnd !== "") &&
-			current.isAfter(this.state.projectEnd)) {
-			valid = false;
-		}
-
-		return valid;
-	}
-
-	validEventEnd(current) {
-		var valid = true;
-
-		// Check that the event end is after the project start
-		if(	(this.state.projectStart !== "") &&
-			current.isBefore(this.state.projectStart)) {
-			valid = false;
-		}
-
-		// Check that the event end is after the event start
-		if(	(this.state.eventStart !== "") &&
-			current.isBefore(this.state.eventStart)) {
-			valid = false;
-		}
-
-		// Check that the event end is before the project end
-		if(	(this.state.projectEnd !== "") &&
-			current.isAfter(this.state.projectEnd)) {
-			valid = false;
-		}
-
-		return valid;
-	}
-
-	validProjectEnd(current) {
-		var valid = true;
-
-		// Check that the project end is after the project start
-		if(	(this.state.projectStart !== "") &&
-			current.isBefore(this.state.projectStart)) {
-			valid = false;
-		}
-
-		// Check that the project end is after the event start
-		if(	(this.state.eventStart !== "") &&
-			current.isBefore(this.state.eventStart)) {
-			valid = false;
-		}
-
-		// Check that the project end is after the event end
-		if(	(this.state.eventEnd !== "") &&
-			current.isBefore(this.state.eventEnd)) {
-			valid = false;
-		}
-
-		return valid;
-	}
 	
 	render() {
 		return (
@@ -248,7 +149,12 @@ class AddEventModal extends Component {
 								<DateTime
 									name="project-start"
 									onChange={(event) => this.setState({projectStart: event._d})}
-									isValidDate={this.validProjectStart}
+									isValidDate={(current) => validPlanningStart(
+										current,
+										this.state.eventStart,
+										this.state.eventEnd,
+										this.state.projectEnd,
+									)}
 									required />
 							</div>
 							<div className="form-group">
@@ -256,7 +162,12 @@ class AddEventModal extends Component {
 								<DateTime
 									name="event-start"
 									onChange={(event) => this.setState({eventStart: event._d})}
-									isValidDate={this.validEventStart}
+									isValidDate={(current) => validEventStart(
+										this.state.projectStart,
+										current,
+										this.state.eventEnd,
+										this.state.projectEnd,
+									)}
 									required />
 							</div>
 							<div className="form-group">
@@ -264,7 +175,12 @@ class AddEventModal extends Component {
 								<DateTime
 									name="event-end"
 									onChange={(event) => this.setState({eventEnd: event._d})}
-									isValidDate={this.validEventEnd}
+									isValidDate={(current) => validEventEnd(
+										this.state.projectStart,
+										this.state.eventStart,
+										current,
+										this.state.projectEnd,
+									)}
 									required />
 							</div>
 							<div className="form-group">
@@ -272,7 +188,12 @@ class AddEventModal extends Component {
 								<DateTime
 									name="project-end"
 									onChange={(event) => this.setState({projectEnd: event._d})}
-									isValidDate={this.validProjectEnd}
+									isValidDate={(current) => validPlanningEnd(
+										this.state.projectStart,
+										this.state.eventStart,
+										this.state.eventEnd,
+										current,
+									)}
 									required />
 							</div>
 							<div className="form-group">

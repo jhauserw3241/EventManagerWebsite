@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import { generateColor } from './../Common/Colors';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
-import { generateColor } from '../Common/Colors';
 
 class AddProductModal extends Component {
 	constructor(props) {

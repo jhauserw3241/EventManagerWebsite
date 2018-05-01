@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { SketchPicker } from 'react-color';
+import { validPlanningStart, validEventStart, validEventEnd, validPlanningEnd } from './../Common/EventHelpers';
 import fire from './../../fire';
 
 // CSS and JS for datetime picker
@@ -24,10 +25,6 @@ class EditEventModal extends Component {
         };
 
 		this.editEvent = this.editEvent.bind(this);
-		this.validProjectStart = this.validProjectStart.bind(this);
-		this.validEventStart = this.validEventStart.bind(this);
-		this.validEventEnd = this.validEventEnd.bind(this);
-		this.validProjectEnd = this.validProjectEnd.bind(this);
 		this.formatDateTime = this.formatDateTime.bind(this);
 		this.changeEventColor = this.changeEventColor.bind(this);
 	}
@@ -67,94 +64,6 @@ class EditEventModal extends Component {
 		updates['/events/' + self.state.id + '/project_end'] = this.formatDateTime(self.state.project_end);
 		updates['/events/' + self.state.id + '/color'] = self.state.color;
         fire.database().ref().update(updates);
-	}
-
-	validProjectStart(current) {
-		// Check that the project start is before the event start
-		if(	(this.state.event_start !== "") &&
-			current.isAfter(this.state.event_start)) {
-			return false;
-		}
-
-		// Check that the project start is before the event end
-		if(	(this.state.event_end !== "") &&
-			current.isAfter(this.state.event_end)) {
-			return false;
-		}
-
-		// Check that the project start is before the project end
-		if(	(this.state.project_end !== "") &&
-			current.isAfter(this.state.project_end)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	validEventStart(current) {
-		// Check that the event start is after the project start
-		if(	(this.state.project_start !== "") &&
-			current.isBefore(this.state.project_start)) {
-			return false;
-		}
-
-		// Check that the event start is before the event end
-		if(	(this.state.event_end !== "") &&
-			current.isAfter(this.state.event_end)) {
-			return false;
-		}
-
-		// Check that the event start is before the project end
-		if(	(this.state.project_end !== "") &&
-			current.isAfter(this.state.project_end)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	validEventEnd(current) {
-		// Check that the event end is after the project start
-		if(	(this.state.project_start !== "") &&
-			current.isBefore(this.state.project_start)) {
-			return false;
-		}
-
-		// Check that the event end is after the event start
-		if(	(this.state.event_start !== "") &&
-			current.isBefore(this.state.event_start)) {
-			return false;
-		}
-
-		// Check that the event end is before the project end
-		if(	(this.state.project_end !== "") &&
-			current.isAfter(this.state.project_end)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	validProjectEnd(current) {
-		// Check that the project end is after the project start
-		if(	(this.state.project_start !== "") &&
-			current.isBefore(this.state.project_start)) {
-			return false;
-		}
-
-		// Check that the project end is after the event start
-		if(	(this.state.event_start !== "") &&
-			current.isBefore(this.state.event_start)) {
-			return false;
-		}
-
-		// Check that the project end is after the event end
-		if(	(this.state.event_end !== "") &&
-			current.isBefore(this.state.event_end)) {
-			return false;
-		}
-
-		return true;
 	}
 
 	formatDateTime(momentObj) {
@@ -217,7 +126,12 @@ class EditEventModal extends Component {
 									name="project-start"
 									value={this.formatDateTime(this.state.project_start)}
 									onChange={(event) => this.setState({ project_start: event._d })}
-									isValidDate={this.validProjectStart}
+									isValidDate={(current) => validPlanningStart(
+										current,
+										this.state.event_start,
+										this.state.event_end,
+										this.state.project_end,
+									)}
 									required />
 							</div>
 							<div className="form-group">
@@ -226,7 +140,12 @@ class EditEventModal extends Component {
 									name="event-start"
 									value={this.formatDateTime(this.state.event_start)}
 									onChange={(event) => this.setState({ event_start: event._d })}
-									isValidDate={this.validEventStart}
+									isValidDate={(current) => validEventStart(
+										this.state.project_start,
+										current,
+										this.state.event_end,
+										this.state.project_end,
+									)}
 									required />
 							</div>
 							<div className="form-group">
@@ -235,7 +154,12 @@ class EditEventModal extends Component {
 									name="event-end"
 									value={this.formatDateTime(this.state.event_end)}
 									onChange={(event) => this.setState({ event_end: event._d })}
-									isValidDate={this.validEventEnd}
+									isValidDate={(current) => validEventEnd(
+										this.state.project_start,
+										this.state.event_start,
+										current,
+										this.state.project_end,
+									)}
 									required />
 							</div>
 							<div className="form-group">
@@ -244,7 +168,12 @@ class EditEventModal extends Component {
 									name="project-end"
 									value={this.formatDateTime(this.state.project_end)}
 									onChange={(event) => this.setState({ project_end: event._d })}
-									isValidDate={this.validProjectEnd}
+									isValidDate={(current) => validPlanningEnd(
+										this.state.project_start,
+										this.state.event_start,
+										this.state.event_end,
+										current,
+									)}
 									required />
 							</div>
 							<div className="form-group">
