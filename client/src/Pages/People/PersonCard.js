@@ -73,7 +73,7 @@ class PersonCard extends Component {
 
 		var cardImgStyle = {
             backgroundImage: `url(${this.props.pic})`
-		}
+        }
 
 		return (
 			<div className="PersonCard people-card">
@@ -151,6 +151,7 @@ class PersonCard extends Component {
                                     <label htmlFor="agencies">Associated Agencies:</label>
                                     <AgencyTags
                                         id={this.props.id}
+                                        dismissTag={'#personInfoModal-' + this.props.id}
                                         readOnly={true} />
                                 </div>
                                 <div className="form-group">
