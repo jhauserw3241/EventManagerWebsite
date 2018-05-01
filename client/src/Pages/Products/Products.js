@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ItemsList from './../ItemsList/ItemsList';
+import ItemsDashboard from './../ItemsDashboard/ItemsDashboard';
 import { Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import fire from './../../fire';
@@ -11,13 +11,11 @@ class Products extends Component {
 
 		this.state = {
 			products: {},
-			org: "list",
 			name: "",
 			type: "",
 			formError: ""
 		};
 
-		this.toggleOrganization = this.toggleOrganization.bind(this);
 		this.addProduct = this.addProduct.bind(this);
 		this.deleteProduct = this.deleteProduct.bind(this);
 	}
@@ -53,14 +51,6 @@ class Products extends Component {
 			}
 			self.setState({ products: temp });
 		});
-	}
-
-	toggleOrganization(event) {
-		if(this.state.org === "list") {
-			this.setState({ org: "cards" });
-		} else {
-			this.setState({ org: "list" });
-		}
 	}
 
 	addProduct(event) {
@@ -183,31 +173,10 @@ class Products extends Component {
 							<strong>Error:</strong> {this.state.formError}
 						</div> : null }
 
-					<div className="mod-btns">
-						<div className="org-btns">
-							<Button
-								onClick={this.toggleOrganization}
-								disabled={this.state.org === "list"}
-								bsStyle={this.state.org === "list" ? "primary" : "default"} >
-								List
-							</Button>
-							<Button
-								onClick={this.toggleOrganization}
-								disabled={this.state.org === "cards"}
-								bsStyle={this.state.org === "cards" ? "primary" : "default"} >
-								Cards
-							</Button>
-						</div>
-						<div>
-							<Button data-toggle="modal" data-target="#addProductModal">Add</Button>
-						</div>
-					</div>
-
-					<ItemsList
+					<ItemsDashboard
 						dashboardName="Products"
-						databasePrefix="/products/"
 						linkPrefix="/product/"
-						org={this.state.org}
+						addModalId="#addProductModal"
 						items={this.state.products}
 						deleteItem={this.deleteProduct} />
 				</div>
