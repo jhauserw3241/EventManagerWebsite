@@ -22,11 +22,12 @@ class AestheticSettings extends Component {
             defaultUserPic: "",
             defaultAgencyPic: "",
             formError: "",
-            redirect: false,
+            disabled: true,
         }
 
         this.changeDefaultAgencyPic = this.changeDefaultAgencyPic.bind(this);
         this.changeDefaultUserPic = this.changeDefaultUserPic.bind(this);
+        this.saveSettings = this.saveSettings.bind(this);
     }
 
     componentDidMount() {
@@ -41,7 +42,7 @@ class AestheticSettings extends Component {
         }
 
         var settingsRef = fire.database().ref("users").child(user.uid).child("settings");
-        settingsRef.on("value", function(data) {
+        settingsRef.once("value", function(data) {
             var settings = data.val() ? data.val() : {};
             self.setState({
                 eventAgendaColor: settings.event_agenda_color ?
@@ -86,7 +87,37 @@ class AestheticSettings extends Component {
         );
     }
 
+    saveSettings() {
+        // Get user information
+        var user = fire.auth().currentUser;
+
+        // Return if the user isn't logged in
+        if(!user) {
+            return;
+        }
+        
+        // Update the settings
+        var updates= {};
+        updates['/users/' + user.uid + '/settings/event_agenda_color'] = this.state.eventAgendaColor;
+        updates['/users/' + user.uid + '/settings/event_budget_color'] = this.state.eventBudgetColor;
+        updates['/users/' + user.uid + '/settings/event_meeting_notes_color'] = this.state.eventMeetingNotesColor;
+        updates['/users/' + user.uid + '/settings/event_misc_color'] = this.state.eventMiscColor;
+        updates['/users/' + user.uid + '/settings/product_publication_color'] = this.state.productPublicationColor;
+        updates['/users/' + user.uid + '/settings/product_video_color'] = this.state.productVideoColor;
+        updates['/users/' + user.uid + '/settings/product_webinar_color'] = this.state.productWebinarColor;
+        updates['/users/' + user.uid + '/settings/product_misc_color'] = this.state.productMiscColor;
+        updates['/users/' + user.uid + '/settings/default_user_pic'] = this.state.defaultUserPic;
+        updates['/users/' + user.uid + '/settings/default_agency_pic'] = this.state.defaultAgencyPic;
+        fire.database().ref().update(updates);
+
+        // Disable settings edits
+        this.setState({ disabled: true });
+    }
+
 	render() {
+        console.log(this.state.disabled);
+        console.log(this.state.eventAgendaColor);
+
         return (
             <div className="AestheticSettings">
                 <div className="container">
@@ -96,65 +127,92 @@ class AestheticSettings extends Component {
                                 <strong>Error:</strong> {this.state.formError}
                             </div> : null }
                         <h1 className="form-header">Aesthetic Settings</h1>
-                        <h4 className="form-header">Event Colors</h4>
+
+                        <h3 className="form-header">Event Colors</h3>
                         <div className="form-group color-selector">
                             <label htmlFor="eventAgenda">Event Agenda Color:</label>
-                            <SketchPicker
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.eventAgendaColor }}></div>
+                                : <SketchPicker
                                 color={this.state.eventAgendaColor}
                                 onChangeComplete={ (color) =>
-                                    { this.setState({ eventAgendaColor: color.hex }); } } />
+                                    { this.setState({ eventAgendaColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
                             <label htmlFor="eventBudget">Event Budget Color:</label>
-                            <SketchPicker
-                                color={this.state.eventBudgetColor}
-                                onChangeComplete={ (color) =>
-                                    { this.setState({ eventBudgetColor: color.hex }); } } />
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.eventBudgetColor }}></div>
+                                : <SketchPicker
+                                    color={this.state.eventBudgetColor}
+                                    onChangeComplete={ (color) =>
+                                    { this.setState({ eventBudgetColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
                             <label htmlFor="eventMeetingNotes">Event Meeting Notes Color:</label>
-                            <SketchPicker
-                                color={this.state.eventMeetingNotesColor}
-                                onChangeComplete={ (color) =>
-                                    { this.setState({ eventMeetingNotesColor: color.hex }); } } />
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.eventMeetingNotesColor }}></div>
+                                : <SketchPicker
+                                    color={this.state.eventMeetingNotesColor}
+                                    onChangeComplete={ (color) =>
+                                        { this.setState({ eventMeetingNotesColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
                             <label htmlFor="eventMisc">Event Miscellaneous Color:</label>
-                            <SketchPicker
-                                color={this.state.eventMiscColor}
-                                onChangeComplete={ (color) =>
-                                    { this.setState({ eventMiscColor: color.hex }); } } />
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.eventMiscColor }}></div>
+                                : <SketchPicker
+                                    color={this.state.eventMiscColor}
+                                    onChangeComplete={ (color) =>
+                                        { this.setState({ eventMiscColor: color.hex }); } } /> }
                         </div>
-                        <h4 className="form-header">Product Colors</h4>
+
+                        <h3 className="form-header">Product Colors</h3>
                         <div className="form-group color-selector">
                             <label htmlFor="productPublication">Product Publication Color:</label>
-                            <SketchPicker
-                                color={this.state.productPublicationColor}
-                                onChangeComplete={ (color) =>
-                                    { this.setState({ productPublicationColor: color.hex }); } } />
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.productPublicationColor }}></div>
+                                : <SketchPicker
+                                    color={this.state.productPublicationColor}
+                                    onChangeComplete={ (color) =>
+                                        { this.setState({ productPublicationColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
                             <label htmlFor="productVideo">Product Video Color:</label>
-                            <SketchPicker
-                                color={this.state.productVideoColor}
-                                onChangeComplete={ (color) =>
-                                    { this.setState({ productVideoColor: color.hex }); } } />
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.productVideoColor }}></div>
+                                : <SketchPicker
+                                    color={this.state.productVideoColor}
+                                    onChangeComplete={ (color) =>
+                                        { this.setState({ productVideoColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
                             <label htmlFor="productWebinar">Product Webinar Color:</label>
-                            <SketchPicker
-                                color={this.state.productWebinarColor}
-                                onChangeComplete={ (color) =>
-                                    { this.setState({ productWebinarColor: color.hex }); } } />
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.productWebinarColor }}></div>
+                                : <SketchPicker
+                                    color={this.state.productWebinarColor}
+                                    onChangeComplete={ (color) =>
+                                        { this.setState({ productWebinarColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
                             <label htmlFor="productMisc">Product Miscellaneous Color:</label>
-                            <SketchPicker
-                                color={this.state.productMiscColor}
-                                onChangeComplete={ (color) =>
-                                    { this.setState({ productMiscColor: color.hex }); } } />
+                            {(this.state.disabled) ? 
+                                <div className="color-display"
+                                    style={{ backgroundColor: this.state.productMiscColor }}></div>
+                                : <SketchPicker
+                                    color={this.state.productMiscColor}
+                                    onChangeComplete={ (color) =>
+                                        { this.setState({ productMiscColor: color.hex }); } } />}
                         </div>
-                        <h4 className="form-header">Default Images</h4>
+
+                        <h3 className="form-header">Default Images</h3>
                         <div className="form-group">
                             <label htmlFor="defaultUserPic">Default User Picture:</label>
                             <input
@@ -179,15 +237,15 @@ class AestheticSettings extends Component {
                         </div>
                         {(this.state.disabled) ? 
                             <input
-                            type="button"
-                            className="btn btn-warning"
-                            value="Edit"
-                            onClick={(event) => this.setState({ disabled: false })} />
+                                type="button"
+                                className="btn btn-warning"
+                                value="Edit"
+                                onClick={(event) => this.setState({ disabled: false })} />
                             : <input
-                            type="button"
-                            className="btn btn-success"
-                            value="Save"
-                            onClick={this.signUp} /> }
+                                type="button"
+                                className="btn btn-success"
+                                value="Save"
+                                onClick={this.saveSettings} /> }
                     </div>
                 </div>
             </div>);
