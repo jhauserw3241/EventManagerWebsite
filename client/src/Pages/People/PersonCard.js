@@ -9,36 +9,15 @@ class PersonCard extends Component {
         super(props);
 
         this.state = {
-            person_agencies: [],
             shared_events: [],
         }
 
-        this.getAssociatedAgencies = this.getAssociatedAgencies.bind(this);
         this.getSharedEvents = this.getSharedEvents.bind(this);
     }
 
-    componentDidMount() {        
-        // Get a list of the agencies that the person is associated with
-        this.getAssociatedAgencies();
-
+    componentDidMount() {
         // Get the list of shared events for the person and the current user
         this.getSharedEvents();
-    }
-
-    getAssociatedAgencies() {
-        var self = this;
-        fire.database().ref("users").child(this.props.id).child("agencies").on("value", function(data) {
-            var agencies = data.val() ? data.val() : [];
-
-            var updatedAgencies = agencies.map((agency) => {
-                return {
-                    id: agency,
-                    text: agency,
-                }
-            });
-
-            self.setState({ person_agencies: updatedAgencies });
-        });
     }
 
     getSharedEvents() {
@@ -172,7 +151,7 @@ class PersonCard extends Component {
                                 <div className="form-group">
                                     <label htmlFor="agencies">Associated Agencies:</label>
                                     <AgencyTags
-                                        tags={this.state.person_agencies}
+                                        id={this.props.id}
                                         readOnly={true} />
                                 </div>
                                 <div className="form-group">

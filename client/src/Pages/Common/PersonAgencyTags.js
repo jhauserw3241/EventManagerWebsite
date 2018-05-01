@@ -12,7 +12,8 @@ class PersonAgencyTags extends Component {
 
     this.state = {
       tags: this.props.tags,
-      suggestions: []
+      suggestions: [],
+      redirect: false,
     };
 
     this.handleDelete = this.handleDelete.bind(this);
@@ -87,16 +88,20 @@ class PersonAgencyTags extends Component {
       return tag.text;
     });
 
-    fire.database().ref("curriculums").child(this.props.curriculum_id).child("grade_levels")
+    fire.database().ref("users").child(this.props.id).child("agencies")
     .set(updatedTags);
   }
 
   handleTagClick(index) {
     console.log('The tag at index ' + index + ' was clicked');
-    window.location = "/agencies";
+    this.setState({ redirect: true })
   }
 
   render() {
+    if (this.state.redirect) {
+      return(<Redirect to="/agencies" />);
+    }
+
     return (
       <TagInput
         tags={(this.props.shouldStore === false) ? this.props.tags : this.state.tags}
