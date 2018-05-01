@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PartnerComponent from './../PartnerComponent/PartnerComponent';
+import PartnerTable from './../PartnerTable/PartnerTable';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/PartnerTable.css';
@@ -46,7 +46,7 @@ class ProductPartnerComponent extends Component {
 
     render() {
 	    return(
-            <PartnerComponent
+            <PartnerTable
                 id={this.state.product_id}
                 owner_id={this.state.owner_id}
                 partners={this.state.partners}

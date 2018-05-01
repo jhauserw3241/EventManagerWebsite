@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/PartnerTable.css';
 
-class PartnerComponent extends Component {
+class PartnerTable extends Component {
     constructor(props) {
         super(props);
 
@@ -71,7 +71,7 @@ class PartnerComponent extends Component {
         };
         
 	    return(
-            <div className="PartnerComponent">
+            <div className="PartnerTable">
                 <div className="container">
                     <div className="content">
                         <table className="partner-table">
@@ -133,4 +133,4 @@ class PartnerComponent extends Component {
     }
 }
 
-export default PartnerComponent;
+export default PartnerTable;

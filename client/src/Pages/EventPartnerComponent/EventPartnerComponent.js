@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PartnerComponent from './../PartnerComponent/PartnerComponent';
+import PartnerTable from './../PartnerTable/PartnerTable';
 import fire from './../../fire';
-import './../../CSS/PartnerTable.css';
+import './../../CSS/Table.css';
 
 class EventPartnerComponent extends Component {
     constructor(props) {
@@ -45,7 +45,7 @@ class EventPartnerComponent extends Component {
 
     render() {        
 	    return(
-            <PartnerComponent
+            <PartnerTable
                 id={this.state.id}
                 owner_id={this.state.owner_id}
                 partners={this.state.partners}
