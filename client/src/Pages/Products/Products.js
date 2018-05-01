@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ProductsList from './ProductsList';
+import ItemsList from './../ItemsList/ItemsList';
+import { Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
@@ -116,7 +117,7 @@ class Products extends Component {
 	
 	render() {
 		if(!fire.auth().currentUser) {
-			window.location = "/"
+			return(<Redirect to="/" />);
 		}
 
 		return (
@@ -201,11 +202,14 @@ class Products extends Component {
 							<Button data-toggle="modal" data-target="#addProductModal">Add</Button>
 						</div>
 					</div>
-					<ProductsList
+
+					<ItemsList
+						dashboardName="Products"
+						databasePrefix="/products/"
+						linkPrefix="/product/"
 						org={this.state.org}
-						products={this.state.products}
-						addProductPartner={this.addProductPartner}
-						deleteProduct={this.deleteProduct} />
+						items={this.state.products}
+						deleteItem={this.deleteProduct} />
 				</div>
 			</div>
 		);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import EventsList from './EventsList';
+import ItemsList from './../ItemsList/ItemsList';
+import { Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import Modal from 'react-modal';
 import fire from './../../fire';
@@ -17,7 +18,6 @@ class Events extends Component {
 		this.state = {
 			events: {},
 			org: "list",
-			modalIsOpen: false,
 			name: "",
 			type: "",
 			location: "",
@@ -29,8 +29,6 @@ class Events extends Component {
 		};
 
 		this.toggleOrganization = this.toggleOrganization.bind(this);
-		this.openModal = this.openModal.bind(this);
-		this.closeModal = this.closeModal.bind(this);
 		this.addEvent = this.addEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
 		this.validProjectStart = this.validProjectStart.bind(this);
@@ -79,14 +77,6 @@ class Events extends Component {
 		} else {
 			this.setState({ org: "list" });
 		}
-	}
-
-	openModal() {
-		this.setState({modalIsOpen: true});
-	}
-
-	closeModal() {
-		this.setState({modalIsOpen: false});
 	}
 
 	addEvent(event) {
@@ -294,7 +284,7 @@ class Events extends Component {
 	
 	render() {
 		if(!fire.auth().currentUser) {
-			window.location = "/"
+			return(<Redirect to="/" />);
 		}
 
 		return (
@@ -421,11 +411,12 @@ class Events extends Component {
 							<Button data-toggle="modal" data-target="#addEventModal">Add</Button>
 						</div>
 					</div>
-					<EventsList
+					<ItemsList
+						dashboardName="Events"
+						linkPrefix="/event/"
 						org={this.state.org}
-						events={this.state.events}
-						addEventPartner={this.addEventPartner}
-						deleteEvent={this.deleteEvent} />
+						items={this.state.events}
+						deleteItem={this.deleteEvent} />
 				</div>
 			</div>
 		);

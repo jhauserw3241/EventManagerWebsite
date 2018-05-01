@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../../CSS/EventTable.css';
+import '../../CSS/Table.css';
 
-class EventTable extends Component {
+class ItemsTable extends Component {
     constructor(props) {
         super(props);
 
@@ -14,6 +14,31 @@ class EventTable extends Component {
     }
     
     render() {
+        // Get columns
+        var columns= [
+            {
+                key: "name",
+                name: this.props.dashboardName
+            }
+        ]
+
+        // Get data
+        var items_count = 0;
+        var data = [];
+        for(var item_id in this.props.items) {
+            var item = this.props.items[item_id];
+            data.push({
+                id: item.id,
+                num: items_count,
+                name: item.name,
+                link: this.props.linkPrefix + item.id,
+                color: item.color,
+            });
+
+            items_count += 1;
+        }
+
+        // Set table styles
         var headerRowStyle = {
             "backgroundColor": this.state.headerColor,
             "color": "white"
@@ -28,19 +53,19 @@ class EventTable extends Component {
         }
 
         var columnWidthStyle = {
-            width: 100 / this.props.columns.length + "%"
+            width: 100 / columns.length + "%"
         };
         
         return(
-            <div className="EventTable">
-                <table className="events-table">
+            <div className="ItemsTable">
+                <table className="items-table">
                     <thead>
                         <tr
-                            className="events-tr"
+                            className="table-tr"
                             style={headerRowStyle}>
-                            {this.props.columns.map(column =>
+                            {columns.map(column =>
                                 <th
-                                    className="events-th"
+                                    className="table-th"
                                     style={columnWidthStyle}>
                                     {column.name}
                                 </th>
@@ -48,20 +73,20 @@ class EventTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.data.map(d =>
+                        {data.map(d =>
                             <tr
-                                className="events-tr"
+                                className="table-tr"
                                 style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
-                                {this.props.columns.map(column =>
+                                {columns.map(column =>
                                     <td
-                                        className="events-td"
+                                        className="table-td"
                                         style={columnWidthStyle}>
                                         <div className="colorBox" style={{"backgroundColor": d["color"]}}></div>
                                         <Link className="table-txt" to={d["link"]}>{d[column.key]}</Link>
-                                        { this.props.deleteEvent ?
+                                        { this.props.deleteItem ?
                                             <button
                                                 className="btn btn-danger table-delete-btn"
-                                                onClick={(event) => this.props.deleteEvent(event, d["id"])}>
+                                                onClick={(event) => this.props.deleteItem(event, d["id"])}>
                                                 Delete
                                             </button> : null }
                                     </td> 
@@ -75,4 +100,4 @@ class EventTable extends Component {
     }
 }
 
-export default EventTable;
+export default ItemsTable;

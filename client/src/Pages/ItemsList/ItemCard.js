@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './../../CSS/Card.css';
 
-class EventCard extends Component {
+class ItemCard extends Component {
 	render() {
 		var cardImgStyle = {
 			"backgroundColor": this.props.color
 		};
 
 		return (
-			<Link className="EventCard side-card" to={"/event/" + this.props.id}>
+			<Link className="ItemCard side-card" to={this.props.linkPrefix + this.props.id}>
 				<div className="side-card-img" style={cardImgStyle}></div>
 				<div className="side-card-text">
 					{this.props.name}
@@ -26,4 +26,4 @@ class EventCard extends Component {
 	}
 }
 
-export default EventCard;
+export default ItemCard;
