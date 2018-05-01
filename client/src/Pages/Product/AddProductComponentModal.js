@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { generateColor } from './../Common/Colors';
 import fire from './../../fire';
 
 class AddComponentModal extends Component {
@@ -45,7 +46,7 @@ class AddComponentModal extends Component {
 			content_type: this.state.content_type,
             file: this.state.file ? this.state.file : "",
             url: this.state.url ? this.state.url : "",
-			color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+			color: generateColor(),
 		})
 		.then(function() {
 			// Reset event component fields to be the defaults

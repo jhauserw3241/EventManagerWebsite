@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { generateColor } from './../Common/Colors';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
+import { generateColor } from '../Common/Colors';
 
 class AddProductModal extends Component {
 	constructor(props) {
@@ -45,7 +47,7 @@ class AddProductModal extends Component {
 				type: self.state.type,
 				owner_id: owner_id,
 				partners: partnersList,
-				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+				color: generateColor(),
 			});
 
 			// Add this product to the list of products that is being tracked for the current user

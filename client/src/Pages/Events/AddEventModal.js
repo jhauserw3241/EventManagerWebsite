@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { generateColor } from './../Common/Colors';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 
@@ -59,7 +60,7 @@ class AddEventModal extends Component {
 				event_end: moment(self.state.projectEnd).format('MMMM DD, YYYY HH:mm'),
 				owner_id: owner_id,
 				partners: partnersList,
-				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+				color: generateColor(),
 			}).catch(function(error) {
 				this.setState({ formError: error.code + ": " + error.message });
 			});
@@ -80,7 +81,7 @@ class AddEventModal extends Component {
 				content_type: "url",
 				path: "",
 				url: "https://www.google.com",
-				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+				color: generateColor(),
 			}).catch(function(error) {
 				this.setState({ formError: error.code + ": " + error.message });
 			});
@@ -95,7 +96,7 @@ class AddEventModal extends Component {
 				content_type: "url",
 				path: "",
 				url: "https://www.stackoverflow.com",
-				color: "#"+((1<<24)*Math.random()|0).toString(16), // Generate random color
+				color: generateColor(),
 			}).catch(function(error) {
 				this.setState({ formError: error.code + ": " + error.message });
 			});
