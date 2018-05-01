@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-import { SketchPicker } from 'react-color';
 import EventComponentCard from './EventComponentCard';
 import PartnersComponentCard from './PartnersComponentCard';
 import EditEventModal from './EditEventModal';
 import AddComponentModal from './AddComponentModal';
 import AddPartnerModal from './AddPartnerModal';
 import { Button } from 'react-bootstrap';
-import Modal from 'react-modal';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/Event.css';
-import EventPartnerComponent from '../EventPartnerComponent/EventPartnerComponent';
-import { POINT_CONVERSION_HYBRID } from 'constants';
 
 // CSS and JS for datetime picker
 import moment from './../../../node_modules/moment/moment';
 import "./../../../node_modules/react-datetime/css/react-datetime.css";
-import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
 
 class Event extends Component {
     constructor(props) {

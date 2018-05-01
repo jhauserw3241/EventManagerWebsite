@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import Modal from 'react-modal';
 import fire from './../../fire';
 
 class AddPartnerModal extends Component {
@@ -64,7 +62,7 @@ class AddPartnerModal extends Component {
 					value={person_id}
 					// Check if the person is already added to the event
 					disabled={
-						(person_id == this.state.owner_id) ||
+						(person_id === this.state.owner_id) ||
 						(Object.keys(this.state.partners).indexOf(person_id) > -1)
 					}>
 					{person.first_name + " " + person.last_name}

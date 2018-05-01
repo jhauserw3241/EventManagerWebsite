@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ItemsDashboard from './../ItemsDashboard/ItemsDashboard';
 import AddProductModal from './AddProductModal';
 import { Redirect } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 
@@ -53,8 +52,6 @@ class Products extends Component {
 
 	deleteProduct(event, id) {
 		event.preventDefault();
-
-		var self = this;
 
 		var curProductRef = fire.database().ref("products").child(id);
 		curProductRef.remove()

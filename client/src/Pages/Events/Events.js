@@ -28,32 +28,28 @@ class Events extends Component {
 			eventsRef.on("value", function(data) {
 				var events = data.val() ? data.val() : [];
 
+				var temp = {};
 				for(var event_id in events) {
 					var event = events[event_id];
 
 					// Check if user is owner
 					if(event.owner_id === user_id) {
-						var temp = self.state.events;
 						temp[event.id] = event;
-						self.setState({ events: temp });
 					}
 
 					// Check if user is a event partner
 					var partners = event.partners ? event.partners : [];
 					if(user_id in partners) {
-						var temp = self.state.events;
 						temp[event.id] = event;
-						self.setState({ events: temp });
 					}
 				}
+				self.setState({ events: temp });
 			});
 		}
 	}
 
 	deleteEvent(event, id) {
 		event.preventDefault();
-
-		var self = this;
 
 		var curEventRef = fire.database().ref("events").child(id);
 		curEventRef.remove()

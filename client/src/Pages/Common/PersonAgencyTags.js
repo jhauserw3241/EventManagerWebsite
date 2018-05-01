@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import  { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import TagInput from './TagInput';
 import fire from './../../fire';
 import './../../CSS/Tag.css';
-import { WithContext as ReactTags } from 'react-tag-input';
 
 class PersonAgencyTags extends Component {
   constructor(props) {
@@ -70,8 +68,8 @@ class PersonAgencyTags extends Component {
     var tags = [...this.state.tags, ...[tag]];
     var updatedTags = [];
     for(var tag_id in tags) {
-      var tag = tags[tag_id];
-      updatedTags[tag.text] = tag.text;
+      var cur_tag = tags[tag_id];
+      updatedTags[cur_tag.text] = cur_tag.text;
     }
     fire.database().ref("users").child(this.props.id).child("agencies")
     .set(updatedTags);

@@ -13,8 +13,6 @@ class EventComponentCard extends Component {
 	deleteComponent(event) {
 		event.preventDefault();
 
-		var self = this;
-
 		// Create event
 		fire.database().ref("events").child(this.props.event_id).child("components").child(this.props.component_id).remove();
 	}

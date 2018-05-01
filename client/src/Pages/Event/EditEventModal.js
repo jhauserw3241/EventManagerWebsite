@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import { SketchPicker } from 'react-color';
-import EventComponentCard from './EventComponentCard';
-import PartnersComponentCard from './PartnersComponentCard';
-import { Button } from 'react-bootstrap';
-import Modal from 'react-modal';
 import fire from './../../fire';
 
 // CSS and JS for datetime picker

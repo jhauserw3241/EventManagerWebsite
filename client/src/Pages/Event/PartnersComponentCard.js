@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import fire from './../../fire';
 import './../../CSS/Card.css';
 
 class PartnersComponentCard extends Component {

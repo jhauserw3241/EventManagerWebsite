@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import './../../CSS/Tag.css';
 import { WithContext as ReactTags } from 'react-tag-input';
 

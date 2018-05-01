@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import AgencyCard from './AgencyCard';
-import { Button } from 'react-bootstrap';
-import Modal from 'react-modal';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 

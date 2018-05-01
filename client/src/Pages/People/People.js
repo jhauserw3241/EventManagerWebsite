@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PersonCard from './PersonCard';
-import { Button } from 'react-bootstrap';
-import Modal from 'react-modal';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 

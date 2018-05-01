@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { SketchPicker } from 'react-color';
-import { Button } from 'react-bootstrap';
 import fire from './../../fire';
 
 class EditProductModal extends Component {

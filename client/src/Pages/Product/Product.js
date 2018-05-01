@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SketchPicker } from 'react-color';
 import ProductComponentCard from './ProductComponentCard';
 import ProductPartnersComponentCard from './ProductPartnersComponentCard';
 import EditProductModal from './EditProductModal';
@@ -9,8 +8,6 @@ import { Button } from 'react-bootstrap';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 import './../../CSS/Event.css';
-import ProductPartnerComponent from '../ProductPartnerComponent/ProductPartnerComponent';
-import { POINT_CONVERSION_HYBRID } from 'constants';
 
 class Product extends Component {
     constructor(props) {

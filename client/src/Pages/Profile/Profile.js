@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import  { Redirect } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/Form.css';
 
@@ -73,7 +72,7 @@ class Profile extends Component {
             address: self.state.address,
             notes: self.state.notes,
             pic: self.state.pic,
-        }).catch(function(error) {error
+        }).catch(function(error) {
             self.setState({ formError: error.code + ": " + error.message });
         });
 

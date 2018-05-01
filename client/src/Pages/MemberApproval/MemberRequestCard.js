@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import AgencyTags from './../Common/PersonAgencyTags';
 import fire from './../../fire';
 import './../../CSS/Card.css';

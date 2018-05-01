@@ -76,8 +76,6 @@ class EventComponent extends Component {
     editComponent(event) {
         event.preventDefault();
 
-		var self = this;
-
 		// Edit event component
         var updates = {};
         updates['/events/' + this.state.event_id + '/components/' + this.state.component_id] = {
@@ -212,8 +210,16 @@ class EventComponent extends Component {
                             data-toggle="modal"
                             data-target="#editEventComponentModal">Edit</button> : null }
                         {(this.state.content_type === "file") ? 
-                            <iframe className="agenda-iframe" src={this.state.file} allowFullScreen></iframe>
-                            : <iframe className="agenda-iframe" src={this.state.url} allowFullScreen></iframe> }
+                            <iframe
+                                className="agenda-iframe"
+                                src={this.state.file}
+                                title={this.props.id}
+                                allowFullScreen></iframe>
+                            : <iframe
+                                className="agenda-iframe"
+                                src={this.state.url}
+                                title={this.props.id}
+                                allowFullScreen></iframe> }
                     </div>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import Modal from 'react-modal';
 import fire from './../../fire';
 
 class AddComponentModal extends Component {
