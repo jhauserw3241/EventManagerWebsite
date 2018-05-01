@@ -103,10 +103,10 @@ class Event extends Component {
 									<strong>Type:</strong> {this.state.event_type}
 								</div>
 								<div className="event-dates">
-									<strong>Project Start:</strong> {formatDateTime(this.state.updated_project_start)}<br />
-									<strong>Event Start:</strong> {formatDateTime(this.state.updated_event_start)}<br />
-									<strong>Event End:</strong> {formatDateTime(this.state.updated_event_end)}<br />
-									<strong>Project End:</strong> {formatDateTime(this.state.updated_project_end)}
+									<strong>Project Start:</strong> {formatDateTime(this.state.project_start)}<br />
+									<strong>Event Start:</strong> {formatDateTime(this.state.event_start)}<br />
+									<strong>Event End:</strong> {formatDateTime(this.state.event_end)}<br />
+									<strong>Project End:</strong> {formatDateTime(this.state.project_end)}
 								</div>
 							</div>
 						</div>
