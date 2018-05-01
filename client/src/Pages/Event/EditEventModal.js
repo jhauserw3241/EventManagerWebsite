@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { SketchPicker } from 'react-color';
-import { validPlanningStart, validEventStart, validEventEnd, validPlanningEnd } from './../Common/EventHelpers';
+import {
+	validPlanningStart,
+	validEventStart,
+	validEventEnd,
+	validPlanningEnd,
+	formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
 
 // CSS and JS for datetime picker
@@ -25,7 +30,6 @@ class EditEventModal extends Component {
         };
 
 		this.editEvent = this.editEvent.bind(this);
-		this.formatDateTime = this.formatDateTime.bind(this);
 		this.changeEventColor = this.changeEventColor.bind(this);
 	}
 	
@@ -58,10 +62,10 @@ class EditEventModal extends Component {
 		updates['/events/' + self.state.id + '/name'] = self.state.name;
 		updates['/events/' + self.state.id + '/type'] = self.state.type;
 		updates['/events/' + self.state.id + '/location'] = self.state.location;
-		updates['/events/' + self.state.id + '/project_start'] = this.formatDateTime(self.state.project_start);
-		updates['/events/' + self.state.id + '/event_start'] = this.formatDateTime(self.state.event_start);
-		updates['/events/' + self.state.id + '/event_end'] = this.formatDateTime(self.state.event_end);
-		updates['/events/' + self.state.id + '/project_end'] = this.formatDateTime(self.state.project_end);
+		updates['/events/' + self.state.id + '/project_start'] = formatDateTime(self.state.project_start);
+		updates['/events/' + self.state.id + '/event_start'] = formatDateTime(self.state.event_start);
+		updates['/events/' + self.state.id + '/event_end'] = formatDateTime(self.state.event_end);
+		updates['/events/' + self.state.id + '/project_end'] = formatDateTime(self.state.project_end);
 		updates['/events/' + self.state.id + '/color'] = self.state.color;
         fire.database().ref().update(updates);
 	}

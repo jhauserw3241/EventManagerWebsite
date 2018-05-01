@@ -1,3 +1,5 @@
+import moment from './../../../node_modules/moment/moment';
+
 export function validPlanningStart(current, eventStart, eventEnd, planningEnd) {
     var valid = true;
 
@@ -92,4 +94,8 @@ export function validPlanningEnd(planningStart, eventStart, eventEnd, current) {
     }
 
     return valid;
+}
+
+export function formatDateTime(momentObj) {
+    return moment(momentObj).format('MMMM DD, YYYY HH:mm');
 }

@@ -4,6 +4,7 @@ import PartnersComponentCard from './PartnersComponentCard';
 import EditEventModal from './EditEventModal';
 import AddComponentModal from './AddComponentModal';
 import AddPartnerModal from './AddPartnerModal';
+import { formatDateTime } from './../Common/EventHelpers';
 import { Button } from 'react-bootstrap';
 import fire from './../../fire';
 import './../../CSS/Card.css';
@@ -82,10 +83,6 @@ class Event extends Component {
 		return false;
 	}
 
-	formatDateTime(momentObj) {
-		return moment(momentObj).format('MMMM DD, YYYY HH:mm');
-	}
-
 	render() {
         return (
 			<div className="Event">
@@ -106,10 +103,10 @@ class Event extends Component {
 									<strong>Type:</strong> {this.state.event_type}
 								</div>
 								<div className="event-dates">
-									<strong>Project Start:</strong> {this.formatDateTime(this.state.updated_project_start)}<br />
-									<strong>Event Start:</strong> {this.formatDateTime(this.state.updated_event_start)}<br />
-									<strong>Event End:</strong> {this.formatDateTime(this.state.updated_event_end)}<br />
-									<strong>Project End:</strong> {this.formatDateTime(this.state.updated_project_end)}
+									<strong>Project Start:</strong> {formatDateTime(this.state.updated_project_start)}<br />
+									<strong>Event Start:</strong> {formatDateTime(this.state.updated_event_start)}<br />
+									<strong>Event End:</strong> {formatDateTime(this.state.updated_event_end)}<br />
+									<strong>Project End:</strong> {formatDateTime(this.state.updated_project_end)}
 								</div>
 							</div>
 						</div>

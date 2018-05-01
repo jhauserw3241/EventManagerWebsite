@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { generateColor } from './../Common/Colors';
-import { validPlanningStart, validEventStart, validEventEnd, validPlanningEnd } from './../Common/EventHelpers';
+import {
+	validPlanningStart,
+	validEventStart,
+	validEventEnd,
+	validPlanningEnd,
+	formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 
@@ -51,10 +56,10 @@ class AddEventModal extends Component {
 				name: self.state.name,
 				type: self.state.type,
 				location: self.state.location,
-				project_start: moment(self.state.projectStart).format('MMMM DD, YYYY HH:mm'),
-				project_end: moment(self.state.eventStart).format('MMMM DD, YYYY HH:mm'),
-				event_start: moment(self.state.eventEnd).format('MMMM DD, YYYY HH:mm'),
-				event_end: moment(self.state.projectEnd).format('MMMM DD, YYYY HH:mm'),
+				project_start: formatDateTime(self.state.projectStart),
+				project_end: formatDateTime(self.state.eventStart),
+				event_start: formatDateTime(self.state.eventEnd),
+				event_end: formatDateTime(self.state.projectEnd),
 				owner_id: owner_id,
 				partners: partnersList,
 				color: generateColor(),
