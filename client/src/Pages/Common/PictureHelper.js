@@ -1,6 +1,6 @@
 import fire from './../../fire';
 
-export function handlePictureSelected(event, handleError, folderName, fileName) {
+export function handlePictureSelected(event, handleSuccess, handleError, folderName, fileName) {
     event.preventDefault();
 
     // Get file from input field
@@ -13,7 +13,7 @@ export function handlePictureSelected(event, handleError, folderName, fileName) 
     var ref = fire.storage().ref(folderName).child(file_name);        
     ref.put(file).then(()=>{
         ref.getDownloadURL().then((url) => {
-            return url;
+            handleSuccess(url);
         }).catch((err) => {
             handleError(err.code + ": " + err.message);
         });
