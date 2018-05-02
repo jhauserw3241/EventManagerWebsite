@@ -33,7 +33,7 @@ class EventComponentCard extends Component {
 						<button
 							className="btn btn-danger card-delete-btn"
 							onClick={this.deleteComponent}>
-							Delete
+							<i class="fa fa-trash"></i>
 						</button>
 					</div> : null }
 			</Link>

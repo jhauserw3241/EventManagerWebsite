@@ -65,7 +65,8 @@ class People extends Component {
 					<button
 						className="btn btn-success"
 						data-toggle="modal"
-						data-target="#addPersonModal">Add Person</button>
+						data-target="#addPersonModal">
+						<i className="fa fa-plus"></i> Person</button>
 					<div className="list-container">
 						{this.state.users.map(person =>
 							<PersonCard

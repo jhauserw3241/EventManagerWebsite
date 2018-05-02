@@ -111,13 +111,13 @@ class PartnerTable extends Component {
                                                 <button
                                                     className="btn btn-danger"
                                                     onClick={() => this.props.removeEdit(d["id"])}>
-                                                    Remove Edit
+                                                    <i class="fa fa-eye"></i>
                                                 </button> : null }
                                             {((cur_user_id === this.props.owner_id) && (d["priv"] === "View")) ? 
                                                 <button
                                                     className="btn btn-success"
                                                     onClick={() => this.props.allowEdit(d["id"])}>
-                                                    Allow Edit
+                                                    <i class="fa fa-edit"></i>
                                                 </button> : null }
                                             {((cur_user_id === this.props.owner_id) && (d["priv"] === "Owner")) ?
                                                 d["priv"] : null }

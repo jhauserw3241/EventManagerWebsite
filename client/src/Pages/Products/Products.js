@@ -77,6 +77,7 @@ class Products extends Component {
 
 					<ItemsDashboard
 						dashboardName="Products"
+						newItemName="Product"
 						linkPrefix="/product/"
 						addModalId="#addProductModal"
 						items={this.state.products}

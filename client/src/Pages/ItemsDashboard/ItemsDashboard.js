@@ -38,17 +38,22 @@ class ItemsDashboard extends Component {
 								onClick={this.toggleOrganization}
 								disabled={this.state.org === "list"}
 								bsStyle={this.state.org === "list" ? "primary" : "default"} >
-								List
+								<i class="fa fa-list-ul"></i>
 							</Button>
 							<Button
 								onClick={this.toggleOrganization}
 								disabled={this.state.org === "cards"}
 								bsStyle={this.state.org === "cards" ? "primary" : "default"} >
-								Cards
+								<i class="fa fa-th-large"></i>
 							</Button>
 						</div>
 						<div>
-							<Button data-toggle="modal" data-target={this.props.addModalId}>Add</Button>
+							<Button
+								className="btn btn-success"
+								data-toggle="modal"
+								data-target={this.props.addModalId}>
+								<i className="fa fa-plus"></i> {this.props.newItemName}
+							</Button>
 						</div>
 					</div>
 

@@ -80,7 +80,10 @@ class Login extends Component {
                                         onChange={(event) => this.setState({password: event.target.value})}
                                         required />
                                 </div>
-                                <input type="submit" value="Submit" />
+                                <input
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    value="Submit" />
                             </form>
                         </div>
                     </div>

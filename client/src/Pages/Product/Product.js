@@ -93,19 +93,19 @@ class Product extends Component {
 										className="btn btn-success"
 										data-toggle="modal"
 										data-target={"#addProductComponentModal-" + this.props.id}>
-										Add Component
+										<i className="fa fa-plus"></i> Component
 									</Button>
 									<Button
 										className="btn btn-success"
 										data-toggle="modal"
 										data-target={"#addProductPartnerModal-" + this.props.id}>
-										Add Partner
+										<i className="fa fa-plus"></i> Partner
 									</Button>
 									<Button
 										className="btn btn-warning"
 										data-toggle="modal"
 										data-target={"#editProductModal"}>
-										Edit Product
+										<i class="fa fa-edit"></i> Product
 									</Button>
 								</div> : null }
 							{this.state.components.map(comp =>

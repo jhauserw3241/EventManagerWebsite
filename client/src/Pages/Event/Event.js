@@ -112,19 +112,19 @@ class Event extends Component {
 										className="btn btn-success"
 										data-toggle="modal"
 										data-target={"#addComponentModal-" + this.props.id}>
-										Add Component
+										<i className="fa fa-plus"></i> Component
 									</Button>
 									<Button
 										className="btn btn-success"
 										data-toggle="modal"
 										data-target={"#addPartnerModal-" + this.props.id}>
-										Add Partner
+										<i className="fa fa-plus"></i> Partner
 									</Button>
 									<Button
 										className="btn btn-warning"
 										data-toggle="modal"
 										data-target={"#editEventModal"}>
-										Edit Event
+										<i class="fa fa-edit"></i> Event
 									</Button>
 								</div> : null }
 							{this.state.components.map(comp =>

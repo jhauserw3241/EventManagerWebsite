@@ -87,7 +87,7 @@ class ItemsTable extends Component {
                                             <button
                                                 className="btn btn-danger table-delete-btn"
                                                 onClick={(event) => this.props.deleteItem(event, d["id"])}>
-                                                Delete
+                                                <i class="fa fa-trash"></i>
                                             </button> : null }
                                     </td> 
                                 )}

@@ -75,6 +75,7 @@ class Events extends Component {
 
 					<ItemsDashboard
 						dashboardName="Events"
+						newItemName="Event"
 						linkPrefix="/event/"
 						addModalId="#addEventModal"
 						items={this.state.events}

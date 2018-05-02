@@ -38,7 +38,9 @@ class Agencies extends Component {
 						<Button
 							className="btn btn-success"
 							data-toggle="modal"
-							data-target="#addAgencyModal">Add</Button>
+							data-target="#addAgencyModal">
+								<i className="fa fa-plus"></i> Agency
+							</Button>
 					</div>
 
 					<div className="list-container">
