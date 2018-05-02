@@ -12,6 +12,8 @@ class People extends Component {
 			users: [],
 			formError: "",
 		};
+
+		this.shouldShowPerson = this.shouldShowPerson.bind(this);
 	}
 	
 	componentDidMount() {
@@ -30,18 +32,22 @@ class People extends Component {
 			for(var member_id in members) {
 				var member = members[member_id];
 
-				if(	(member.status === "admin") ||
-					(member.status === "member") ||
-					((member.status === "placeholder") &&
-					(member.public === true)) ||
-					((member.status === "placeholder") &&
-					(member.creator_id === cur_member_id))) {
+				if(self.shouldShowPerson(member, cur_member_id)) {
 					filteredMembers.push(member);
 				}
 			}
 
 			self.setState({ users: filteredMembers });
 		});
+	}
+
+	shouldShowPerson(member, cur_member_id) {
+		return (member.status === "admin") ||		// Check if the user is an admin
+			(member.status === "member") ||			// Check if the user is a member
+			(	(member.status === "placeholder") && // Check if the user is a public placeholder
+				(member.public === true)) ||
+			(	(member.status === "placeholder") && // Check if the user is a placeholder created by the current user
+				(member.creator_id === cur_member_id));
 	}
 	
 	render() {
