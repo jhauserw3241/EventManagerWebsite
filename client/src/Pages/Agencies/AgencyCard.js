@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import AliasTags from './../Common/AliasTags';
+import AgencyPeopleTags from './../Common/AgencyPeopleTags';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
@@ -52,7 +54,7 @@ class AgencyCard extends Component {
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="agencyInfoModalTitle">Person Info</h5>
+                                <h5 className="modal-title" id="agencyInfoModalTitle">Agency Info</h5>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -70,22 +72,15 @@ class AgencyCard extends Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="aliases">Aliases:</label>
-                                    <input
-                                        type="text"
-                                        name="aliases"
-                                        className="form-control"
-                                        value={this.props.aliases.join(", ")}
-                                        disabled={true}
-                                        required />
+                                    <AliasTags
+                                        id={this.props.id}
+                                        readOnly={true} />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="people">Associated People:</label>
-                                    <input
-                                        name="people"
-                                        className="form-control"
-                                        value={this.state.people.join(", ")}
-                                        disabled={true}
-                                        />
+                                    <AgencyPeopleTags
+                                        id={this.props.id}
+                                        readOnly={true} />
                                 </div>
                             </div>
                             <div className="modal-footer">
