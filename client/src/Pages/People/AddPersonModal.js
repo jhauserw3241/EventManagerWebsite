@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PersonAgencyTags from './../Common/PersonAgencyTags';
+import { formatTagsForDatabase } from './../Common/TagHelper';
 import { handlePictureSelected } from './../Common/PictureHelper';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
@@ -14,12 +16,15 @@ class AddPersonModal extends Component {
 			phone_number: "",
 			address: "",
 			notes: "",
-			agencies: "",
+			agencies: [],
 			public: false,
 		};
 
 		this.addMember = this.addMember.bind(this);
 		this.handleProfilePic = this.handleProfilePic.bind(this);
+		this.handleAgencyAddition = this.handleAgencyAddition.bind(this);
+		this.handleAgencyDelete = this.handleAgencyDelete.bind(this);
+		this.handleAgencyDrag = this.handleAgencyDrag.bind(this);
 	}
 
 	addMember() {
@@ -43,6 +48,7 @@ class AddPersonModal extends Component {
 			phone_number: self.state.phone_number,
 			address: self.state.address,
 			notes: self.state.notes,
+			agencies: formatTagsForDatabase(self.state.agencies),
 			pic: self.state.pic,
 			public: self.state.public,
 			status: "placeholder",
@@ -60,7 +66,27 @@ class AddPersonModal extends Component {
 			(url) => this.setState({ pic: url }),
 			(error) => this.props.handleError(error),
 			"Profiles");
-    }
+	}
+
+    handleAgencyDelete(i) {
+		var tags = this.state.agencies.filter((tag, index) => index !== i);
+		this.setState({ agencies: tags });
+	}
+
+	handleAgencyAddition(tag) {
+		var tags = [...this.state.agencies, ...[tag]];
+		this.setState({ agencies: tags });
+	}
+
+	handleAgencyDrag(tag, currPos, newPos) {
+		const tags = [...this.state.agencies];
+		const newTags = tags.slice();
+
+		newTags.splice(currPos, 1);
+		newTags.splice(newPos, 0, tag);
+
+		this.setState({ agencies: newTags });
+	}
 	
 	render() {
 		return (
@@ -136,11 +162,12 @@ class AddPersonModal extends Component {
 							</div>
 							<div className="form-group">
 								<label htmlFor="agencies">Associated Agencies:</label>
-								<input
-									name="agencies"
-									className="form-control"
-									onChange={(event) => this.setState({ agencies: event.target.value })}
-									/>
+								<PersonAgencyTags
+									tags={this.state.agencies}
+									shouldStore={false}
+									handleDelete={this.handleAgencyDelete}
+									handleAddition={this.handleAgencyAddition}
+									handleDrag={this.handleAgencyDrag} />
 							</div>
 							<div className="form-group">
 								<label htmlFor="pic">Picture:</label>
