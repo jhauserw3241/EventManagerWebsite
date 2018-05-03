@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AgencyTags from './../Common/PersonAgencyTags';
 import EventTags from './PersonEventTags';
-import fire from './../../fire';
 import './../../CSS/Card.css';
 
 class PersonInfoModal extends Component {

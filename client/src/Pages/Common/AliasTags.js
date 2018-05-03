@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { formatTagsForDatabase } from './AliasTags';
 import TagInput from './TagInput';
 import { formatListAsTags } from './TagHelper';
 import fire from './../../fire';

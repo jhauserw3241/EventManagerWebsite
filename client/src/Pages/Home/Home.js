@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import LoginRequired from './../Login/LoginRequired';
 
 class Home extends Component {
 	render() {

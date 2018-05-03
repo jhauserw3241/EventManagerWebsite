@@ -9,9 +9,7 @@ class EditEventComponentModal extends Component {
 
         this.state = {
             event_id: this.props.event_id,
-            event_id_updated: false,
             component_id: this.props.component_id,
-            event_id_updated: false,
             component_type: this.props.component_type,
             component_type_updated: false,
             name: this.props.name,

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import AgencyTags from './../Common/PersonAgencyTags';
 import PersonInfoModal from './PersonInfoModal';
-import fire from './../../fire';
 import './../../CSS/Card.css';
 
 class PersonCard extends Component {
@@ -12,31 +10,31 @@ class PersonCard extends Component {
 
 		return (
 			<div className="PersonCard people-card">
-                <PersonInfoModal
-                    key={this.props.id}
-                    id={this.props.id}
-                    first_name={this.props.first_name}
-                    last_name={this.props.last_name}
-                    email={this.props.email}
-                    phone_number={this.props.phone_number}
-                    address={this.props.address}
-                    notes={this.props.notes}
-                    pic={this.props.pic}
-                    color={this.props.color} />
+                  <PersonInfoModal
+                        key={this.props.id}
+                        id={this.props.id}
+                        first_name={this.props.first_name}
+                        last_name={this.props.last_name}
+                        email={this.props.email}
+                        phone_number={this.props.phone_number}
+                        address={this.props.address}
+                        notes={this.props.notes}
+                        pic={this.props.pic}
+                        color={this.props.color} />
 
-				<div
-                    className="people-card-img"
-                    style={cardImgStyle}
-                    data-toggle="modal"
-                    data-target={"#personInfoModal-" + this.props.id}></div>
-				<div
-                    className="people-card-text"
-                    data-toggle="modal"
-                    data-target={"#personInfoModal-" + this.props.id}>
-                    <strong>{this.props.first_name} {this.props.last_name}</strong><br />
-                    {this.props.email}<br />
-                    {this.props.phone_number}
-				</div>
+                  <div
+                        className="people-card-img"
+                        style={cardImgStyle}
+                        data-toggle="modal"
+                        data-target={"#personInfoModal-" + this.props.id}></div>
+                  <div
+                        className="people-card-text"
+                        data-toggle="modal"
+                        data-target={"#personInfoModal-" + this.props.id}>
+                        <strong>{this.props.first_name} {this.props.last_name}</strong><br />
+                        {this.props.email}<br />
+                        {this.props.phone_number}
+                  </div>
 			</div>
 		);
 	}

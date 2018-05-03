@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AliasTags from './../Common/AliasTags';
 import AgencyPeopleTags from './../Common/AgencyPeopleTags';
-import fire from './../../fire';
 import './../../CSS/Card.css';
 
 class AgencyInfoModal extends Component {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { itemInList } from './../Common/List';
 import TagInput from './../Common/TagInput';
 import fire from './../../fire';
 import './../../CSS/Tag.css';
