@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-//import '../../CSS/Table.css';
+import '../../CSS/Table.css';
 
 class ItemsTable extends Component {
     constructor(props) {

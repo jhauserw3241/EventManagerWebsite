@@ -8,6 +8,10 @@ import {
 	formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
+
+// CSS and JS for datetime picker	
+import moment from './../../../node_modules/moment/moment';	
+import "./../../../node_modules/react-datetime/css/react-datetime.css";
 import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
 
 class AddEventModal extends Component {

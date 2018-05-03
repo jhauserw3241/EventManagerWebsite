@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import fire from './../../fire';
-//import './../../CSS/Table.css';
+import './../../CSS/Table.css';
 
 class PartnerTable extends Component {
     constructor(props) {
