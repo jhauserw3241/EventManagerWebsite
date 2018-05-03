@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { handlePictureSelected } from './../Common/PictureHelper';
 import fire from './../../fire';
 
 class AddComponentModal extends Component {
@@ -63,20 +64,12 @@ class AddComponentModal extends Component {
 	}
 
     handleFile(event) {
-        event.preventDefault();
-        var self = this;
-
-        var file = event.target.files[0];
-        var ref = fire.storage().ref('Component Files').child(file.name);        
-        ref.put(file).then(()=>{
-            ref.getDownloadURL().then((url) => {
-                self.setState({ file: url });
-            }).catch((err) => {
-                self.setState({ formError: err.code + ": " + err.message });
-            });
-        }).catch((error) => {
-            self.setState({ formError: error.code + ": " + error.message });
-        });
+		handlePictureSelected(
+			event,
+			(link) => this.setState({ file: link }),
+			(error) => this.setState({ formError: error }),
+			'Profiles',
+		);
 	}
 
 	render() {
@@ -145,7 +138,7 @@ class AddComponentModal extends Component {
 										type="file"
 										name="componentFile"
 										className="form-control"
-										value={this.state.file}
+										value="test"
 										onChange={this.handleFile}/>
 								</div> : null }
 							

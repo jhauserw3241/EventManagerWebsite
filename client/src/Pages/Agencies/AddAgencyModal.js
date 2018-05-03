@@ -35,7 +35,9 @@ class AddAgencyModal extends Component {
             id: agency_id,
 			name: self.state.name,
 			aliases: formatTagsForDatabase(self.state.aliases),
-			pic: self.state.pic,
+			pic: self.state.pic ?
+				self.state.pic :
+				"https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fagency.png?alt=media&token=887cb22b-c34d-4c6d-907c-a3a8b2cd3797",
 		})
 		.then(function() {
 			// Reset event component fields to be the defaults

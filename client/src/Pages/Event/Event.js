@@ -124,7 +124,7 @@ class Event extends Component {
 										className="btn btn-warning"
 										data-toggle="modal"
 										data-target={"#editEventModal"}>
-										<i class="fa fa-edit"></i> Event
+										<i className="fa fa-edit"></i> Event
 									</Button>
 								</div> : null }
 							{this.state.components.map(comp =>
