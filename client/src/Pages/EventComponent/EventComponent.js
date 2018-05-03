@@ -97,12 +97,11 @@ class EventComponent extends Component {
                             className="btn btn-warning"
                             data-toggle="modal"
                             data-target="#editEventComponentModal">Edit</button> : null }
-                        {(this.state.content_type === "file") ? 
-                            <iframe
+                        {(this.state.content_type === "file") ?
+                            <object
                                 className="agenda-iframe"
-                                src={this.state.file}
-                                title={this.props.id}
-                                allowFullScreen></iframe>
+                                data={this.state.file}>
+                            </object>
                             : <iframe
                                 className="agenda-iframe"
                                 src={this.state.url}

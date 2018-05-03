@@ -72,6 +72,7 @@ class AestheticSettings extends Component {
     changeDefaultUserPic(event) {
         handlePictureSelected(
             event,
+            (url) => this.setState({ defaultUserPic: url }),
             (error) => this.setState({ formError: error }),
             "Defaults",
             "profile.png",
@@ -81,6 +82,7 @@ class AestheticSettings extends Component {
     changeDefaultAgencyPic(event) {
         handlePictureSelected(
             event,
+            (url) => this.setState({ defaultAgencyPic: url }),
             (error) => this.setState({ formError: error }),
             "Defaults",
             "agency.png",
@@ -115,9 +117,6 @@ class AestheticSettings extends Component {
     }
 
 	render() {
-        console.log(this.state.disabled);
-        console.log(this.state.eventAgendaColor);
-
         return (
             <div className="AestheticSettings">
                 <div className="container">

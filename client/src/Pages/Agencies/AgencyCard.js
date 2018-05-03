@@ -39,7 +39,8 @@ class AgencyCard extends Component {
 	render() {
 		var cardImgStyle = {
             backgroundImage: `url(${this.props.pic})`
-		}
+        }
+        console.log(this.props.pic);
 
 		return (
 			<div className="AgencyCard people-card">
