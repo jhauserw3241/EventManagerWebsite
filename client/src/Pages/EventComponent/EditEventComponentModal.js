@@ -29,6 +29,25 @@ class EditEventComponentModal extends Component {
         this.getFieldValue = this.getFieldValue.bind(this);
     }
 
+    componentWillReceiveProps(props) {
+        this.setState( {
+            event_id: this.props.event_id,
+            component_id: this.props.component_id,
+            component_type: this.props.component_type,
+            component_type_updated: false,
+            name: this.props.name,
+            name_updated: false,
+            content_type: this.props.content_type,
+            content_type_updated: false,
+            file: this.props.file,
+            file_updated: false,
+            url: this.props.url,
+            url_updated: false,
+            color: this.props.color,
+            color_updated: false,
+        })
+    }
+
     editComponent(event) {
         event.preventDefault();
 

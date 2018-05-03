@@ -138,7 +138,6 @@ class AddComponentModal extends Component {
 										type="file"
 										name="componentFile"
 										className="form-control"
-										value="test"
 										onChange={this.handleFile}/>
 								</div> : null }
 							
