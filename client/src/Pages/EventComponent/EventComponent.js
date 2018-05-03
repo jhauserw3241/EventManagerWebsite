@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fire from './../../fire';
 import './../../CSS/Card.css';
+import EditEventComponentModal from './EditEventComponentModal';
 
 class EventComponent extends Component {
     constructor(props) {
@@ -20,8 +21,6 @@ class EventComponent extends Component {
         };
 
         this.canEditComponent = this.canEditComponent.bind(this);
-        this.editComponent = this.editComponent.bind(this);
-        this.handleFile = this.handleFile.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +54,11 @@ class EventComponent extends Component {
     }
 
     canEditComponent() {
-		var cur_user_id = fire.auth().currentUser.uid;
+        var user = fire.auth().currentUser;
+        if(!user) {
+            return false;
+        }
+		var cur_user_id = user.uid;
 
 		// Check if the user is the event owner
 		if(cur_user_id === this.state.event_owner_id) {
@@ -73,133 +76,18 @@ class EventComponent extends Component {
 		return false;
     }
 
-    editComponent(event) {
-        event.preventDefault();
-
-		// Edit event component
-        var updates = {};
-        updates['/events/' + this.state.event_id + '/components/' + this.state.component_id] = {
-            id: this.state.component_id,
-            component_type: this.state.component_type,
-            name: this.state.name,
-            content_type: this.state.content_type,
-            file: this.state.file,
-            url: this.state.url,
-			color: this.state.color
-        };
-        fire.database().ref().update(updates);
-	}
-
-    handleFile(event) {
-        event.preventDefault();
-        var self = this;
-
-        var file = event.target.files[0];
-        var ref = fire.storage().ref('Component Files').child(file.name);        
-        ref.put(file).then(()=>{
-            ref.getDownloadURL().then((url) => {
-                self.setState({file: url});
-            }).catch((err) => {
-                self.setState({ formError: err.code + ": " + err.message });
-            });
-        }).catch((error) => {
-            self.setState({ formError: error.code + ": " + error.message });
-        });
-    }
-
 	render() {
-        console.log(this.state.content_type);
         return (
             <div className="EventComponent">
-                <div
-                    className="modal fade"
-                    id="editEventComponentModal"
-                    tabIndex="-1"
-                    role="dialog"
-                    data-backdrop="static"
-                    data-keyboard={false}
-                    aria-labelledby="editEventComponentModalTitle"
-                    aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="editEventComponentTitle">Edit Event Component</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="form-group">
-                                    <label htmlFor="componentType">Component Type:</label>
-                                    <select
-                                        name="componentType"
-                                        className="form-control"
-                                        value={this.state.component_type}
-                                        onChange={(event) => this.setState({component_type: event.target.value})}
-                                        required>
-                                        <option>Not Specified</option>
-                                        <option value="agenda">Agenda</option>
-                                        <option value="budget">Budget</option>
-                                        <option value="meetingNotes">Meeting Notes</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="name">Name:</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        className="form-control"
-                                        value={this.state.name}
-                                        onChange={(event) => this.setState({name: event.target.value})}
-                                        required />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="contentType">Content Type:</label>
-                                    <select
-                                        name="contentType"
-                                        className="form-control"
-                                        value={this.state.content_type}
-                                        onChange={(event) => this.setState({content_type: event.target.value})}
-                                        required>
-                                        <option>Not Specified</option>
-                                        <option value="file">File</option>
-                                        <option value="url">URL</option>
-                                    </select>
-                                </div>
-                                { (this.state.content_type === "file") ? 
-                                    <div className="form-group">
-                                        <label htmlFor="componentFile">File:</label>
-                                        <input
-                                            type="file"
-                                            name="componentFile"
-                                            className="form-control"
-                                            value={this.state.file}
-                                            onChange={this.handlePic}/>
-                                    </div> : null }
-                                { (this.state.content_type === "url") ? 
-                                    <div className="form-group">
-                                        <label htmlFor="componentUrl">URL:</label>
-                                        <input
-                                            type="text"
-                                            name="componentUrl"
-                                            className="form-control"
-                                            value={this.state.url}
-                                            onChange={(event) => this.setState({ url: event.target.value })} />
-                                    </div> : null }
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    data-dismiss="modal"
-                                    onClick={this.editComponent}>
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <EditEventComponentModal
+                    event_id={this.state.event_id}
+                    component_id={this.state.component_id}
+                    component_type={this.state.component_type}
+                    name={this.state.name}
+                    content_type={this.state.content_type}
+                    file={this.state.file}
+                    url={this.state.url}
+                    color={this.state.color} />
 
                 <div className="container">
                     <div className="content">
