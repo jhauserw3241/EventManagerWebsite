@@ -5,6 +5,14 @@ import fire from './../../fire';
 import './../../CSS/Card.css';
 
 class PersonInfoModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            canEdit: false,
+        }
+    }
+
 	render() {
 		return (
             <div className="modal fade" id={"personInfoModal-" + this.props.id} tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
