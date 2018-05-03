@@ -134,13 +134,13 @@ class Event extends Component {
 									event_id={this.state.event_id}
 									component_id={comp.id}
 									canEditEvent={this.canEditEvent}
-									link={this.state.event_id + "/components/" + comp.id + "/"} />
+									link={"/event/" + this.state.event_id + "/components/" + comp.id + "/"} />
 							)}
 							<PartnersComponentCard
 								color="red"
 								name="Partners"
 								canEditEvent={this.canEditEvent}
-								link={this.state.event_id + "/partners/"} />
+								link={"/event/" + this.state.event_id + "/partners/"} />
 						</div>
                     </div>
                 </div>
