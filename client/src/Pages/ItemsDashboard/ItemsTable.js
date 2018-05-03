@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../../CSS/Table.css';
+//import '../../CSS/Table.css';
 
 class ItemsTable extends Component {
     constructor(props) {
@@ -61,11 +61,11 @@ class ItemsTable extends Component {
                 <table className="items-table">
                     <thead>
                         <tr
-                            className="table-tr"
+                            className="items-tr"
                             style={headerRowStyle}>
                             {columns.map(column =>
                                 <th
-                                    className="table-th"
+                                    className="items-th"
                                     style={columnWidthStyle}>
                                     {column.name}
                                 </th>
@@ -75,17 +75,17 @@ class ItemsTable extends Component {
                     <tbody>
                         {data.map(d =>
                             <tr
-                                className="table-tr"
+                                className="items-tr"
                                 style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                 {columns.map(column =>
                                     <td
-                                        className="table-td"
+                                        className="items-td"
                                         style={columnWidthStyle}>
                                         <div className="colorBox" style={{"backgroundColor": d["color"]}}></div>
-                                        <Link className="table-txt" to={d["link"]}>{d[column.key]}</Link>
+                                        <Link className="items-txt" to={d["link"]}>{d[column.key]}</Link>
                                         { this.props.deleteItem ?
                                             <button
-                                                className="btn btn-danger table-delete-btn"
+                                                className="btn btn-danger items-delete-btn"
                                                 onClick={(event) => this.props.deleteItem(event, d["id"])}>
                                                 <i class="fa fa-trash"></i>
                                             </button> : null }

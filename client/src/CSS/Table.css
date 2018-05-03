@@ -3,26 +3,26 @@
     width: 100%;
 }
 
-.table-th {
+.items-th {
     width: 50%;
     border-bottom: 1px solid black;
 }
 
-.table-tr {
+.items-tr {
     width: 100%;
 }
 
-.table-td {
+.items-td {
     display: grid;
     grid-template-columns: 45px auto 100px;
 }
 
-.table-delete-btn {
+.items-delete-btn {
     margin: 5px;
     float: right;
 }
 
-.table-txt {
+.items-txt {
     padding-top: 10px;
 }
 

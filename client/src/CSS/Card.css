@@ -29,12 +29,8 @@
 }
 
 .card {
-<<<<<<< HEAD
-	display: inline-flex;
-=======
 	display: flex;
 	height: 250px;
->>>>>>> ChangeCardAes
 	width: 23%;
 	height: 250px;
 	border-radius: 10px;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PartnerTable from './../PartnerTable/PartnerTable';
 import fire from './../../fire';
-import './../../CSS/Table.css';
 
 class EventPartnerComponent extends Component {
     constructor(props) {

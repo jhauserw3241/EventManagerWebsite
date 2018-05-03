@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PartnerTable from './../PartnerTable/PartnerTable';
 import fire from './../../fire';
 import './../../CSS/Card.css';
-import './../../CSS/PartnerTable.css';
 
 class ProductPartnerComponent extends Component {
     constructor(props) {
