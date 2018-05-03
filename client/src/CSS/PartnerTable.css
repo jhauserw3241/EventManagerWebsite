@@ -1,0 +1,31 @@
+.partner-table {	
+    background-color: white;	
+    width: 100%;	
+}	
+    
+.partner-th {	
+    width: 50%;	
+    border-bottom: 1px solid black;	
+}	
+    
+.partner-tr {	
+    width: 100%;	
+}	
+    
+.partner-td {	
+}	
+    
+.table-delete-btn {	
+    margin: 5px;	
+    float: right;	
+}	
+    
+.table-txt {	
+    padding-top: 10px;	
+}	
+    
+.colorBox {	
+    width: 35px;	
+    height: 35px;	
+    margin: 5px;	
+}

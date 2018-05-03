@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import fire from './../../fire';
-import './../../CSS/Table.css';
+import './../../CSS/PartnerTable.css';
 
 class PartnerTable extends Component {
     constructor(props) {
@@ -74,19 +74,19 @@ class PartnerTable extends Component {
             <div className="PartnerTable">
                 <div className="container">
                     <div className="content">
-                        <table className="items-table">
+                        <table className="partner-table">
                             <thead>
                                 <tr
-                                    className="items-tr"
+                                    className="partner-tr"
                                     style={headerRowStyle}>
                                     {columns.map(column =>
                                         <th
-                                            className="items-th"
+                                            className="partner-th"
                                             style={columnWidthStyle}>{column.name}</th>
                                     )}
                                     {(cur_user_id === this.props.owner_id) ? 
                                         <th
-                                            className="items-th"
+                                            className="partner-th"
                                             style={columnWidthStyle}>
                                             Privilege Level
                                         </th> : null}
@@ -95,17 +95,17 @@ class PartnerTable extends Component {
                             <tbody>
                                 {data.map(d =>
                                     <tr
-                                        className="items-tr"
+                                        className="partner-tr"
                                         style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                         {columns.map(column =>
                                             <td
-                                                className="items-td"
+                                                className="partner-td"
                                                 style={columnWidthStyle}>
                                                 {d[column.key]}
                                             </td> 
                                         )}
                                         <td
-                                            className="items-td"
+                                            className="partner-td"
                                             style={columnWidthStyle}>
                                             {((cur_user_id === this.props.owner_id) && (d["priv"] === "Edit")) ?
                                                 <button
