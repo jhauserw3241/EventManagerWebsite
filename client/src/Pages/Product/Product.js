@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProductComponentCard from './ProductComponentCard';
+import ProductComponentTypeCard from './ProductComponentTypeCard';
 import ProductPartnersComponentCard from './ProductPartnersComponentCard';
 import EditProductModal from './EditProductModal';
 import AddProductComponentModal from './AddProductComponentModal';
@@ -19,6 +19,11 @@ class Product extends Component {
 			product_type: "",
 			owner_id: "",
 			product_color: "",
+			component_types: [
+				{type: "agenda", name: "Agenda(s)"},
+				{type: "budget", name: "Budget(s)"},
+				{type: "meetingNotes", name: "Meeting Notes"},
+				{type: "other", name: "Other"}],
 			components: [],
 			people: [],
 			event_partners: [],
@@ -108,14 +113,12 @@ class Product extends Component {
 										<i class="fa fa-edit"></i> Product
 									</Button>
 								</div> : null }
-							{this.state.components.map(comp =>
-								<ProductComponentCard
-									color={comp.color}
-									name={comp.name}
+							{this.state.component_types.map(type =>
+								<ProductComponentTypeCard
+									type={type.type}
+									name={type.name}
 									product_id={this.state.product_id}
-									component_id={comp.id}
-									canEditProduct={this.canEditProduct}
-									link={this.state.product_id + "/component/" + comp.id} />
+									canEdit={this.canEditProduct} />
 							)}
 							<ProductPartnersComponentCard
 								color="red"

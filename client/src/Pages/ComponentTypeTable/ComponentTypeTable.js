@@ -61,7 +61,6 @@ class ComponentTypeTable extends Component {
 
         // Provide column for delete button if the user can edit
         var numColumns = this.props.canEdit() ? (columns.length + 1) : columns.length;
-        console.log(numColumns);
 
         var columnWidthStyle = {
             width: 100 / numColumns + "%"

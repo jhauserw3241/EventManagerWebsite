@@ -73,17 +73,17 @@ class EditProductComponentModal extends Component {
         return (
             <div
                 className="modal fade"
-                id="editEventComponentModal"
+                id="editProductComponentModal"
                 tabIndex="-1"
                 role="dialog"
                 data-backdrop="static"
                 data-keyboard={false}
-                aria-labelledby="editEventComponentModalTitle"
+                aria-labelledby="editProductComponentModalTitle"
                 aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="editEventComponentTitle">Edit Product Component</h5>
+                            <h5 className="modal-title" id="editProductComponentTitle">Edit Product Component</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
