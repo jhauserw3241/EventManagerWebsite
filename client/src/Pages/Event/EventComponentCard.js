@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import EventComponentTypeModal from './../EventComponentTypeModal/EventComponentTypeModal';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
@@ -21,22 +22,23 @@ class EventComponentCard extends Component {
 		var cardImgStyle = {
 			"backgroundColor": this.props.color
 		};
+		console.log("test");
+
+		console.log(this.props.component_id);
 
 		return (
-			<Link className="EventComponentCard side-card" to={this.props.link}>
+			<div
+				className="EventComponentCard side-card"
+				data-target={"#eventComponentModal-" + this.props.component_id}
+				data-dismiss="modal">
+				<EventComponentTypeModal
+					event_id={this.props.event_id}
+					component_type="agenda" />
 				<div className="side-card-img" style={cardImgStyle}></div>
 				<div className="side-card-text">
 					{this.props.name}
 				</div>
-				{(this.props.canEditEvent()) ?
-					<div className="side-card-btns">
-						<button
-							className="btn btn-danger card-delete-btn"
-							onClick={this.deleteComponent}>
-							<i class="fa fa-trash"></i>
-						</button>
-					</div> : null }
-			</Link>
+			</div>
 		);
 	}
 }

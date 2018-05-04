@@ -7,8 +7,6 @@ class PersonCard extends Component {
 		var cardImgStyle = {
             backgroundImage: `url(${this.props.pic})`
             }
-            
-            console.log(this.props.pic);
 
 		return (
 			<div className="PersonCard people-card">
