@@ -107,18 +107,21 @@ class PartnerTable extends Component {
                                         <td
                                             className="partner-td"
                                             style={columnWidthStyle}>
-                                            {((cur_user_id === this.props.owner_id) && (d["priv"] === "Edit")) ?
-                                                <button
-                                                    className="btn btn-danger"
-                                                    onClick={() => this.props.removeEdit(d["id"])}>
-                                                    <i class="fa fa-eye"></i>
-                                                </button> : null }
-                                            {((cur_user_id === this.props.owner_id) && (d["priv"] === "View")) ? 
-                                                <button
-                                                    className="btn btn-success"
-                                                    onClick={() => this.props.allowEdit(d["id"])}>
-                                                    <i class="fa fa-edit"></i>
-                                                </button> : null }
+                                            {((cur_user_id === this.props.owner_id) && (d["priv"] !== "Owner")) ?
+                                                <div>
+                                                    <button
+                                                        className="btn btn-success"
+                                                        onClick={() => this.props.allowEdit(d["id"])}
+                                                        disabled={d["priv"] === "Edit"}>
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-danger"
+                                                        onClick={() => this.props.removeEdit(d["id"])}
+                                                        disabled={d["priv"] === "View"}>
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                </div> : null }
                                             {((cur_user_id === this.props.owner_id) && (d["priv"] === "Owner")) ?
                                                 d["priv"] : null }
                                         </td>
