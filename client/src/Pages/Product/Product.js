@@ -115,7 +115,7 @@ class Product extends Component {
 									product_id={this.state.product_id}
 									component_id={comp.id}
 									canEditProduct={this.canEditProduct}
-									link={this.state.event_id + "/components/" + comp.id + "/"} />
+									link={this.state.product_id + "/component/" + comp.id} />
 							)}
 							<ProductPartnersComponentCard
 								color="red"
