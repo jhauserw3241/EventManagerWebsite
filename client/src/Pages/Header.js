@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import fire from './../fire';
-import logo from './../Images/logo.svg';
+import logo from './../Images/logo.png';
 import './../CSS/Header.css';
 
 class Header extends Component {
