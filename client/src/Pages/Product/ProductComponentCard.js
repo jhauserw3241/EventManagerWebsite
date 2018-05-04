@@ -14,7 +14,8 @@ class ProductComponentCard extends Component {
 		event.preventDefault();
 
 		// Create event
-		fire.database().ref("products").child(this.props.product_id).child("components").child(this.props.component_id).remove();
+		fire.database().ref("products").child(this.props.product_id).child("components").child(this.props.component_id)
+		.remove();
 	}
 
 	render() {

@@ -87,7 +87,7 @@ class Product extends Component {
 							</div>
 						</div>
 						<div className="list-container">
-							{(this.canEditProduct()) ?
+							{this.canEditProduct() ?
 								<div className="mod-btns">
 									<Button
 										className="btn btn-success"
