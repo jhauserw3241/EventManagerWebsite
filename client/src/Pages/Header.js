@@ -8,7 +8,8 @@ class Header extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            user: fire.auth().currentUser
+			user: fire.auth().currentUser,
+			member: {},
 		};
     }
 
@@ -17,13 +18,19 @@ class Header extends Component {
         var self = this;
         fire.auth().onAuthStateChanged(function(user) {
             if (user) {
-                self.setState({user: user});
+				fire.database().ref("users").child(user.uid).on("value", function(data) {
+					self.setState({ 
+						user: user,
+						member: data.val() ? data.val() : {},
+					});
+				})
             } else {
                 self.setState({user: undefined});
             }
-        });
+		});
 	}
 
+	
 	render() {
 		return (
 			<div className="Header">
@@ -34,13 +41,21 @@ class Header extends Component {
 						</div>
 						<div className="nav-body">
 							<NavLink to="/home" className="nav-link">Home</NavLink>
-							{ this.state.user ?
+							{ (this.state.user &&
+								((this.state.member.status === "member") ||
+								(this.state.member.status === "admin"))) ?
 								<NavLink to="/people" className="nav-link">People</NavLink> : null }
-							{ this.state.user ?
+							{ (this.state.user &&
+								((this.state.member.status === "member") ||
+								(this.state.member.status === "admin"))) ?
 								<NavLink to="/agencies" className="nav-link">Agencies</NavLink> : null }
-							{ this.state.user ?
+							{ (this.state.user &&
+								((this.state.member.status === "member") ||
+								(this.state.member.status === "admin"))) ?
 								<NavLink to="/events" className="nav-link">Events</NavLink> : null }
-							{ this.state.user ?
+							{ (this.state.user &&
+								((this.state.member.status === "member") ||
+								(this.state.member.status === "admin"))) ?
 								<NavLink to="/products" className="nav-link">Products</NavLink> : null }
 							{ this.state.user ?
 								<NavLink to="/dashboard" className="nav-link">Dashboard</NavLink> : null }

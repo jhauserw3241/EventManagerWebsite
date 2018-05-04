@@ -9,6 +9,7 @@ class People extends Component {
 		super(props);
 
 		this.state = {
+			cur_user: {},
 			users: [],
 			formError: "",
 		};
@@ -24,6 +25,7 @@ class People extends Component {
 		}
 
 		var cur_member_id = fire.auth().currentUser.uid;
+		var cur_member = {};
 
 		fire.database().ref("users").on("value", function(data) {
 			var members = data.val() ? data.val() : [];
@@ -32,12 +34,21 @@ class People extends Component {
 			for(var member_id in members) {
 				var member = members[member_id];
 
+				// Set current privs if the member is the current user
+				if(member.id === cur_member_id) {
+					cur_member = member;
+				}
+
+				// Check if the person should be shown to the current user
 				if(self.shouldShowPerson(member, cur_member_id)) {
 					filteredMembers.push(member);
 				}
 			}
 
-			self.setState({ users: filteredMembers });
+			self.setState({
+				cur_member: cur_member,
+				users: filteredMembers,
+			});
 		});
 	}
 
@@ -51,6 +62,11 @@ class People extends Component {
 	}
 	
 	render() {
+		if(	(this.state.cur_user.status !== "member") &&
+			(this.state.cur_user.status !== "admin")) {
+			window.location = "/";
+		}
+
 		return (
 			<div className="People">
 				<div className="container">
