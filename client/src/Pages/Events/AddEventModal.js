@@ -63,10 +63,17 @@ class AddEventModal extends Component {
 				owner_id: owner_id,
 				partners: partnersList,
 				color: generateColor(),
-			}).catch(function(error) {
-				this.setState({ formError: error.code + ": " + error.message });
+			}).then(function() {
+				self.setState({
+					name: "",
+					type: "",
+					location: "",
+					planning_start: moment(),
+					event_start: moment(),
+					event_end: moment(),
+					planning_end: moment(),
+				});
 			});
-
 
 			// Add this event to the list of events that is being tracked for the current user
 			var updates = {};
@@ -131,6 +138,7 @@ class AddEventModal extends Component {
 									type="text"
 									name="name"
 									className="form-control"
+									value={this.state.name}
 									onChange={(event) => this.setState({name: event.target.value})}
 									required />
 							</div>
@@ -139,6 +147,7 @@ class AddEventModal extends Component {
 								<select
 									name="type"
 									className="form-control"
+									value={this.state.type}
 									onChange={(event) => this.setState({type: event.target.value})}
 									required>
 									<option>Not Specified</option>
@@ -153,6 +162,7 @@ class AddEventModal extends Component {
 								<label htmlFor="planning-start">Planning Start:</label>
 								<DateTime
 									name="planning-start"
+									value={this.state.planningStart}
 									onChange={(event) => this.setState({planningStart: event._d})}
 									isValidDate={(current) => validPlanningStart(
 										current,
@@ -166,6 +176,7 @@ class AddEventModal extends Component {
 								<label htmlFor="event-start">Event Start:</label>
 								<DateTime
 									name="event-start"
+									value={this.state.eventStart}
 									onChange={(event) => this.setState({eventStart: event._d})}
 									isValidDate={(current) => validEventStart(
 										this.state.planningStart,
@@ -179,6 +190,7 @@ class AddEventModal extends Component {
 								<label htmlFor="event-end">Event End:</label>
 								<DateTime
 									name="event-end"
+									value={this.state.eventEnd}
 									onChange={(event) => this.setState({eventEnd: event._d})}
 									isValidDate={(current) => validEventEnd(
 										this.state.planningStart,
@@ -192,6 +204,7 @@ class AddEventModal extends Component {
 								<label htmlFor="planning-end">Planning End:</label>
 								<DateTime
 									name="planning-end"
+									value={this.state.planningEnd}
 									onChange={(event) => this.setState({planningEnd: event._d})}
 									isValidDate={(current) => validPlanningEnd(
 										this.state.planningStart,
@@ -207,6 +220,7 @@ class AddEventModal extends Component {
 									type="text"
 									name="location"
 									className="form-control"
+									value={this.state.location}
 									onChange={(event) => this.setState({location: event.target.value})}
 									required />
 							</div>
