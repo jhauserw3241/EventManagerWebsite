@@ -17,7 +17,8 @@ class AgencyCard extends Component {
         var people_names = [];
 
         // Get a list of associated people
-        fire.database().ref("users").once("value", function(data) {
+        var usersRef = fire.database().ref("users");
+        usersRef.once("value", function(data) {
             var people = data.val() ? data.val() : {};
 
             for(var index in self.props.people_ids) {
@@ -37,11 +38,6 @@ class AgencyCard extends Component {
     }
 
 	render() {
-		var cardImgStyle = {
-            backgroundImage: `url(${this.props.pic})`
-        }
-        console.log(this.props.pic);
-
 		return (
 			<div className="AgencyCard people-card">
                 <AgencyInfoModal
@@ -50,7 +46,7 @@ class AgencyCard extends Component {
 
 				<div
                     className="people-card-img"
-                    style={cardImgStyle}
+                    style={{ backgroundImage: `url(${this.props.pic})` }}
                     data-toggle="modal"
                     data-target={"#agencyInfoModal-" + this.props.id}></div>
 				<div

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { generateColor } from './../Common/Colors';
+import FileInput from './../Common/FileInput';
 import fire from './../../fire';
 
 class AddComponentModal extends Component {
@@ -16,7 +17,6 @@ class AddComponentModal extends Component {
         };
 
 		this.addComponent = this.addComponent.bind(this);
-		this.handleFile = this.handleFile.bind(this);
     }
 
     componentDidMount() {
@@ -61,23 +61,6 @@ class AddComponentModal extends Component {
 		.catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
-	}
-
-    handleFile(event) {
-        event.preventDefault();
-        var self = this;
-
-        var file = event.target.files[0];
-        var ref = fire.storage().ref('Component Files').child(file.name);        
-        ref.put(file).then(()=>{
-            ref.getDownloadURL().then((url) => {
-                self.setState({ file: url });
-            }).catch((err) => {
-                self.setState({ formError: err.code + ": " + err.message });
-            });
-        }).catch((error) => {
-            self.setState({ formError: error.code + ": " + error.message });
-        });
 	}
 
 	render() {
@@ -142,12 +125,11 @@ class AddComponentModal extends Component {
 							{ (this.state.content_type === "file") ? 
 								<div className="form-group">
 									<label htmlFor="componentFile">File:</label>
-									<input
-										type="file"
-										name="componentFile"
-										className="form-control"
-										value={this.state.file}
-										onChange={this.handleFile}/>
+									<FileInput
+										handleSuccess={(url) => this.setState({ file: url })}
+										handleError={(error) => this.setState({ formError: error })}
+										folderName="ComponentFiles"
+										fieldName="componentFile" />
 								</div> : null }
 							
 							{ (this.state.content_type === "url") ? 

@@ -11,22 +11,17 @@ class AestheticSettings extends Component {
         super(props);
 
         this.state = {
-            eventAgendaColor: "",
-            eventBudgetColor: "",
-            eventMeetingNotesColor: "",
-            eventMiscColor: "",
-            productPublicationColor: "",
-            productVideoColor: "",
-            productWebinarColor: "",
-            productMiscColor: "",
+            agendaColor: "",
+            budgetColor: "",
+            meetingNotesColor: "",
+            miscColor: "",
             defaultUserPic: "",
             defaultAgencyPic: "",
+            defaultAestheticsPic: "",
             formError: "",
             disabled: true,
         }
 
-        this.changeDefaultAgencyPic = this.changeDefaultAgencyPic.bind(this);
-        this.changeDefaultUserPic = this.changeDefaultUserPic.bind(this);
         this.saveSettings = this.saveSettings.bind(this);
     }
 
@@ -45,26 +40,22 @@ class AestheticSettings extends Component {
         settingsRef.once("value", function(data) {
             var settings = data.val() ? data.val() : {};
             self.setState({
-                eventAgendaColor: settings.event_agenda_color ?
-                    settings.event_agenda_color : generateColor(),
-                eventBudgetColor: settings.event_budget_color ?
-                    settings.event_budget_color : generateColor(),
-                eventMeetingNotesColor: settings.event_meeting_notes_color ?
-                    settings.event_meeting_notes_color : generateColor(),
-                eventMiscColor: settings.event_misc_color ?
-                    settings.event_misc_color : generateColor(),
-                productPublicationColor: settings.product_publication_color ?
-                    settings.product_publication_color : generateColor(),
-                productVideoColor: settings.product_video_color ?
-                    settings.product_video_color : generateColor(),
-                productWebinarColor: settings.product_webinar_color ?
-                    settings.product_webinar_color : generateColor(),
-                productMiscColor: settings.product_misc_color ?
-                    settings.product_misc_color : generateColor(),
+                agendaColor: settings.agenda_color ?
+                    settings.agenda_color : generateColor(),
+                budgetColor: settings.budget_color ?
+                    settings.budget_color : generateColor(),
+                meetingNotesColor: settings.meetingNotes_color ?
+                    settings.meetingNotes_color : generateColor(),
+                miscColor: settings.misc_color ?
+                    settings.misc_color : generateColor(),
+                partnersColor: settings.partners_color ?
+                    settings.partners_color : generateColor(),
                 defaultUserPic: settings.default_user_pic ?
                     settings.default_user_pic :  "",
                 defaultAgencyPic: settings.default_agency_pic ?
                     settings.default_agency_pic : "",
+                defaultAestheticsPic: settings.default_aesthetics_pic ?
+                    settings.default_aesthetics_pic : "",
             });
 		});
     }
@@ -80,16 +71,11 @@ class AestheticSettings extends Component {
         
         // Update the settings
         var updates= {};
-        updates['/users/' + user.uid + '/settings/event_agenda_color'] = this.state.eventAgendaColor;
-        updates['/users/' + user.uid + '/settings/event_budget_color'] = this.state.eventBudgetColor;
-        updates['/users/' + user.uid + '/settings/event_meeting_notes_color'] = this.state.eventMeetingNotesColor;
-        updates['/users/' + user.uid + '/settings/event_misc_color'] = this.state.eventMiscColor;
-        updates['/users/' + user.uid + '/settings/product_publication_color'] = this.state.productPublicationColor;
-        updates['/users/' + user.uid + '/settings/product_video_color'] = this.state.productVideoColor;
-        updates['/users/' + user.uid + '/settings/product_webinar_color'] = this.state.productWebinarColor;
-        updates['/users/' + user.uid + '/settings/product_misc_color'] = this.state.productMiscColor;
-        updates['/users/' + user.uid + '/settings/default_user_pic'] = this.state.defaultUserPic;
-        updates['/users/' + user.uid + '/settings/default_agency_pic'] = this.state.defaultAgencyPic;
+        updates['/users/' + user.uid + '/settings/agenda_color'] = this.state.agendaColor;
+        updates['/users/' + user.uid + '/settings/budget_color'] = this.state.budgetColor;
+        updates['/users/' + user.uid + '/settings/meetingNotes_color'] = this.state.meetingNotesColor;
+        updates['/users/' + user.uid + '/settings/misc_color'] = this.state.miscColor;
+        updates['/users/' + user.uid + '/settings/partners_color'] = this.state.partnersColor;
         fire.database().ref().update(updates);
 
         // Disable settings edits
@@ -107,95 +93,63 @@ class AestheticSettings extends Component {
                             </div> : null }
                         <h1 className="form-header">Aesthetic Settings</h1>
 
-                        <h3 className="form-header">Event Colors</h3>
+                        <h3 className="form-header">Component Type Colors</h3>
                         <div className="form-group color-selector">
-                            <label htmlFor="eventAgenda">Event Agenda Color:</label>
+                            <label htmlFor="agenda">Agenda Color:</label>
                             {(this.state.disabled) ? 
                                 <div className="color-display"
-                                    style={{ backgroundColor: this.state.eventAgendaColor }}></div>
+                                    style={{ backgroundColor: this.state.agendaColor }}></div>
                                 : <SketchPicker
-                                color={this.state.eventAgendaColor}
+                                color={this.state.agendaColor}
                                 onChangeComplete={ (color) =>
-                                    { this.setState({ eventAgendaColor: color.hex }); } } />}
+                                    { this.setState({ agendaColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
-                            <label htmlFor="eventBudget">Event Budget Color:</label>
+                            <label htmlFor="budget">Budget Color:</label>
                             {(this.state.disabled) ? 
                                 <div className="color-display"
-                                    style={{ backgroundColor: this.state.eventBudgetColor }}></div>
+                                    style={{ backgroundColor: this.state.budgetColor }}></div>
                                 : <SketchPicker
-                                    color={this.state.eventBudgetColor}
+                                    color={this.state.budgetColor}
                                     onChangeComplete={ (color) =>
-                                    { this.setState({ eventBudgetColor: color.hex }); } } />}
+                                    { this.setState({ budgetColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
-                            <label htmlFor="eventMeetingNotes">Event Meeting Notes Color:</label>
+                            <label htmlFor="meetingNotes">Meeting Notes Color:</label>
                             {(this.state.disabled) ? 
                                 <div className="color-display"
-                                    style={{ backgroundColor: this.state.eventMeetingNotesColor }}></div>
+                                    style={{ backgroundColor: this.state.meetingNotesColor }}></div>
                                 : <SketchPicker
-                                    color={this.state.eventMeetingNotesColor}
+                                    color={this.state.meetingNotesColor}
                                     onChangeComplete={ (color) =>
-                                        { this.setState({ eventMeetingNotesColor: color.hex }); } } />}
+                                        { this.setState({ meetingNotesColor: color.hex }); } } />}
                         </div>
                         <div className="form-group color-selector">
-                            <label htmlFor="eventMisc">Event Miscellaneous Color:</label>
+                            <label htmlFor="misc">Miscellaneous Color:</label>
                             {(this.state.disabled) ? 
                                 <div className="color-display"
-                                    style={{ backgroundColor: this.state.eventMiscColor }}></div>
+                                    style={{ backgroundColor: this.state.miscColor }}></div>
                                 : <SketchPicker
-                                    color={this.state.eventMiscColor}
+                                    color={this.state.miscColor}
                                     onChangeComplete={ (color) =>
-                                        { this.setState({ eventMiscColor: color.hex }); } } /> }
-                        </div>
-
-                        <h3 className="form-header">Product Colors</h3>
-                        <div className="form-group color-selector">
-                            <label htmlFor="productPublication">Product Publication Color:</label>
-                            {(this.state.disabled) ? 
-                                <div className="color-display"
-                                    style={{ backgroundColor: this.state.productPublicationColor }}></div>
-                                : <SketchPicker
-                                    color={this.state.productPublicationColor}
-                                    onChangeComplete={ (color) =>
-                                        { this.setState({ productPublicationColor: color.hex }); } } />}
+                                        { this.setState({ miscColor: color.hex }); } } /> }
                         </div>
                         <div className="form-group color-selector">
-                            <label htmlFor="productVideo">Product Video Color:</label>
+                            <label htmlFor="misc">Partners Color:</label>
                             {(this.state.disabled) ? 
                                 <div className="color-display"
-                                    style={{ backgroundColor: this.state.productVideoColor }}></div>
+                                    style={{ backgroundColor: this.state.partnersColor }}></div>
                                 : <SketchPicker
-                                    color={this.state.productVideoColor}
+                                    color={this.state.partnersColor}
                                     onChangeComplete={ (color) =>
-                                        { this.setState({ productVideoColor: color.hex }); } } />}
-                        </div>
-                        <div className="form-group color-selector">
-                            <label htmlFor="productWebinar">Product Webinar Color:</label>
-                            {(this.state.disabled) ? 
-                                <div className="color-display"
-                                    style={{ backgroundColor: this.state.productWebinarColor }}></div>
-                                : <SketchPicker
-                                    color={this.state.productWebinarColor}
-                                    onChangeComplete={ (color) =>
-                                        { this.setState({ productWebinarColor: color.hex }); } } />}
-                        </div>
-                        <div className="form-group color-selector">
-                            <label htmlFor="productMisc">Product Miscellaneous Color:</label>
-                            {(this.state.disabled) ? 
-                                <div className="color-display"
-                                    style={{ backgroundColor: this.state.productMiscColor }}></div>
-                                : <SketchPicker
-                                    color={this.state.productMiscColor}
-                                    onChangeComplete={ (color) =>
-                                        { this.setState({ productMiscColor: color.hex }); } } />}
+                                        { this.setState({ partnersColor: color.hex }); } } /> }
                         </div>
 
                         <h3 className="form-header">Default Images</h3>
                         <div className="form-group">
                             <label htmlFor="defaultUserPic">Default User Picture:</label>
                             <FileInput
-                                handleSuccess={(url) => this.setState({ defaultUserPic: url })}
+                                handleSuccess={(url) => {}}
                                 handleError={(error) => this.setState({ formError: error })}
                                 folderName="Defaults"
                                 fieldName="defaultUserPic" />
@@ -203,10 +157,18 @@ class AestheticSettings extends Component {
                         <div className="form-group">
                             <label htmlFor="defaultAgencyPic">Default Agency Picture:</label>
                             <FileInput
-                                handleSuccess={(url) => this.setState({ defaultAgencyPic: url })}
+                                handleSuccess={(url) => {}}
                                 handleError={(error) => this.setState({ formError: error })}
                                 folderName="Defaults"
                                 fieldName="defaultAgencyPic" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="defaultAestheticsPic">Default Aesthetics Picture:</label>
+                            <FileInput
+                                handleSuccess={(url) => {}}
+                                handleError={(error) => this.setState({ formError: error })}
+                                folderName="Defaults"
+                                fieldName="defaultAestheticsPic" />
                         </div>
                         {(this.state.disabled) ? 
                             <input

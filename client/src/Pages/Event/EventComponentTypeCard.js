@@ -8,15 +8,22 @@ class EventComponentTypeCard extends Component {
         super(props);
 
         this.state = {
-            components: {},
+			components: {},
+			color: "",
 		};
 		
 		this.deleteEventComponent = this.deleteEventComponent.bind(this);
     }
 
     componentDidMount() {
-        var self = this;
+		var self = this;
+		
+		var user = fire.auth().currentUser;
+		if(!user) {
+			return;
+		}
 
+		// Get the event components that match the specified type
         fire.database().ref("events").child(self.props.event_id).child("components").on("value", function(data) {
 			var components = data.val() ? data.val() : {};
 			var filteredComponents = {};
@@ -31,6 +38,11 @@ class EventComponentTypeCard extends Component {
 
 			self.setState({ components: filteredComponents });
 		});
+
+		// Get the default colors that match the specified type
+		var colorRef = fire.database().ref("users").child(user.uid).child("settings").child(this.props.type + "_color");
+		colorRef.once("value", (data) =>
+			this.setState({ color: data.val() ? data.val() : "green" }));
 	}
 
 	deleteEventComponent(event, component_id) {
@@ -56,7 +68,7 @@ class EventComponentTypeCard extends Component {
 					components={this.state.components}
 					canEdit={this.props.canEdit}
 					deleteEventComponent={this.deleteEventComponent} />
-				<div className="side-card-img" style={{ backgroundColor: "blue" }}></div>
+				<div className="side-card-img" style={{ backgroundColor: this.state.color }}></div>
 				<div className="side-card-text">
 					{this.props.name}
 				</div>

@@ -8,14 +8,20 @@ class ProductComponentTypeCard extends Component {
         super(props);
 
         this.state = {
-            components: {},
+			components: {},
+			color: "",
 		};
 		
 		this.deleteProductComponent = this.deleteProductComponent.bind(this);
     }
 
     componentDidMount() {
-        var self = this;
+		var self = this;
+		
+		var user = fire.auth().currentUser;
+		if(!user) {
+			return;
+		}
 
         fire.database().ref("products").child(self.props.product_id).child("components").on("value", function(data) {
 			var components = data.val() ? data.val() : {};
@@ -31,6 +37,11 @@ class ProductComponentTypeCard extends Component {
 
 			self.setState({ components: filteredComponents });
 		});
+
+		// Get the default colors that match the specified type
+		var colorRef = fire.database().ref("users").child(user.uid).child("settings").child(this.props.type + "_color");
+		colorRef.once("value", (data) =>
+			this.setState({ color: data.val() ? data.val() : "green" }));
 	}
 
 	deleteProductComponent(event, component_id) {
@@ -56,7 +67,7 @@ class ProductComponentTypeCard extends Component {
 					components={this.state.components}
 					canEdit={this.props.canEdit}
 					deleteProductComponent={this.deleteProductComponent} />
-				<div className="side-card-img" style={{ backgroundColor: "blue" }}></div>
+				<div className="side-card-img" style={{ backgroundColor: this.state.color }}></div>
 				<div className="side-card-text">
 					{this.props.name}
 				</div>
