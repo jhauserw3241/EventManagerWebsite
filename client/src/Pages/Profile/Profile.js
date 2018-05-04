@@ -23,9 +23,6 @@ class Profile extends Component {
         }
 
         this.signUp = this.signUp.bind(this);
-        this.handlePic = this.handlePic.bind(this);
-
-        //console.log("Start the signup class");
     }
 
     componentDidMount() {
@@ -63,19 +60,16 @@ class Profile extends Component {
         var self = this;
 
         // Update the user in the database
-        fire.database().ref('/users/' + self.state.user.uid)
-        .set({
-            id: self.state.user.uid,
-            first_name: self.state.first_name,
-            last_name: self.state.last_name,
-            email: self.state.email,
-            phone_number: self.state.phone_number,
-            address: self.state.address,
-            notes: self.state.notes,
-            pic: self.state.pic,
-        }).catch(function(error) {
-            self.setState({ formError: error.code + ": " + error.message });
-        });
+        var updates ={};
+        updates['/users/' + self.state.user.uid + '/id'] = self.state.user.uid;
+        updates['/users/' + self.state.user.uid + '/first_name'] = self.state.first_name;
+        updates['/users/' + self.state.user.uid + '/last_name'] = self.state.last_name;
+        updates['/users/' + self.state.user.uid + '/email'] = self.state.email;
+        updates['/users/' + self.state.user.uid + '/phone_number'] = self.state.phone_number;
+        updates['/users/' + self.state.user.uid + '/address'] = self.state.address;
+        updates['/users/' + self.state.user.uid + '/notes'] = self.state.notes;
+        updates['/users/' + self.state.user.uid + '/pic'] = self.state.pic;
+        fire.database().ref().update(updates);
 
         self.setState({disabled: true});
     }

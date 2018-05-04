@@ -26,7 +26,6 @@ class Signup extends Component {
 
         this.signUp = this.signUp.bind(this);
         this.formatAgencyTagsForDB = this.formatAgencyTagsForDB.bind(this);
-        this.handlePic = this.handlePic.bind(this);
         this.handleAgencyDelete = this.handleAgencyDelete.bind(this);
         this.handleAgencyAddition = this.handleAgencyAddition.bind(this);
         this.handleAgencyDrag = this.handleAgencyDrag.bind(this);
