@@ -11,6 +11,7 @@ class AestheticSettings extends Component {
         super(props);
 
         this.state = {
+            member: {},
             agendaColor: "",
             budgetColor: "",
             meetingNotesColor: "",
@@ -36,6 +37,13 @@ class AestheticSettings extends Component {
             return;
         }
 
+        // Get user's privilege level
+        var memberRef = fire.database().ref("users").child(user.uid);
+        memberRef.once("value", function(data) {
+            self.setState({ member: data.val() ? data.val() : {} });
+		});
+
+        // Get users's current settings
         var settingsRef = fire.database().ref("users").child(user.uid).child("settings");
         settingsRef.once("value", function(data) {
             var settings = data.val() ? data.val() : {};
@@ -145,7 +153,7 @@ class AestheticSettings extends Component {
                                         { this.setState({ partnersColor: color.hex }); } } /> }
                         </div>
 
-                        {(this.state.member === "admin") ?
+                        {(this.state.member.status === "admin") ?
                             <div>
                                 <h3 className="form-header">Default Images</h3>
                                 <div className="form-group">
