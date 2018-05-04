@@ -145,42 +145,47 @@ class AestheticSettings extends Component {
                                         { this.setState({ partnersColor: color.hex }); } } /> }
                         </div>
 
-                        <h3 className="form-header">Default Images</h3>
-                        <div className="form-group">
-                            <label htmlFor="defaultUserPic">Default User Picture:</label>
-                            <FileInput
-                                handleSuccess={(url) => {}}
-                                handleError={(error) => this.setState({ formError: error })}
-                                folderName="Defaults"
-                                fieldName="defaultUserPic" />
+                        {(this.state.member === "admin") ?
+                            <div>
+                                <h3 className="form-header">Default Images</h3>
+                                <div className="form-group">
+                                    <label htmlFor="defaultUserPic">Default User Picture:</label>
+                                    <FileInput
+                                        handleSuccess={(url) => {}}
+                                        handleError={(error) => this.setState({ formError: error })}
+                                        folderName="Defaults"
+                                        fieldName="defaultUserPic" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="defaultAgencyPic">Default Agency Picture:</label>
+                                    <FileInput
+                                        handleSuccess={(url) => {}}
+                                        handleError={(error) => this.setState({ formError: error })}
+                                        folderName="Defaults"
+                                        fieldName="defaultAgencyPic" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="defaultAestheticsPic">Default Aesthetics Picture:</label>
+                                    <FileInput
+                                        handleSuccess={(url) => {}}
+                                        handleError={(error) => this.setState({ formError: error })}
+                                        folderName="Defaults"
+                                        fieldName="defaultAestheticsPic" />
+                                </div>
+                            </div> : null }
+                        <div>
+                            {(this.state.disabled) ? 
+                                <input
+                                    type="button"
+                                    className="btn btn-warning"
+                                    value="Edit"
+                                    onClick={(event) => this.setState({ disabled: false })} />
+                                : <input
+                                    type="button"
+                                    className="btn btn-success"
+                                    value="Save"
+                                    onClick={this.saveSettings} /> }
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="defaultAgencyPic">Default Agency Picture:</label>
-                            <FileInput
-                                handleSuccess={(url) => {}}
-                                handleError={(error) => this.setState({ formError: error })}
-                                folderName="Defaults"
-                                fieldName="defaultAgencyPic" />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="defaultAestheticsPic">Default Aesthetics Picture:</label>
-                            <FileInput
-                                handleSuccess={(url) => {}}
-                                handleError={(error) => this.setState({ formError: error })}
-                                folderName="Defaults"
-                                fieldName="defaultAestheticsPic" />
-                        </div>
-                        {(this.state.disabled) ? 
-                            <input
-                                type="button"
-                                className="btn btn-warning"
-                                value="Edit"
-                                onClick={(event) => this.setState({ disabled: false })} />
-                            : <input
-                                type="button"
-                                className="btn btn-success"
-                                value="Save"
-                                onClick={this.saveSettings} /> }
                     </div>
                 </div>
             </div>);
