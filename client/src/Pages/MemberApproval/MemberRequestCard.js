@@ -54,6 +54,8 @@ class MemberRequestCard extends Component {
     }
 
 	render() {
+        console.log(this.props.agencies);
+
 		var cardImgStyle = {
             backgroundImage: `url(${this.props.pic})`
 		}

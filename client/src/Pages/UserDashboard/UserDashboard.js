@@ -41,6 +41,7 @@ class UserDashboard extends Component {
 							name="Profile"
 							pic={this.state.member.pic}
 							link="/profile" />
+						
 						<UserDashboardCard
 							key={1}
 							name="Member Approval"

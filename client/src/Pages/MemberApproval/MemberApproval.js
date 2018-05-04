@@ -21,10 +21,13 @@ class MemberApproval extends Component {
 
 			for(var member_id in members) {
 				var member = members[member_id];
+				console.log(member);
 				if(member.status === "pending member") {
 					filteredMembers.push(member);
 				}
 			}
+
+			console.log(filteredMembers);
 
 			self.setState({ members: filteredMembers })
 		});
@@ -53,7 +56,7 @@ class MemberApproval extends Component {
 								phone_number={member.phone_number}
 								address={member.address}
 								notes={member.notes}
-								agencies={member.agencies}
+								agencies={member.agencies || {}}
 								pic={member.pic} />
 						)}
 					</div>
