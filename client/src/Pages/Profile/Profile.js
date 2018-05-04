@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FileInput from './../Common/FileInput';
 import fire from './../../fire';
 import './../../CSS/Form.css';
 
@@ -79,23 +80,6 @@ class Profile extends Component {
         self.setState({disabled: true});
     }
 
-    handlePic(event) {
-        event.preventDefault();
-        var self = this;
-
-        var file = event.target.files[0];
-        var ref = fire.storage().ref('Profiles').child(file.name);        
-        ref.put(file).then(()=>{
-            ref.getDownloadURL().then((url) => {
-                self.setState({pic: url});
-            }).catch((err) => {
-                self.setState({ formError: err.code + ": " + err.message });
-            });
-        }).catch((error) => {
-            self.setState({ formError: error.code + ": " + error.message });
-        });
-    }
-
 	render() {
         return (
             <div className="Profile">
@@ -174,14 +158,11 @@ class Profile extends Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor="pic">Picture:</label>
-                            <input
-                                type="file"
-                                name="pic"
-                                className="form-control"
-                                accept="image/*"
-                                onChange={this.handlePic}
-                                disabled={this.state.disabled}
-                                />
+                            <FileInput
+                                handleSuccess={(url) => this.setState({ file: url })}
+                                handleError={(error) => this.setState({ formError: error })}
+                                folderName="Profiles"
+                                fieldName="pic" />
                         </div>
                         {(this.state.disabled) ? 
                             <input

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { handlePictureSelected } from './../Common/PictureHelper';
+import FileInput from './../Common/FileInput';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
@@ -25,11 +25,10 @@ class EditEventComponentModal extends Component {
         };
 
         this.editComponent = this.editComponent.bind(this);
-        this.handleFile = this.handleFile.bind(this);
         this.getFieldValue = this.getFieldValue.bind(this);
     }
 
-    componentWillReceiveProps(props) {
+    /*componentWillReceiveProps(props) {
         this.setState( {
             event_id: this.props.event_id,
             component_id: this.props.component_id,
@@ -46,7 +45,7 @@ class EditEventComponentModal extends Component {
             color: this.props.color,
             color_updated: false,
         })
-    }
+    }*/
 
     editComponent(event) {
         event.preventDefault();
@@ -62,20 +61,6 @@ class EditEventComponentModal extends Component {
         updates['/events/' + this.props.event_id + '/components/' + this.props.component_id + '/color'] = this.getFieldValue("color");
         fire.database().ref().update(updates);
 	}
-
-    handleFile(event) {
-        event.preventDefault();
-
-        handlePictureSelected(
-            event,
-            (url) => this.setState({
-                file: url,
-                file_updated: true
-            }),
-            (error) => this.setState({ formError: error }),
-            'Component Files'
-        );
-    }
 
     getFieldValue(fieldName) {
         return ((   (this.state[fieldName] === undefined) || // Check if field value isn't set
@@ -154,12 +139,11 @@ class EditEventComponentModal extends Component {
                             { (this.state.content_type === "file") ? 
                                 <div className="form-group">
                                     <label htmlFor="componentFile">File:</label>
-                                    <input
-                                        type="file"
-                                        name="componentFile"
-                                        className="form-control"
-                                        value={this.getFieldValue("file")}
-                                        onChange={this.handleFile}/>
+                                    <FileInput
+                                        handleSuccess={(url) => this.setState({ file: url })}
+                                        handleError={(error) => this.setState({ formError: error })}
+                                        folderName="ComponentFiles"
+                                        fieldName="componentFile" />
                                 </div> : null }
                             { (this.state.content_type === "url") ? 
                                 <div className="form-group">

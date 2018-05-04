@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PersonAgencyTags from './../Common/PersonAgencyTags';
 import { formatTagsForDatabase } from './../Common/TagHelper';
-import { handlePictureSelected } from './../Common/PictureHelper';
+import FileInput from './../Common/FileInput';
 import fire from './../../fire';
 import './../../CSS/Modal.css';
 
@@ -21,7 +21,6 @@ class AddPersonModal extends Component {
 		};
 
 		this.addMember = this.addMember.bind(this);
-		this.handleProfilePic = this.handleProfilePic.bind(this);
 		this.handleAgencyAddition = this.handleAgencyAddition.bind(this);
 		this.handleAgencyDelete = this.handleAgencyDelete.bind(this);
 		this.handleAgencyDrag = this.handleAgencyDrag.bind(this);
@@ -56,16 +55,6 @@ class AddPersonModal extends Component {
 		}).catch(function(error) {
 			self.setState({ formError: error.code + ": " + error.message });
 		});
-	}
-
-    handleProfilePic(event) {
-        event.preventDefault();
-
-		handlePictureSelected(
-			event,
-			(url) => this.setState({ pic: url }),
-			(error) => this.props.handleError(error),
-			"Profiles");
 	}
 
     handleAgencyDelete(i) {
@@ -171,12 +160,11 @@ class AddPersonModal extends Component {
 							</div>
 							<div className="form-group">
 								<label htmlFor="pic">Picture:</label>
-								<input
-									type="file"
-									name="pic"
-									className="form-control"
-									accept="image/*"
-									onChange={this.handleProfilePic}/>
+								<FileInput
+									handleSuccess={(url) => this.setState({ pic: url })}
+									handleError={(error) => this.setState({ formError: error })}
+									folderName="Profiles"
+									fieldName="pic" />
 							</div>
 							<div className="form-check">
 								<input

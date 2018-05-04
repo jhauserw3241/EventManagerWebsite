@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { handlePictureSelected } from './../Common/PictureHelper';
+import FileInput from './../Common/FileInput';
 import fire from './../../fire';
 
 class AddComponentModal extends Component {
@@ -16,7 +16,6 @@ class AddComponentModal extends Component {
         };
 
 		this.addComponent = this.addComponent.bind(this);
-		this.handleFile = this.handleFile.bind(this);
     }
 
     componentDidMount() {
@@ -61,15 +60,6 @@ class AddComponentModal extends Component {
 		.catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
-	}
-
-    handleFile(event) {
-		handlePictureSelected(
-			event,
-			(link) => this.setState({ file: link }),
-			(error) => this.setState({ formError: error }),
-			'Profiles',
-		);
 	}
 
 	render() {
@@ -134,11 +124,11 @@ class AddComponentModal extends Component {
 							{ (this.state.content_type === "file") ? 
 								<div className="form-group">
 									<label htmlFor="componentFile">File:</label>
-									<input
-										type="file"
-										name="componentFile"
-										className="form-control"
-										onChange={this.handleFile}/>
+									<FileInput
+										handleSuccess={(url) => this.setState({ file: url })}
+										handleError={(error) => this.setState({ formError: error })}
+										folderName="ComponentFiles"
+										fieldName="file" />
 								</div> : null }
 							
 							{ (this.state.content_type === "url") ? 

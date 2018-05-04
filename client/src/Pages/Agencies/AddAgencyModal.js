@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { handlePictureSelected } from './../Common/PictureHelper';
+import FileInput from './../Common/FileInput';
 import AliasTags from './../Common/AliasTags';
 import fire from './../../fire';
 import { formatTagsForDatabase } from '../Common/TagHelper';
@@ -15,7 +15,6 @@ class AddAgencyModal extends Component {
         };
 
 		this.addAgency = this.addAgency.bind(this);
-		this.handlePic = this.handlePic.bind(this);
 		this.handleAliasAddition = this.handleAliasAddition.bind(this);
 		this.handleAliasDelete = this.handleAliasDelete.bind(this);
 		this.handleAliasDrag = this.handleAliasDrag.bind(this);
@@ -71,15 +70,6 @@ class AddAgencyModal extends Component {
 
       this.setState({ aliases: newTags });
 	}
-	
-	handlePic(event) {
-        handlePictureSelected(
-			event,
-			(url) => this.setState({ pic: url }),
-            (error) => this.setState({ formError: error }),
-            "Agencies",
-		);
-	}
 
 	render() {
         return (
@@ -122,12 +112,11 @@ class AddAgencyModal extends Component {
 							</div>
                             <div className="form-group">
                                 <label htmlFor="pic">Picture:</label>
-                                <input
-                                    type="file"
-                                    name="pic"
-                                    className="form-control"
-                                    accept="image/*"
-                                    onChange={this.handlePic}/>
+								<FileInput
+									handleSuccess={(url) => this.setState({ pic: url })}
+									handleError={(error) => this.setState({ formError: error })}
+									folderName="Agencies"
+									fieldName="pic" />
                             </div>
 						</div>
 						<div className="modal-footer">

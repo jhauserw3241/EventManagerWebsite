@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SketchPicker } from 'react-color';
-import { handlePictureSelected } from './../Common/PictureHelper';
+import FileInput from './../Common/FileInput';
 import { generateColor } from './../Common/Colors';
 import fire from './../../fire';
 import './../../CSS/Form.css';
@@ -67,26 +67,6 @@ class AestheticSettings extends Component {
                     settings.default_agency_pic : "",
             });
 		});
-    }
-
-    changeDefaultUserPic(event) {
-        handlePictureSelected(
-            event,
-            (url) => this.setState({ defaultUserPic: url }),
-            (error) => this.setState({ formError: error }),
-            "Defaults",
-            "profile.png",
-        );
-    }
-
-    changeDefaultAgencyPic(event) {
-        handlePictureSelected(
-            event,
-            (url) => this.setState({ defaultAgencyPic: url }),
-            (error) => this.setState({ formError: error }),
-            "Defaults",
-            "agency.png",
-        );
     }
 
     saveSettings() {
@@ -214,25 +194,19 @@ class AestheticSettings extends Component {
                         <h3 className="form-header">Default Images</h3>
                         <div className="form-group">
                             <label htmlFor="defaultUserPic">Default User Picture:</label>
-                            <input
-                                type="file"
-                                name="defaultUserPic"
-                                className="form-control"
-                                accept="image/*"
-                                onChange={this.changeDefaultUserPic}
-                                disabled={this.state.disabled}
-                                />
+                            <FileInput
+                                handleSuccess={(url) => this.setState({ defaultUserPic: url })}
+                                handleError={(error) => this.setState({ formError: error })}
+                                folderName="Defaults"
+                                fieldName="defaultUserPic" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="defaultAgencyPic">Default Agency Picture:</label>
-                            <input
-                                type="file"
-                                name="defaultAgencyPic"
-                                className="form-control"
-                                accept="image/*"
-                                onChange={this.changeDefaultAgencyPic}
-                                disabled={this.state.disabled}
-                                />
+                            <FileInput
+                                handleSuccess={(url) => this.setState({ defaultAgencyPic: url })}
+                                handleError={(error) => this.setState({ formError: error })}
+                                folderName="Defaults"
+                                fieldName="defaultAgencyPic" />
                         </div>
                         {(this.state.disabled) ? 
                             <input
