@@ -41,12 +41,12 @@ class UserDashboard extends Component {
 							name="Profile"
 							pic={this.state.member.pic}
 							link="/profile" />
-						
+						{(this.state.member.status === "admin") ?
 						<UserDashboardCard
 							key={1}
 							name="Member Approval"
 							pic="https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74"
-							link="/memberapproval" />
+							link="/memberapproval" /> : null }
 						<UserDashboardCard
 							key={2}
 							name="Aesthetic Settings"
