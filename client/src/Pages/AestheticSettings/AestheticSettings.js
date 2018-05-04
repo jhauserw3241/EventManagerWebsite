@@ -162,7 +162,8 @@ class AestheticSettings extends Component {
                                         handleSuccess={(url) => {}}
                                         handleError={(error) => this.setState({ formError: error })}
                                         folderName="Defaults"
-                                        fieldName="defaultUserPic" />
+                                        fileName="profile.png"
+                                        fieldName="defaultUserPic"
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="defaultAgencyPic">Default Agency Picture:</label>
@@ -170,7 +171,8 @@ class AestheticSettings extends Component {
                                         handleSuccess={(url) => {}}
                                         handleError={(error) => this.setState({ formError: error })}
                                         folderName="Defaults"
-                                        fieldName="defaultAgencyPic" />
+                                        fileName="agency.png"
+                                        fieldName="defaultAgencyPic"
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="defaultAestheticsPic">Default Aesthetics Picture:</label>
@@ -178,7 +180,8 @@ class AestheticSettings extends Component {
                                         handleSuccess={(url) => {}}
                                         handleError={(error) => this.setState({ formError: error })}
                                         folderName="Defaults"
-                                        fieldName="defaultAestheticsPic" />
+                                        fileName="aesthetic_settings.png"
+                                        fieldName="defaultAestheticsPic"
                                 </div>
                             </div> : null }
                         <div>
