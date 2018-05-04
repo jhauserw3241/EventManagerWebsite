@@ -153,7 +153,7 @@ class Profile extends Component {
                         <div className="form-group">
                             <label htmlFor="pic">Picture:</label>
                             <FileInput
-                                handleSuccess={(url) => this.setState({ file: url })}
+                                handleSuccess={(url) => this.setState({ pic: url })}
                                 handleError={(error) => this.setState({ formError: error })}
                                 folderName="Profiles"
                                 fieldName="pic"
