@@ -36,7 +36,8 @@ class FileInput extends Component {
                 type="file"
                 name={this.props.fieldName}
                 className="form-control"
-                onChange={this.handleFile}/>
+                onChange={this.handleFile}
+                disabled={this.props.disabled} />
 		);
 	}
 }

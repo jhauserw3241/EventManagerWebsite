@@ -62,10 +62,6 @@ class People extends Component {
 	}
 	
 	render() {
-		if(	(this.state.cur_user.status !== "member") &&
-			(this.state.cur_user.status !== "admin")) {
-			window.location = "/";
-		}
 
 		return (
 			<div className="People">

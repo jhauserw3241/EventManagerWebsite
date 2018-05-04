@@ -156,7 +156,8 @@ class Profile extends Component {
                                 handleSuccess={(url) => this.setState({ file: url })}
                                 handleError={(error) => this.setState({ formError: error })}
                                 folderName="Profiles"
-                                fieldName="pic" />
+                                fieldName="pic"
+                                disabled={this.state.disabled} />
                         </div>
                         {(this.state.disabled) ? 
                             <input

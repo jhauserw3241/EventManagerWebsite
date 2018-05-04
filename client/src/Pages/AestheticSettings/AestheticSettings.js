@@ -164,6 +164,7 @@ class AestheticSettings extends Component {
                                         folderName="Defaults"
                                         fileName="profile.png"
                                         fieldName="defaultUserPic"
+                                        disabled={this.state.disabled} />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="defaultAgencyPic">Default Agency Picture:</label>
@@ -173,6 +174,7 @@ class AestheticSettings extends Component {
                                         folderName="Defaults"
                                         fileName="agency.png"
                                         fieldName="defaultAgencyPic"
+                                        disabled={this.state.disabled} />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="defaultAestheticsPic">Default Aesthetics Picture:</label>
@@ -182,6 +184,7 @@ class AestheticSettings extends Component {
                                         folderName="Defaults"
                                         fileName="aesthetic_settings.png"
                                         fieldName="defaultAestheticsPic"
+                                        disabled={this.state.disabled} />
                                 </div>
                             </div> : null }
                         <div>
