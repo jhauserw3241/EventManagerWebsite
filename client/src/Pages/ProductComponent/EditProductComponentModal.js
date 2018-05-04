@@ -136,7 +136,7 @@ class EditProductComponentModal extends Component {
                                     <option value="url">URL</option>
                                 </select>
                             </div>
-                            { (this.state.content_type === "file") ? 
+                            { (this.getFieldValue("content_type") === "file") ? 
                                 <div className="form-group">
                                     <label htmlFor="componentFile">File:</label>
                                     <FileInput
@@ -145,7 +145,7 @@ class EditProductComponentModal extends Component {
                                         folderName="ComponentFiles"
                                         fieldName="componentFile" />
                                 </div> : null }
-                            { (this.state.content_type === "url") ? 
+                            { (this.getFieldValue("content_type") === "url") ? 
                                 <div className="form-group">
                                     <label htmlFor="componentUrl">URL:</label>
                                     <input
