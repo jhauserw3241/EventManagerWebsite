@@ -47,6 +47,17 @@ class AddProductModal extends Component {
 				owner_id: owner_id,
 				partners: partnersList,
 				color: generateColor(),
+			})
+			.then(function() {
+				// Reset event component fields to be the defaults
+				self.setState({
+					id: "",
+					name: "",
+					type: "",
+					owner_id: "",
+					partners: [],
+					color: "",
+				});
 			});
 
 			// Add this product to the list of products that is being tracked for the current user
