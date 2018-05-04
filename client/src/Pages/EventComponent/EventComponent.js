@@ -55,7 +55,11 @@ class EventComponent extends Component {
     }
 
     canEditComponent() {
-		var cur_user_id = fire.auth().currentUser.uid;
+        var user = fire.auth().currentUser;
+        if(!user) {
+            return;
+        }
+		var cur_user_id = user.uid;
 
 		// Check if the user is the event owner
 		if(cur_user_id === this.state.event_owner_id) {

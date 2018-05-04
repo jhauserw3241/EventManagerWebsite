@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EventComponentCard from './EventComponentCard';
+import EventComponentTypeCard from './EventComponentTypeCard';
 import PartnersComponentCard from './PartnersComponentCard';
 import EditEventModal from './EditEventModal';
 import AddComponentModal from './AddComponentModal';
@@ -26,6 +26,11 @@ class Event extends Component {
 			owner_id: "",
 			event_color: "",
 			components: [],
+			component_types: [
+				{type: "agenda", name: "Agenda(s)"},
+				{type: "budget", name: "Budget(s)"},
+				{type: "meetingNotes", name: "Meeting Notes"},
+				{type: "other", name: "Other"}],
 			people: [],
 			event_partners: [],
         };
@@ -127,14 +132,12 @@ class Event extends Component {
 										Edit Event
 									</Button>
 								</div> : null }
-							{this.state.components.map(comp =>
-								<EventComponentCard
-									color={comp.color}
-									name={comp.name}
+							{this.state.component_types.map(type =>
+								<EventComponentTypeCard
+									type={type.type}
+									name={type.name}
 									event_id={this.state.event_id}
-									component_id={comp.id}
-									canEditEvent={this.canEditEvent}
-									link={this.state.event_id + "/components/" + comp.id + "/"} />
+									canEdit={this.canEditEvent} />
 							)}
 							<PartnersComponentCard
 								color="red"

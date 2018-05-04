@@ -28,7 +28,7 @@ export const Main = () => (
 			<Route exact path='/agencies' component={Agencies} />
 			<Route exact path='/events' component={Events} />
 			<Route exact path='/event/:id' component={Event} />
-			<Route exact path='/event/:event_id/components/:component_id' component={EventComponent} />
+			<Route exact path='/event/:event_id/component/:component_id' component={EventComponent} />
 			<Route exact path='/event/:event_id/partners' component={EventPartnerComponent} />
 			<Route exact path='/products' component={Products} />
 			<Route exact path='/product/:id' component={Product} />

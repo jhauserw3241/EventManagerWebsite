@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import fire from './../../fire';
-import './../../CSS/Table.css';
+import './../../CSS/ComponentTypeTable.css';
 
 class ComponentTypeTable extends Component {
     constructor(props) {
@@ -38,6 +39,7 @@ class ComponentTypeTable extends Component {
                 id: component_id,
                 num: component_count,
                 name: component.name,
+                link: "/" + this.props.item + "/" + this.props.item_id + "/component/" + component_id
             });
 
             component_count += 1;
@@ -57,8 +59,9 @@ class ComponentTypeTable extends Component {
             "backgroundColor": this.state.rowColor2
         }
 
-        var cur_user_id = fire.auth().currentUser.uid;
-        var numColumns = (cur_user_id === this.props.owner_id) ? (columns.length + 1) : columns.length;
+        // Provide column for delete button if the user can edit
+        var numColumns = this.props.canEdit() ? (columns.length + 1) : columns.length;
+        console.log(numColumns);
 
         var columnWidthStyle = {
             width: 100 / numColumns + "%"
@@ -66,14 +69,14 @@ class ComponentTypeTable extends Component {
         
 	    return(
             <div className="ComponentTypeTable">
-                <table className="items-table">
+                <table className="type-table">
                     <thead>
                         <tr
-                            className="table-tr"
+                            className="type-tr"
                             style={headerRowStyle}>
                             {columns.map(column =>
                                 <th
-                                    className="table-th"
+                                    className="type-th"
                                     style={columnWidthStyle}>{column.name}</th>
                             )}
                         </tr>
@@ -81,14 +84,22 @@ class ComponentTypeTable extends Component {
                     <tbody>
                         {data.map(d =>
                             <tr
-                                className="table-tr"
+                                className="type-tr"
                                 style={((d["num"] % 2) === 0) ? row1Style : row2Style}>
                                 {columns.map(column =>
                                     <td
-                                        className="table-td"
+                                        className="type-td"
                                         style={columnWidthStyle}>
-                                        {d[column.key]}
-                                    </td> 
+                                        <Link className="type-txt" to={d["link"]}>
+                                            {d["name"]}
+                                        </Link>
+                                        { this.props.canEdit() ?
+                                        <button
+                                            className="btn btn-danger type-delete-btn"
+                                            onClick={(event) => this.props.deleteItem(event, d["id"])}>
+                                            Delete
+                                        </button> : null }
+                                    </td>
                                 )}
                             </tr>
                         )}
