@@ -10,6 +10,7 @@ import EventComponent from './Pages/EventComponent/EventComponent';
 import EventPartnerComponent from './Pages/EventPartnerComponent/EventPartnerComponent';
 import Products from './Pages/Products/Products';
 import Product from './Pages/Product/Product';
+import ProductComponent from './Pages/ProductComponent/ProductComponent';
 import ProductPartnerComponent from './Pages/ProductPartnerComponent/ProductPartnerComponent';
 import UserDashboard from './Pages/UserDashboard/UserDashboard';
 import Profile from './Pages/Profile/Profile';
@@ -28,10 +29,11 @@ export const Main = () => (
 			<Route exact path='/agencies' component={Agencies} />
 			<Route exact path='/events' component={Events} />
 			<Route exact path='/event/:id' component={Event} />
-			<Route exact path='/event/:event_id/components/:component_id' component={EventComponent} />
+			<Route exact path='/event/:event_id/component/:component_id' component={EventComponent} />
 			<Route exact path='/event/:event_id/partners' component={EventPartnerComponent} />
 			<Route exact path='/products' component={Products} />
 			<Route exact path='/product/:id' component={Product} />
+			<Route exact path='/product/:product_id/component/:component_id' component={ProductComponent} />
 			<Route exact path='/product/:product_id/partners' component={ProductPartnerComponent} />
 			<Route exact path='/dashboard' component={UserDashboard} />
 			<Route exact path='/profile' component={Profile} />
