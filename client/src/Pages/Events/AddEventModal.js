@@ -78,11 +78,11 @@ class AddEventModal extends Component {
 			var agenda_id = curEventAgendas.path["pieces_"][3];
 			curEventAgendas.set({
 				id: agenda_id,
-				component_type: "Agenda",
+				component_type: "agenda",
 				name: "Agenda",
 				content_type: "url",
 				path: "",
-				url: "https://www.google.com",
+				url: "https://docs.google.com/document/d/177zKPSfU3ViFQjlq7xCucb32wq60uAaLisoXhZuGiWQ/edit",
 				color: generateColor(),
 			}).catch(function(error) {
 				this.setState({ formError: error.code + ": " + error.message });
@@ -93,11 +93,11 @@ class AddEventModal extends Component {
 			var budget_id = curEventBudgets.path["pieces_"][3];
 			curEventBudgets.set({
 				id: budget_id,
-				component_type: "Budget",
+				component_type: "budget",
 				name: "Budget",
 				content_type: "url",
 				path: "",
-				url: "https://www.stackoverflow.com",
+				url: "http://www.ksu.edu",
 				color: generateColor(),
 			}).catch(function(error) {
 				this.setState({ formError: error.code + ": " + error.message });
