@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AgencyInfoModal from './AgencyInfoModal';
+import LoginRequired from './../Login/LoginRequired';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 
@@ -10,6 +11,8 @@ class AgencyCard extends Component {
         this.state = {
             people: [],
         }
+
+        this.deleteAgency = this.deleteAgency.bind(this);
     }
 
     componentDidMount() {
@@ -37,6 +40,10 @@ class AgencyCard extends Component {
         });
     }
 
+    deleteAgency() {
+        fire.database().ref("agencies").child(this.props.id).remove();
+    }
+
 	render() {
 		return (
 			<div className="AgencyCard people-card">
@@ -57,6 +64,16 @@ class AgencyCard extends Component {
                         <strong>{this.props.name}</strong>
                     </div>
                 </div>
+                <LoginRequired requiredRole="admin">
+                    <div
+                        className="people-card-btns">
+                        <button
+                            className="btn btn-danger"
+                            onClick={this.deleteAgency}>
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </LoginRequired>
 			</div>
 		);
 	}
