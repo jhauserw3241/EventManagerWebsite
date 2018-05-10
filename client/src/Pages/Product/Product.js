@@ -19,6 +19,7 @@ class Product extends Component {
 			product_type: "",
 			owner_id: "",
 			product_color: "",
+			product_archived: false,
 			component_types: [
 				{type: "agenda", name: "Agenda(s)"},
 				{type: "budget", name: "Budget(s)"},
@@ -30,6 +31,7 @@ class Product extends Component {
         };
 
 		this.canEditProduct = this.canEditProduct.bind(this);
+		this.archiveProduct = this.archiveProduct.bind(this);
     }
 
     componentDidMount() {
@@ -44,6 +46,7 @@ class Product extends Component {
 				owner_id: product.owner_id,
 				components: product.components ? Object.values(product.components) : [],
 				product_color: product.color,
+				product_archived: product.archived ? product.archived : false,
 				partners: product.partners ? product.partners : {},
             });
 		});
@@ -72,6 +75,12 @@ class Product extends Component {
 		return false;
 	}
 
+	archiveProduct(archive) {
+		var updates = {};
+		updates["/products/" + this.state.product_id + "/archived"] = archive;
+		fire.database().ref().update(updates);
+	}
+
 	render() {
         return (
 			<div className="Product">
@@ -83,6 +92,22 @@ class Product extends Component {
 
                 <div className="container">
                     <div className="content">
+						<div
+							className="project-mod-btns">
+							{(this.state.product_archived) ?
+								<Button 
+									className="btn btn-success"
+									onClick={() => this.archiveProduct(false)}>
+									<i className="fa fa-folder-open"></i>
+								</Button>
+								: <Button
+									className="btn btn-success"
+									onClick={() => this.archiveProduct(true)}>
+									<i className="fa fa-archive"></i>
+								</Button>
+							}
+						</div>
+
 						<div className="product-info">
 							<div className="product-header">
 								<div className="product-base-info">
