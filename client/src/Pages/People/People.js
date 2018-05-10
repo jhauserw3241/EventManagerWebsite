@@ -91,7 +91,8 @@ class People extends Component {
 								address={person.address}
 								notes={person.notes}
 								pic={person.pic}
-								color={person.color} />
+								color={person.color}
+								priv={person.status} />
 						)}
 					</div>
 				</div>

@@ -4,14 +4,17 @@
 }
 
 .people-card {
-	display: grid;
-	grid-template-columns: 100px auto;
 	width: 23%;
 	border-radius: 10px;
 	margin: 10px;
 	background-color: white;
 	background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
+}
+
+.people-card-content {
+	display: grid;
+	grid-template-columns: 100px auto;
 }
 
 .people-card-img {
@@ -26,6 +29,16 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding-left: 5px;
+}
+
+.people-card-btns {
+	padding: 5px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	flex-shrink: .5;
 }
 
 .card {
