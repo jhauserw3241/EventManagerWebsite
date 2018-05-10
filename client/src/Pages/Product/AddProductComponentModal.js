@@ -89,6 +89,7 @@ class AddComponentModal extends Component {
 									name="componentType"
 									className="form-control"
 									value={this.state.component_type}
+									placeholder="Component Type"
 									onChange={(event) => this.setState({component_type: event.target.value})}
 									required>
 									<option>Not Specified</option>
@@ -104,6 +105,7 @@ class AddComponentModal extends Component {
 									type="text"
 									name="componentName"
 									className="form-control"
+									placeholder="Component Name"
 									value={this.state.name}
 									onChange={(event) => this.setState({ name: event.target.value })}
 									required />
@@ -115,6 +117,7 @@ class AddComponentModal extends Component {
 									name="contentType"
 									className="form-control"
 									value={this.state.content_type}
+									placeholder="Content Type"
 									onChange={(event) => this.setState({ content_type: event.target.value })}
 									required>
 									<option>Not Specified</option>
@@ -139,6 +142,7 @@ class AddComponentModal extends Component {
 										type="text"
 										name="componentUrl"
 										className="form-control"
+										placeholder="URL"
 										value={this.state.url}
 										onChange={(event) => this.setState({ url: event.target.value })} />
 								</div> : null }

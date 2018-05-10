@@ -97,6 +97,7 @@ class AddProductModal extends Component {
 									type="text"
 									name="name"
 									className="form-control"
+									placeholder="Name"
 									onChange={(event) => this.setState({name: event.target.value})}
 									required />
 							</div>
@@ -105,6 +106,7 @@ class AddProductModal extends Component {
 								<select
 									name="type"
 									className="form-control"
+									placeholder="Type"
 									onChange={(event) => this.setState({type: event.target.value})}
 									required>
 									<option>Not Specified</option>

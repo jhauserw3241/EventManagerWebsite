@@ -139,6 +139,7 @@ class AddEventModal extends Component {
 									name="name"
 									className="form-control"
 									value={this.state.name}
+									placeholder="Name"
 									onChange={(event) => this.setState({name: event.target.value})}
 									required />
 							</div>
@@ -148,6 +149,7 @@ class AddEventModal extends Component {
 									name="type"
 									className="form-control"
 									value={this.state.type}
+									placeholder="Type"
 									onChange={(event) => this.setState({type: event.target.value})}
 									required>
 									<option>Not Specified</option>
@@ -163,6 +165,7 @@ class AddEventModal extends Component {
 								<DateTime
 									name="planning-start"
 									value={this.state.planningStart}
+									placeholder="Planning Start"
 									onChange={(event) => this.setState({planningStart: event._d})}
 									isValidDate={(current) => validPlanningStart(
 										current,
@@ -177,6 +180,7 @@ class AddEventModal extends Component {
 								<DateTime
 									name="event-start"
 									value={this.state.eventStart}
+									placeholder="Event Start"
 									onChange={(event) => this.setState({eventStart: event._d})}
 									isValidDate={(current) => validEventStart(
 										this.state.planningStart,
@@ -191,6 +195,7 @@ class AddEventModal extends Component {
 								<DateTime
 									name="event-end"
 									value={this.state.eventEnd}
+									placeholder="Event End"
 									onChange={(event) => this.setState({eventEnd: event._d})}
 									isValidDate={(current) => validEventEnd(
 										this.state.planningStart,
@@ -205,6 +210,7 @@ class AddEventModal extends Component {
 								<DateTime
 									name="planning-end"
 									value={this.state.planningEnd}
+									placeholder="Planning End"
 									onChange={(event) => this.setState({planningEnd: event._d})}
 									isValidDate={(current) => validPlanningEnd(
 										this.state.planningStart,
@@ -219,6 +225,7 @@ class AddEventModal extends Component {
 								<input
 									type="text"
 									name="location"
+									placeholder="Location"
 									className="form-control"
 									value={this.state.location}
 									onChange={(event) => this.setState({location: event.target.value})}

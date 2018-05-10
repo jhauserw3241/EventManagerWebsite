@@ -140,6 +140,7 @@ class Signup extends Component {
                                     name="firstName"
                                     className="form-control"
                                     value={this.state.first_name}
+                                    placeholder="First Name"
                                     onChange={(event) => this.setState({first_name: event.target.value})}
                                     required />
                             </div>
@@ -150,6 +151,7 @@ class Signup extends Component {
                                     name="lastName"
                                     className="form-control"
                                     value={this.state.last_name}
+                                    placeholder="Last Name"
                                     onChange={(event) => this.setState({last_name: event.target.value})}
                                     required />
                             </div>
@@ -160,6 +162,7 @@ class Signup extends Component {
                                     name="email"
                                     className="form-control"
                                     value={this.state.email}
+                                    placeholder="Email"
                                     onChange={(event) => this.setState({email: event.target.value})}
                                     required />
                             </div>
@@ -170,6 +173,7 @@ class Signup extends Component {
                                     name="password"
                                     className="form-control"
                                     value={this.state.password}
+                                    placeholder="Password"
                                     onChange={(event) => this.setState({password: event.target.value})}
                                     required />
                             </div>
@@ -180,6 +184,7 @@ class Signup extends Component {
                                     name="confirmPassword"
                                     className="form-control"
                                     value={this.state.confirmPassword}
+                                    placeholder="Confirm Password"
                                     onChange={(event) => this.setState({confirmPassword: event.target.value})}
                                     required />
                             </div>
@@ -190,6 +195,7 @@ class Signup extends Component {
                                     name="phone_number"
                                     className="form-control"
                                     value={this.state.phone_number}
+                                    placeholder="Phone Number"
                                     onChange={(event) => this.setState({phone_number: event.target.value})}
                                     required />
                             </div>
@@ -200,6 +206,7 @@ class Signup extends Component {
                                     name="address"
                                     className="form-control"
                                     value={this.state.address}
+                                    placeholder="Address"
                                     onChange={(event) => this.setState({address: event.target.value})}
                                     required></textarea>
                             </div>

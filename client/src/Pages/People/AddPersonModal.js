@@ -101,6 +101,7 @@ class AddPersonModal extends Component {
 									type="text"
 									name="firstName"
 									className="form-control"
+									placeholder="First Name"
 									onChange={(event) => this.setState({ first_name: event.target.value })}
 									required />
 							</div>
@@ -110,6 +111,7 @@ class AddPersonModal extends Component {
 									type="text"
 									name="lastName"
 									className="form-control"
+									placeholder="Last Name"
 									onChange={(event) => this.setState({ last_name: event.target.value })}
 									required />
 							</div>
@@ -119,6 +121,7 @@ class AddPersonModal extends Component {
 									type="text"
 									name="email"
 									className="form-control"
+									placeholder="Email"
 									onChange={(event) => this.setState({ email: event.target.value })}
 									required />
 							</div>
@@ -128,6 +131,7 @@ class AddPersonModal extends Component {
 									type="text"
 									name="phone_number"
 									className="form-control"
+									placeholder="Phone Number"
 									onChange={(event) => this.setState({ phone_number: event.target.value })}
 									required />
 							</div>
@@ -137,6 +141,7 @@ class AddPersonModal extends Component {
 									type="text"
 									name="address"
 									className="form-control"
+									placeholder="Address"
 									onChange={(event) => this.setState({ address: event.target.value })}
 									required></textarea>
 							</div>

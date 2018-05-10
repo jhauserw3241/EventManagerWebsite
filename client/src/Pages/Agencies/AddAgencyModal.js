@@ -98,6 +98,7 @@ class AddAgencyModal extends Component {
 									name="name"
 									className="form-control"
 									value={this.state.name}
+									placeholder="Name"
 									onChange={(event) => this.setState({ name: event.target.value })}
 									required />
 							</div>
