@@ -49,10 +49,7 @@ class Agencies extends Component {
 								key={agency.id}
 								id={agency.id}
 								name={agency.name}
-								aliases={agency.alias}
-								people_ids={agency.people ? Object.values(agency.people) : []}
-								pic={agency.pic}
-								color={agency.color} />
+								pic={agency.pic} />
 						)}
 					</div>
 				</div>
