@@ -16,6 +16,7 @@ class AddPersonModal extends Component {
 			phone_number: "",
 			address: "",
 			agencies: [],
+			pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
 			public: false,
 		};
 
