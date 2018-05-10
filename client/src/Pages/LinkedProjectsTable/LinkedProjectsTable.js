@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/PartnerTable.css';
 
-class PartnerTable extends Component {
+class LinkedProjectsTable extends Component {
     constructor(props) {
         super(props);
 
@@ -30,24 +31,24 @@ class PartnerTable extends Component {
                 name: "Name"
             },
             {
-                key: "role",
-                name: "Role"
+                key: "type",
+                name: "Type"
             },
         ]
 
-        var people_count = 0;
+        var projects_count = 0;
         var data = [];
-        for(var partner_id in this.props.partners) {
-            var partner = this.props.partners[partner_id];
+        for(var project_id in this.props.projects) {
+            var project = this.props.projects[project_id];
             data.push({
-                id: partner_id,
-                num: people_count,
-                name: partner.name,
-                role: partner.role,
-                priv: partner.priv,
+                id: project_id,
+                num: projects_count,
+                name: project.name,
+                type: project.type,
+                link: project.link,
             });
 
-            people_count += 1;
+            projects_count += 1;
         }
 
         // Update CSS options
@@ -64,14 +65,12 @@ class PartnerTable extends Component {
             "backgroundColor": this.state.rowColor2
         }
 
-        var numColumns = (user.uid === this.props.owner_id) ? (columns.length + 1) : columns.length;
-
         var columnWidthStyle = {
-            width: 100 / numColumns + "%"
+            width: 100 / columns.length + "%"
         };
         
 	    return(
-            <div className="PartnerTable">
+            <div className="LinkedProjectTable">
                 <div className="container">
                     <div className="content">
                         <table className="partner-table">
@@ -84,12 +83,6 @@ class PartnerTable extends Component {
                                             className="partner-th"
                                             style={columnWidthStyle}>{column.name}</th>
                                     )}
-                                    {(user.uid === this.props.owner_id) ? 
-                                        <th
-                                            className="partner-th"
-                                            style={columnWidthStyle}>
-                                            Privilege Level
-                                        </th> : null}
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,30 +94,13 @@ class PartnerTable extends Component {
                                             <td
                                                 className="partner-td"
                                                 style={columnWidthStyle}>
-                                                {d[column.key]}
+                                                <Link
+                                                    className="items-txt"
+                                                    to={d["link"]}>
+                                                    {d[column.key]}
+                                                </Link>
                                             </td> 
                                         )}
-                                        <td
-                                            className="partner-td"
-                                            style={columnWidthStyle}>
-                                            {((user.uid === this.props.owner_id) && (d["priv"] !== "Owner")) ?
-                                                <div>
-                                                    <button
-                                                        className="btn btn-success"
-                                                        onClick={() => this.props.allowEdit(d["id"])}
-                                                        disabled={d["priv"] === "Edit"}>
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-danger"
-                                                        onClick={() => this.props.removeEdit(d["id"])}
-                                                        disabled={d["priv"] === "View"}>
-                                                        <i class="fa fa-eye"></i>
-                                                    </button>
-                                                </div> : null }
-                                            {((user.uid === this.props.owner_id) && (d["priv"] === "Owner")) ?
-                                                d["priv"] : null }
-                                        </td>
                                     </tr>
                                 )}
                             </tbody>
@@ -136,4 +112,4 @@ class PartnerTable extends Component {
     }
 }
 
-export default PartnerTable;
+export default LinkedProjectsTable;

@@ -18,6 +18,7 @@ import AestheticSettings from './Pages/AestheticSettings/AestheticSettings';
 import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
 import Signout from './Pages/Signout/Signout';
+import EventLinkedProjectsComponent from './Pages/EventLinkedProjectsComponent/EventLinkedProjectsComponent';
 
 export const Main = () => (
 	<main>
@@ -31,6 +32,7 @@ export const Main = () => (
 			<Route exact path='/event/:id' component={Event} />
 			<Route exact path='/event/:event_id/component/:component_id' component={EventComponent} />
 			<Route exact path='/event/:event_id/partners' component={EventPartnerComponent} />
+			<Route exact path='/event/:event_id/linkedprojects' component={EventLinkedProjectsComponent} />
 			<Route exact path='/products' component={Products} />
 			<Route exact path='/product/:id' component={Product} />
 			<Route exact path='/product/:product_id/component/:component_id' component={ProductComponent} />

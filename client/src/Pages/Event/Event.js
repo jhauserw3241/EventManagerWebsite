@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EventComponentTypeCard from './EventComponentTypeCard';
 import PartnersComponentCard from './PartnersComponentCard';
+import LinkedProjectsComponentCard from './LinkedProjectsComponentCard';
 import EditEventModal from './EditEventModal';
 import AddComponentModal from './AddComponentModal';
 import AddPartnerModal from './AddPartnerModal';
@@ -166,10 +167,13 @@ class Event extends Component {
 									canEdit={this.canEditEvent} />
 							)}
 							<PartnersComponentCard
-								color="red"
 								name="Partners"
 								canEditEvent={this.canEditEvent}
 								link={"/event/" + this.state.event_id + "/partners/"} />
+							<LinkedProjectsComponentCard
+								name="Linked Projects"
+								canEditEvent={this.canEditEvent}
+								link={"/event/" + this.state.event_id + "/linkedprojects/"} />
 						</div>
                     </div>
                 </div>
