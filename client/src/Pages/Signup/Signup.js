@@ -4,6 +4,7 @@ import fire from './../../fire';
 import './../../CSS/Form.css';
 import AgencyTags from './../Common/PersonAgencyTags';
 import FileInput from './../Common/FileInput';
+import { formatAgencyTagsForDB } from './../Common/TagFunctionality';
 
 class Signup extends Component {
     constructor(props) {
@@ -17,14 +18,13 @@ class Signup extends Component {
             confirmPassword: "",
             phone_number: "",
             address: "",
-            tags: [],
+            agencies: [],
             pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
             redirect: false
         }
 
         this.signUp = this.signUp.bind(this);
-        this.formatAgencyTagsForDB = this.formatAgencyTagsForDB.bind(this);
         this.handleAgencyDelete = this.handleAgencyDelete.bind(this);
         this.handleAgencyAddition = this.handleAgencyAddition.bind(this);
         this.handleAgencyDrag = this.handleAgencyDrag.bind(this);
@@ -57,7 +57,7 @@ class Signup extends Component {
                     email: self.state.email,
                     phone_number: self.state.phone_number,
                     address: self.state.address,
-                    agencies: self.formatAgencyTagsForDB(),
+                    agencies: formatAgencyTagsForDB(self.state.agencies),
                     pic: self.state.pic,
                     status: "pending member",
                 }).catch(function(error) {
@@ -79,37 +79,24 @@ class Signup extends Component {
         }
     }
 
-    formatAgencyTagsForDB() {
-        /*
-        var updatedTags = [];
-        for(var tag_id in this.state.tags) {
-            var tag = this.state.tags[tag_id];
-            updatedTags[tag] = tag;
-        }*/
-        var updatedTags = this.state.tags.map(tag => {
-            return tag.text;
-        });
-        return updatedTags;
-    }
-
     handleAgencyDelete(i) {
-      var tags = this.state.tags.filter((tag, index) => index !== i);
-      this.setState({ tags: tags });
+      var tags = this.state.agencies.filter((tag, index) => index !== i);
+      this.setState({ agencies: tags });
     }
   
     handleAgencyAddition(tag) {
-      var tags = [...this.state.tags, ...[tag]];
-      this.setState({ tags: tags });
+      var tags = [...this.state.agencies, ...[tag]];
+      this.setState({ agencies: tags });
     }
   
     handleAgencyDrag(tag, currPos, newPos) {
-      const tags = [...this.state.tags];
+      const tags = [...this.state.agencies];
       const newTags = tags.slice();
   
       newTags.splice(currPos, 1);
       newTags.splice(newPos, 0, tag);
 
-      this.setState({ tags: newTags });
+      this.setState({ agencies: newTags });
     }
 
     handleAgencyTagClick(index) {
@@ -211,7 +198,7 @@ class Signup extends Component {
                             <div className="form-group">
                                 <label htmlFor="agencies">Agencies:</label>
                                 <AgencyTags
-                                    tags={this.state.tags}
+                                    tags={this.state.agencies}
                                     shouldStore={false}
                                     handleDelete={this.handleAgencyDelete}
                                     handleAddition={this.handleAgencyAddition}
