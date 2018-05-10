@@ -17,7 +17,6 @@ class Signup extends Component {
             confirmPassword: "",
             phone_number: "",
             address: "",
-            notes: "",
             tags: [],
             pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
@@ -58,7 +57,6 @@ class Signup extends Component {
                     email: self.state.email,
                     phone_number: self.state.phone_number,
                     address: self.state.address,
-                    notes: self.state.notes,
                     agencies: self.formatAgencyTagsForDB(),
                     pic: self.state.pic,
                     status: "pending member",
@@ -209,15 +207,6 @@ class Signup extends Component {
                                     placeholder="Address"
                                     onChange={(event) => this.setState({address: event.target.value})}
                                     required></textarea>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="notes">Notes:</label>
-                                <textarea
-                                    type="text"
-                                    name="notes"
-                                    className="form-control"
-                                    value={this.state.notes}
-                                    onChange={(event) => this.setState({notes: event.target.value})}></textarea>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="agencies">Agencies:</label>

@@ -16,7 +16,6 @@ class Profile extends Component {
             confirmPassword: "",
             phone_number: "",
             address: "",
-            notes: "",
             pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
             redirect: false
@@ -48,7 +47,6 @@ class Profile extends Component {
                 email: person.email,
                 phone_number: person.phone_number,
                 address: person.address,
-                notes: person.notes,
                 pic: person.pic,
             });
 		});
@@ -67,7 +65,6 @@ class Profile extends Component {
         updates['/users/' + self.state.user.uid + '/email'] = self.state.email;
         updates['/users/' + self.state.user.uid + '/phone_number'] = self.state.phone_number;
         updates['/users/' + self.state.user.uid + '/address'] = self.state.address;
-        updates['/users/' + self.state.user.uid + '/notes'] = self.state.notes;
         updates['/users/' + self.state.user.uid + '/pic'] = self.state.pic;
         fire.database().ref().update(updates);
 
@@ -138,17 +135,6 @@ class Profile extends Component {
                                 onChange={(event) => this.setState({address: event.target.value})}
                                 disabled={this.state.disabled}
                                 required></textarea>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="notes">Notes:</label>
-                            <textarea
-                                type="text"
-                                name="notes"
-                                className="form-control"
-                                value={this.state.notes}
-                                onChange={(event) => this.setState({notes: event.target.value})}
-                                disabled={this.state.disabled}
-                                ></textarea>
                         </div>
                         <div className="form-group">
                             <label htmlFor="pic">Picture:</label>

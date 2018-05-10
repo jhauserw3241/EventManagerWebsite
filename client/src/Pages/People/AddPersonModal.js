@@ -15,7 +15,6 @@ class AddPersonModal extends Component {
 			email: "",
 			phone_number: "",
 			address: "",
-			notes: "",
 			agencies: [],
 			public: false,
 		};
@@ -46,7 +45,6 @@ class AddPersonModal extends Component {
 			email: self.state.email,
 			phone_number: self.state.phone_number,
 			address: self.state.address,
-			notes: self.state.notes,
 			agencies: formatTagsForDatabase(self.state.agencies),
 			pic: self.state.pic,
 			public: self.state.public,
@@ -144,15 +142,6 @@ class AddPersonModal extends Component {
 									placeholder="Address"
 									onChange={(event) => this.setState({ address: event.target.value })}
 									required></textarea>
-							</div>
-							<div className="form-group">
-								<label htmlFor="notes">Notes:</label>
-								<textarea
-									type="text"
-									name="notes"
-									className="form-control"
-									onChange={(event) => this.setState({ notes: event.target.value })}
-									></textarea>
 							</div>
 							<div className="form-group">
 								<label htmlFor="agencies">Associated Agencies:</label>

@@ -67,16 +67,6 @@ class PersonInfoModal extends Component {
                                     required></textarea>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="notes">Notes:</label>
-                                <textarea
-                                    type="text"
-                                    name="notes"
-                                    className="form-control"
-                                    value={this.props.notes}
-                                    disabled={true}
-                                    ></textarea>
-                            </div>
-                            <div className="form-group">
                                 <label htmlFor="agencies">Associated Agencies:</label>
                                 <AgencyTags
                                     id={this.props.id}
