@@ -3,11 +3,15 @@ import fire from './../../fire';
 
 class LoginRequired extends Component {
     constructor(props) {
-		super(props);
+        super(props);
+
 		this.state = {
             user: fire.auth().currentUser,
-            requiredRole: "member"
-		};
+            priv: "none",
+            requiredRole: "member",
+        };
+        
+        this.hasPrivs = this.hasPrivs.bind(this);
     }
 
     componentDidMount() {
@@ -15,7 +19,15 @@ class LoginRequired extends Component {
         var self = this;
         fire.auth().onAuthStateChanged(function(user) {
             if (user) {
-                self.setState({user: user});
+                // Get privilege level information
+                fire.database().ref("users").child(user.uid).on("value", function(data) {
+                    var member = data.val() ? data.val() : {};
+
+                    self.setState({
+                        user: user,
+                        priv: member.status ? member.status : "none",
+                    });
+                });
             } else {
                 self.setState({user: undefined});
             }
@@ -30,33 +42,22 @@ class LoginRequired extends Component {
         }
     }
 
-	render() {
-        var self = this;
-
-        // Check if a user is logged in
-        if(this.state.user) {
-            // Get the user's permission level
-            var privs = "none";
-            var contactsRef = fire.database().ref("contacts");
-            contactsRef.orderByChild('email').equalTo(this.state.user.email).on("value", function(data) {
-                if( (data.val() !== undefined) &&
-                    (data.val() !== null) &&
-                    (self.state.user !== undefined) &&
-                    (self.state.user !== null)) {
-                        var memberObj = data.val();
-                        privs = memberObj[self.state.user.uid].priv;
-                }
-            });
-
-            // Show the children if the user has the required permission level
-            if(this.state.requiredRole === privs) {
-                return this.props.children;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
+    hasPrivs() {
+        switch(this.state.requiredRole) {
+            case "none":
+                return this.state.priv === "none";
+            case "member":
+                return (this.state.priv === "member") ||
+                    (this.state.priv === "admin");
+            case "admin":
+                return this.state.priv === "admin";
+            default:
+                return false;
         }
+    }
+
+	render() {
+        return this.hasPrivs() ? this.props.children : null;
 	}
 }
 
