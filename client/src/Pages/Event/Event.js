@@ -25,6 +25,7 @@ class Event extends Component {
 			project_end: "",
 			owner_id: "",
 			event_color: "",
+			archived: false,
 			components: [],
 			component_types: [
 				{type: "agenda", name: "Agenda(s)"},
@@ -55,9 +56,12 @@ class Event extends Component {
 				owner_id: event.owner_id,
 				components: event.components ? Object.values(event.components) : [],
 				event_color: event.color,
+				archived: event.archived ? event.archived : false,
 				partners: event.partners ? event.partners : {},
             });
 		});
+
+		this.archiveEvent = this.archiveEvent.bind(this);
 	}
 	
 	canEditEvent() {
@@ -83,8 +87,14 @@ class Event extends Component {
 		return false;
 	}
 
+	archiveEvent(archive) {
+		var updates = {};
+		updates["/events/" + this.state.event_id + "/archived"] = archive;
+		fire.database().ref().update(updates);
+	}
+
 	render() {
-        return (
+		return (
 			<div className="Event">
 				<EditEventModal id={this.state.event_id} />
 
@@ -94,6 +104,22 @@ class Event extends Component {
 
                 <div className="container">
                     <div className="content">
+						<div
+							className="project-mod-btns">
+							{(this.state.archived) ?
+								<Button 
+									className="btn btn-success"
+									onClick={() => this.archiveEvent(false)}>
+									<i className="fa fa-folder-open"></i>
+								</Button>
+								: <Button
+									className="btn btn-success"
+									onClick={() => this.archiveEvent(true)}>
+									<i className="fa fa-archive"></i>
+								</Button>
+							}
+						</div>
+						
 						<div className="event-info">
 							<div className="event-header">
 								<div className="header-left-buffer"></div>
