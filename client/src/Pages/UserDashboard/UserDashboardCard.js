@@ -11,10 +11,10 @@ class UserDashboardCard extends Component {
 		return (
 			<Link className="UserDashboardCard people-card" to={this.props.link}>
 				<div
-                    className="people-card-img"
-                    style={cardImgStyle}></div>
+					className="people-card-img"
+					style={cardImgStyle}></div>
 				<div className="people-card-text">
-                    <strong>{this.props.name}</strong>
+					<strong>{this.props.name}</strong>
 				</div>
 			</Link>
 		);

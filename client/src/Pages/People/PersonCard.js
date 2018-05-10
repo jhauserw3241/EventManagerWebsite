@@ -12,19 +12,12 @@ class PersonCard extends Component {
       }
 
       changePriv(newPriv) {
-            console.log("Change priv to " + newPriv);
             var updates = {};
             updates["/users/" + this.props.id + "/status"] = newPriv;
             fire.database().ref().update(updates);
       }
 
 	render() {
-		var cardImgStyle = {
-            backgroundImage: `url(${this.props.pic})`
-            }
-
-            console.log(this.props.priv);
-
 		return (
 			<div className="PersonCard people-card">
                         <PersonInfoModal
@@ -39,20 +32,18 @@ class PersonCard extends Component {
                               pic={this.props.pic}
                               color={this.props.color} />
 
-                        <div className="people-card-content">
-                              <div
-                                    className="people-card-img"
-                                    style={cardImgStyle}
-                                    data-toggle="modal"
-                                    data-target={"#personInfoModal-" + this.props.id}></div>
-                              <div
-                                    className="people-card-text"
-                                    data-toggle="modal"
-                                    data-target={"#personInfoModal-" + this.props.id}>
-                                    <strong>{this.props.first_name} {this.props.last_name}</strong><br />
-                                    {this.props.email}<br />
-                                    {this.props.phone_number}
-                              </div>
+                        <div
+                              className="people-card-img"
+                              style={{ backgroundImage: `url(${this.props.pic})` }}
+                              data-toggle="modal"
+                              data-target={"#personInfoModal-" + this.props.id}></div>
+                        <div
+                              className="people-card-text"
+                              data-toggle="modal"
+                              data-target={"#personInfoModal-" + this.props.id}>
+                              <strong>{this.props.first_name} {this.props.last_name}</strong><br />
+                              {this.props.email}<br />
+                              {this.props.phone_number}
                         </div>
                         <LoginRequired requiredRole="admin">
                               <div
@@ -61,14 +52,14 @@ class PersonCard extends Component {
                                                 <button
                                                       className="btn btn-success"
                                                       onClick={(event) => this.changePriv("admin")}>
-                                                      Promote to Admin
+                                                      <i class="fa fa-star" aria-hidden="true"></i>
                                                 </button> : null
                                           }
                                           {(this.props.priv === "admin") ?
                                                 <button
                                                       className="btn btn-danger"
                                                       onClick={(event) => this.changePriv("member")}>
-                                                      Demote to Member
+                                                      <i class="fa fa-users" aria-hidden="true"></i>
                                                 </button> : null
                                           }
                               </div>

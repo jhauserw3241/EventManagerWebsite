@@ -4,17 +4,14 @@
 }
 
 .people-card {
+	display: grid;
+	grid-template-columns: 100px auto auto;
 	width: 23%;
 	border-radius: 10px;
 	margin: 10px;
 	background-color: white;
 	background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
-}
-
-.people-card-content {
-	display: grid;
-	grid-template-columns: 100px auto;
 }
 
 .people-card-img {

@@ -51,18 +51,16 @@ class AgencyCard extends Component {
                     id={this.props.id}
                     name={this.props.name} />
 
-                <div className="people-card-content">
-                    <div
-                        className="people-card-img"
-                        style={{ backgroundImage: `url(${this.props.pic})` }}
-                        data-toggle="modal"
-                        data-target={"#agencyInfoModal-" + this.props.id}></div>
-                    <div
-                        className="people-card-text"
-                        data-toggle="modal"
-                        data-target={"#agencyInfoModal-" + this.props.id}>
-                        <strong>{this.props.name}</strong>
-                    </div>
+                <div
+                    className="people-card-img"
+                    style={{ backgroundImage: `url(${this.props.pic})` }}
+                    data-toggle="modal"
+                    data-target={"#agencyInfoModal-" + this.props.id}></div>
+                <div
+                    className="people-card-text"
+                    data-toggle="modal"
+                    data-target={"#agencyInfoModal-" + this.props.id}>
+                    <strong>{this.props.name}</strong>
                 </div>
                 <LoginRequired requiredRole="admin">
                     <div
