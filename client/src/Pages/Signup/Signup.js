@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import  { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/Form.css';
-import AgencyTags from './../Common/PersonAgencyTags';
-import FileInput from './../Common/FileInput';
 import { formatAgencyTagsForDB } from './../Common/TagFunctionality';
+import AddressInput from './../UserForm/AddressInput';
+import AgenciesInput from './../UserForm/AgenciesInput';
+import EmailInput from './../UserForm/EmailInput';
+import FirstNameInput from './../UserForm/FirstNameInput';
+import LastNameInput from './../UserForm/LastNameInput';
+import PasswordInput from './../UserForm/PasswordInput';
+import PhoneNumberInput from './../UserForm/PhoneNumberInput';
+import PicInput from './../UserForm/PicInput';
 
 class Signup extends Component {
     constructor(props) {
@@ -21,7 +27,7 @@ class Signup extends Component {
             agencies: [],
             pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
-            redirect: false
+            redirect: false,
         }
 
         this.signUp = this.signUp.bind(this);
@@ -80,23 +86,23 @@ class Signup extends Component {
     }
 
     handleAgencyDelete(i) {
-      var tags = this.state.agencies.filter((tag, index) => index !== i);
-      this.setState({ agencies: tags });
+        var tags = this.state.agencies.filter((tag, index) => index !== i);
+        this.setState({ agencies: tags });
     }
   
     handleAgencyAddition(tag) {
-      var tags = [...this.state.agencies, ...[tag]];
-      this.setState({ agencies: tags });
+        var tags = [...this.state.agencies, ...[tag]];
+        this.setState({ agencies: tags });
     }
   
     handleAgencyDrag(tag, currPos, newPos) {
-      const tags = [...this.state.agencies];
-      const newTags = tags.slice();
-  
-      newTags.splice(currPos, 1);
-      newTags.splice(newPos, 0, tag);
+        const tags = [...this.state.agencies];
+        const newTags = tags.slice();
 
-      this.setState({ agencies: newTags });
+        newTags.splice(currPos, 1);
+        newTags.splice(newPos, 0, tag);
+
+        this.setState({ agencies: newTags });
     }
 
     handleAgencyTagClick(index) {
@@ -104,125 +110,67 @@ class Signup extends Component {
     }
 
 	render() {
+        var self = this;
+
         if(this.state.redirect) {
             return (
                 <Redirect to="/home" />
             );
-        } else {
-            return (
-                <div className="Signup">
-                    <div className="container">
-                        <div className="content">
-                            { (this.state.formError !== "") ?
-                                <div className="alert alert-danger">
-                                    <strong>Error:</strong> {this.state.formError}
-                                </div> : null }
-                            <h1 className="form-header">Sign Up</h1>
-                            <div className="form-group">
-                                <label htmlFor="firstName">First Name:</label>
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    className="form-control"
-                                    value={this.state.first_name}
-                                    placeholder="First Name"
-                                    onChange={(event) => this.setState({first_name: event.target.value})}
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="lastName">Last Name:</label>
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    className="form-control"
-                                    value={this.state.last_name}
-                                    placeholder="Last Name"
-                                    onChange={(event) => this.setState({last_name: event.target.value})}
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="email">Email:</label>
-                                <input
-                                    type="text"
-                                    name="email"
-                                    className="form-control"
-                                    value={this.state.email}
-                                    placeholder="Email"
-                                    onChange={(event) => this.setState({email: event.target.value})}
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password">Password:</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    className="form-control"
-                                    value={this.state.password}
-                                    placeholder="Password"
-                                    onChange={(event) => this.setState({password: event.target.value})}
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="confirmPassword">Confirm Password:</label>
-                                <input
-                                    type="password"
-                                    name="confirmPassword"
-                                    className="form-control"
-                                    value={this.state.confirmPassword}
-                                    placeholder="Confirm Password"
-                                    onChange={(event) => this.setState({confirmPassword: event.target.value})}
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="phone_number">Phone Number:</label>
-                                <input
-                                    type="text"
-                                    name="phone_number"
-                                    className="form-control"
-                                    value={this.state.phone_number}
-                                    placeholder="Phone Number"
-                                    onChange={(event) => this.setState({phone_number: event.target.value})}
-                                    required />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="address">Address:</label>
-                                <textarea
-                                    type="text"
-                                    name="address"
-                                    className="form-control"
-                                    value={this.state.address}
-                                    placeholder="Address"
-                                    onChange={(event) => this.setState({address: event.target.value})}
-                                    required></textarea>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="agencies">Agencies:</label>
-                                <AgencyTags
-                                    tags={this.state.agencies}
-                                    shouldStore={false}
-                                    handleDelete={this.handleAgencyDelete}
-                                    handleAddition={this.handleAgencyAddition}
-                                    handleDrag={this.handleAgencyDrags}
-                                    handleTagClick={this.handleAgencyTagClick} />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="pic">Picture:</label>
-                                <FileInput 
-                                    handleSuccess={(url) => this.setState({ pic: url })}
-                                    handleError={(error) => this.setState({ formError: error })}
-                                    folderName="Profiles"
-                                    fieldName="pic" />
-                            </div>
-                            <input
-                                type="button"
-                                className="btn btn-primary"
-                                value="Submit"
-                                onClick={this.signUp} />
-                        </div>
+        }
+
+        return (
+            <div className="Signup">
+                <div className="container">
+                    <div className="content">
+                        { (this.state.formError !== "") ?
+                            <div className="alert alert-danger">
+                                <strong>Error:</strong> {this.state.formError}
+                            </div> : null }
+                        <h1 className="form-header">Sign Up</h1>
+                        <FirstNameInput
+                            value={this.state.first_name}
+                            onChange={(text) => this.setState({ first_name: text })}
+                            onError={(error) => this.setState({ formError: error })} />
+                        <LastNameInput
+                            value={this.state.last_name}
+                            onChange={(text) => this.setState({ last_name: text })}
+                            onError={(error) => this.setState({ formError: error })} />
+                        <EmailInput
+                            value={this.state.email}
+                            onChange={(text) => this.setState({ email: text })}
+                            onError={(error) => this.setState({ formError: error })} />
+                        <PasswordInput
+                            password={this.state.password}
+                            confirmPassword={this.state.confirmPassword}
+                            onChange={(text) => this.setState({ password: text })}
+                            onError={(error) => this.setState({ formError: error })} />
+                        <PhoneNumberInput
+                            value={this.state.phone_number}
+                            onChange={(text) => this.setState({ phone_number: text })}
+                            onError={(error) => this.setState({ formError: error })} />
+                        <AddressInput
+                            value={this.state.address}
+                            onChange={(text) => this.setState({ address: text })}
+                            onError={(error) => this.setState({ formError: error })} />
+                        <AgenciesInput
+                            tags={this.state.agencies}
+                            handleDelete={this.handleAgencyDelete}
+                            handleAddition={this.handleAgencyAddition}
+                            handleDrag={this.handleAgencyDrag}
+                            handleTagClick={this.handleAgencyTagClick} />
+                        <PicInput
+                            value={this.state.first_name}
+                            onChange={(url) => this.setState({ pic: url })}
+                            onError={(error) => this.setState({ formError: error })} />
+                        <input
+                            type="button"
+                            className="btn btn-primary"
+                            value="Submit"
+                            onClick={this.signUp} />
                     </div>
                 </div>
-            );
-        }
+            </div>
+        );
 	}
 }
 

@@ -55,7 +55,6 @@ class PersonAgencyTags extends Component {
   }
 
   handleDelete(i) {
-    console.log("handle delete triggered")
     var tags = this.state.tags.filter((tag, index) => index !== i);
     var updatedTags = tags.map((tag) => {
       return tag.text;
