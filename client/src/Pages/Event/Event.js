@@ -5,6 +5,7 @@ import LinkedProjectsComponentCard from './LinkedProjectsComponentCard';
 import EditEventModal from './EditEventModal';
 import AddComponentModal from './AddComponentModal';
 import AddPartnerModal from './AddPartnerModal';
+import LinkProjectModal from './LinkProjectModal';
 import { formatDateTime } from './../Common/EventHelpers';
 import { Button } from 'react-bootstrap';
 import fire from './../../fire';
@@ -103,6 +104,8 @@ class Event extends Component {
 
 				<AddPartnerModal event_id={this.state.event_id} />
 
+				<LinkProjectModal event_id={this.state.event_id} />
+
                 <div className="container">
                     <div className="content">
 						<div
@@ -151,6 +154,12 @@ class Event extends Component {
 										data-toggle="modal"
 										data-target={"#addPartnerModal-" + this.props.id}>
 										<i className="fa fa-plus"></i> Partner
+									</Button>
+									<Button
+										className="btn btn-success"
+										data-toggle="modal"
+										data-target={"#linkProjectModal-" + this.props.id}>
+										<i className="fa fa-link" aria-hidden="true"></i> Project
 									</Button>
 									<Button
 										className="btn btn-warning"
