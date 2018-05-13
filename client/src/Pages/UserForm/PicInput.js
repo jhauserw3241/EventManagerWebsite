@@ -10,7 +10,8 @@ class PicInput extends Component {
                     handleSuccess={(url) => this.props.onChange(url)}
                     handleError={(error) => this.props.onError(error)}
                     folderName="Profiles"
-                    fieldName="pic" />
+                    fieldName="pic"
+                    disabled={this.props.disabled ? this.props.disabled : false} />
             </div>
         );
 	}

@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
 import FileInput from './../Common/FileInput';
 import fire from './../../fire';
-import './../../CSS/Form.css';
+import './../../CSS/Form.css';import {
+    isEmptyString,
+    isEmail,
+    isPassword,
+    isPhoneNumber,
+    invalidFieldStyle,
+    invalidTipStyle,
+    validTipStyle,
+} from './../Common/FormValidation';
+import AddressInput from './../UserForm/AddressInput';
+import AgenciesInput from './../UserForm/AgenciesInput';
+import EmailInput from './../UserForm/EmailInput';
+import FirstNameInput from './../UserForm/FirstNameInput';
+import LastNameInput from './../UserForm/LastNameInput';
+import PhoneNumberInput from './../UserForm/PhoneNumberInput';
+import PicInput from './../UserForm/PicInput';
 
 class Profile extends Component {
     constructor(props) {
@@ -18,28 +33,26 @@ class Profile extends Component {
             address: "",
             pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
+            showErrors: false,
             redirect: false
         }
 
-        this.signUp = this.signUp.bind(this);
+        this.isFormValid = this.isFormValid.bind(this);
+        this.saveProfile = this.saveProfile.bind(this);
     }
 
     componentDidMount() {
         var self = this;
 
-        // Get user information
+        // Verify user is logged in
         var user = fire.auth().currentUser;
-
-        // Return if the user isn't logged in
         if(!user) {
             return;
         }
 
         var userRef = fire.database().ref("users");
         userRef.on("value", function(data) {
-            console.log(data.val())
             var person = data.val()[user.uid];
-            console.log(person);
             self.setState({
                 user: user,
                 first_name: person.first_name,
@@ -52,23 +65,55 @@ class Profile extends Component {
 		});
     }
 
-    signUp(event) {
+    isFormValid() {
+        // Check the first name
+        if(isEmptyString(this.state.first_name)) {
+            return false;
+        }
+
+        // Check the last name
+        if(isEmptyString(this.state.last_name)) {
+            return false;
+        }
+
+        // Check the email
+        if(isEmptyString(this.state.email) || !isEmail(this.state.email)) {
+            return false;
+        }
+
+        // Check the phone number
+        if(isEmptyString(this.state.phone_number) || !isPhoneNumber(this.state.phone_number)) {
+            return false;
+        }
+
+        // Check the address
+        if(isEmptyString(this.state.address)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    saveProfile(event) {
         event.preventDefault();
 
-        var self = this;
+        if(!this.isFormValid()) {
+            this.setState({ showErrors: true });
+            return;
+        }
 
         // Update the user in the database
         var updates ={};
-        updates['/users/' + self.state.user.uid + '/id'] = self.state.user.uid;
-        updates['/users/' + self.state.user.uid + '/first_name'] = self.state.first_name;
-        updates['/users/' + self.state.user.uid + '/last_name'] = self.state.last_name;
-        updates['/users/' + self.state.user.uid + '/email'] = self.state.email;
-        updates['/users/' + self.state.user.uid + '/phone_number'] = self.state.phone_number;
-        updates['/users/' + self.state.user.uid + '/address'] = self.state.address;
-        updates['/users/' + self.state.user.uid + '/pic'] = self.state.pic;
+        updates['/users/' + this.state.user.uid + '/id'] = this.state.user.uid;
+        updates['/users/' + this.state.user.uid + '/first_name'] = this.state.first_name;
+        updates['/users/' + this.state.user.uid + '/last_name'] = this.state.last_name;
+        updates['/users/' + this.state.user.uid + '/email'] = this.state.email;
+        updates['/users/' + this.state.user.uid + '/phone_number'] = this.state.phone_number;
+        updates['/users/' + this.state.user.uid + '/address'] = this.state.address;
+        updates['/users/' + this.state.user.uid + '/pic'] = this.state.pic;
         fire.database().ref().update(updates);
 
-        self.setState({disabled: true});
+        this.setState({disabled: true});
     }
 
 	render() {
@@ -81,70 +126,42 @@ class Profile extends Component {
                                 <strong>Error:</strong> {this.state.formError}
                             </div> : null }
                         <h1 className="form-header">Profile</h1>
-                        <div className="form-group">
-                            <label htmlFor="firstName">First Name:</label>
-                            <input
-                                type="text"
-                                name="firstName"
-                                className="form-control"
-                                value={this.state.first_name}
-                                onChange={(event) => this.setState({first_name: event.target.value})}
-                                disabled={this.state.disabled}
-                                required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="lastName">Last Name:</label>
-                            <input
-                                type="text"
-                                name="lastName"
-                                className="form-control"
-                                value={this.state.last_name}
-                                onChange={(event) => this.setState({last_name: event.target.value})}
-                                disabled={this.state.disabled}
-                                required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email:</label>
-                            <input
-                                type="text"
-                                name="email"
-                                className="form-control"
-                                value={this.state.email}
-                                onChange={(event) => this.setState({email: event.target.value})}
-                                disabled={this.state.disabled}
-                                required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="phone_number">Phone Number:</label>
-                            <input
-                                type="text"
-                                name="phone_number"
-                                className="form-control"
-                                value={this.state.phone_number}
-                                onChange={(event) => this.setState({phone_number: event.target.value})}
-                                disabled={this.state.disabled}
-                                required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="address">Address:</label>
-                            <textarea
-                                type="text"
-                                name="address"
-                                className="form-control"
-                                value={this.state.address}
-                                onChange={(event) => this.setState({address: event.target.value})}
-                                disabled={this.state.disabled}
-                                required></textarea>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="pic">Picture:</label>
-                            <FileInput
-                                handleSuccess={(url) => this.setState({ pic: url })}
-                                handleError={(error) => this.setState({ formError: error })}
-                                folderName="Profiles"
-                                fieldName="pic"
-                                disabled={this.state.disabled} />
-                        </div>
+                        <FirstNameInput
+                            value={this.state.first_name}
+                            showErrors={this.state.showErrors}
+                            onChange={(text) => this.setState({ first_name: text })}
+                            onError={(error) => this.setState({ formError: error })}
+                            disabled={this.state.disabled} />
+                        <LastNameInput
+                            value={this.state.last_name}
+                            showErrors={this.state.showErrors}
+                            onChange={(text) => this.setState({ last_name: text })}
+                            onError={(error) => this.setState({ formError: error })}
+                            disabled={this.state.disabled} />
+                        <EmailInput
+                            value={this.state.email}
+                            showErrors={this.state.showErrors}
+                            onChange={(text) => this.setState({ email: text })}
+                            onError={(error) => this.setState({ formError: error })}
+                            disabled={this.state.disabled} />
+                        <PhoneNumberInput
+                            value={this.state.phone_number}
+                            showErrors={this.state.showErrors}
+                            onChange={(text) => this.setState({ phone_number: text })}
+                            onError={(error) => this.setState({ formError: error })}
+                            disabled={this.state.disabled} />
+                        <AddressInput
+                            value={this.state.address}
+                            showErrors={this.state.showErrors}
+                            onChange={(text) => this.setState({ address: text })}
+                            onError={(error) => this.setState({ formError: error })}
+                            disabled={this.state.disabled} />
+                        <PicInput
+                            value={this.state.pic}
+                            showErrors={this.state.showErrors}
+                            onChange={(text) => this.setState({ pic: text })}
+                            onError={(error) => this.setState({ formError: error })}
+                            disabled={this.state.disabled} />
                         {(this.state.disabled) ? 
                             <input
                             type="button"
@@ -155,7 +172,7 @@ class Profile extends Component {
                             type="button"
                             className="btn btn-success"
                             value="Save"
-                            onClick={this.signUp} /> }
+                            onClick={this.saveProfile} /> }
                     </div>
                 </div>
             </div>);

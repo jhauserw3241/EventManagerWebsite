@@ -35,6 +35,7 @@ class AddressInput extends Component {
                     style={this.isValid() ? {} : invalidFieldStyle}
                     placeholder="Address"
                     onChange={(event) => this.props.onChange(event.target.value)}
+                    disabled={this.props.disabled ? this.props.disabled : false}
                     required></textarea>
                 <p style={this.isValid() ? validTipStyle : invalidTipStyle}>
                     This field cannot be empty.

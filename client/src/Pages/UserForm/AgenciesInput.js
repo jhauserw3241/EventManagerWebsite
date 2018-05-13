@@ -12,7 +12,8 @@ class AgenciesInput extends Component {
                     handleDelete={this.props.handleDelete}
                     handleAddition={this.props.handleAddition}
                     handleDrag={this.props.handleDrag}
-                    handleTagClick={this.props.handleTagClick} />
+                    handleTagClick={this.props.handleTagClick}
+                    readOnly={this.props.disabled ? this.props.disabled : false} />
             </div>
         );
 	}

@@ -70,6 +70,7 @@ class PasswordInput extends Component {
                         style={this.isPasswordValid() ? {} : invalidFieldStyle}
                         placeholder="Password"
                         onChange={this.updatePassword}
+                        disabled={this.props.disabled ? this.props.disabled : false}
                         required />
                     <p style={this.isPasswordValid() ? validTipStyle : invalidTipStyle}>
                         This field cannot be empty and must be a valid password.<br />
@@ -87,6 +88,7 @@ class PasswordInput extends Component {
                         style={this.isConfirmPasswordValid() ? {} : invalidFieldStyle}
                         placeholder="Confirm Password"
                         onChange={(event) => this.setState({ confirmPassword: event.target.value })}
+                        disabled={this.props.disabled ? this.props.disabled : false}
                         required />
                     <p style={this.isConfirmPasswordValid() ? validTipStyle : invalidTipStyle}>
                         This field does not match the password field.
