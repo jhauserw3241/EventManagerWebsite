@@ -15,6 +15,11 @@ class EmailInput extends Component {
     }
 
     isValid() {
+        // Hide errors if they aren't requested
+        if(!this.props.showErrors) {
+            return true;
+        }
+
         var text = this.props.value;
         return !isEmptyString(text) && isEmail(text);
     }

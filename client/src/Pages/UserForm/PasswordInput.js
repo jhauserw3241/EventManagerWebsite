@@ -38,11 +38,21 @@ class PasswordInput extends Component {
     }
 
     isPasswordValid() {
+        // Hide errors if they aren't requested
+        if(!this.props.showErrors) {
+            return true;
+        }
+
         var text = this.props.password;
         return !isEmptyString(text) && isPassword(text);
     }
 
     isConfirmPasswordValid() {
+        // Hide errors if they aren't requested
+        if(!this.props.showErrors) {
+            return true;
+        }
+
         var text = this.state.confirmPassword;
         return isMatch(text, this.props.password);
     }

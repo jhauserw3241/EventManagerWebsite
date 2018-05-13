@@ -3,6 +3,15 @@ import { Redirect } from 'react-router-dom';
 import fire from './../../fire';
 import './../../CSS/Form.css';
 import { formatAgencyTagsForDB } from './../Common/TagFunctionality';
+import {
+    isEmptyString,
+    isEmail,
+    isPassword,
+    isPhoneNumber,
+    invalidFieldStyle,
+    invalidTipStyle,
+    validTipStyle,
+} from './../Common/FormValidation';
 import AddressInput from './../UserForm/AddressInput';
 import AgenciesInput from './../UserForm/AgenciesInput';
 import EmailInput from './../UserForm/EmailInput';
@@ -27,9 +36,11 @@ class Signup extends Component {
             agencies: [],
             pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
             formError: "",
+            showErrors: false,
             redirect: false,
         }
 
+        this.isFormValid = this.isFormValid.bind(this);
         this.signUp = this.signUp.bind(this);
         this.handleAgencyDelete = this.handleAgencyDelete.bind(this);
         this.handleAgencyAddition = this.handleAgencyAddition.bind(this);
@@ -37,14 +48,49 @@ class Signup extends Component {
         this.handleAgencyTagClick = this.handleAgencyTagClick.bind(this);
     }
 
+    isFormValid() {
+        // Check the first name
+        if(isEmptyString(this.state.first_name)) {
+            return false;
+        }
+
+        // Check the last name
+        if(isEmptyString(this.state.last_name)) {
+            return false;
+        }
+
+        // Check the email
+        if(isEmptyString(this.state.email) || !isEmail(this.state.email)) {
+            return false;
+        }
+
+        // Check the password
+        if(isEmptyString(this.state.password) || !isPassword(this.state.password)) {
+            return false;
+        }
+
+        // Check the phone number
+        if(isEmptyString(this.state.phone_number) || !isPhoneNumber(this.state.phone_number)) {
+            return false;
+        }
+
+        // Check the address
+        if(isEmptyString(this.state.address)) {
+            return false;
+        }
+
+        return true;
+    }
+
     signUp(event) {
         event.preventDefault();
 
         var self = this;
 
-        // Check passwords are the same
-        if(this.state.password !== this.state.confirmPassword) {
-            this.setState({formError: "Passwords don't match"});
+        // Verify that there are no errors on the form
+        if(!this.isFormValid()) {
+            this.setState({ showErrors: true });
+            return;
         }
 
         // Add user if no problems
@@ -129,27 +175,33 @@ class Signup extends Component {
                         <h1 className="form-header">Sign Up</h1>
                         <FirstNameInput
                             value={this.state.first_name}
+                            showErrors={this.state.showErrors}
                             onChange={(text) => this.setState({ first_name: text })}
                             onError={(error) => this.setState({ formError: error })} />
                         <LastNameInput
                             value={this.state.last_name}
+                            showErrors={this.state.showErrors}
                             onChange={(text) => this.setState({ last_name: text })}
                             onError={(error) => this.setState({ formError: error })} />
                         <EmailInput
                             value={this.state.email}
+                            showErrors={this.state.showErrors}
                             onChange={(text) => this.setState({ email: text })}
                             onError={(error) => this.setState({ formError: error })} />
                         <PasswordInput
                             password={this.state.password}
+                            showErrors={this.state.showErrors}
                             confirmPassword={this.state.confirmPassword}
                             onChange={(text) => this.setState({ password: text })}
                             onError={(error) => this.setState({ formError: error })} />
                         <PhoneNumberInput
                             value={this.state.phone_number}
+                            showErrors={this.state.showErrors}
                             onChange={(text) => this.setState({ phone_number: text })}
                             onError={(error) => this.setState({ formError: error })} />
                         <AddressInput
                             value={this.state.address}
+                            showErrors={this.state.showErrors}
                             onChange={(text) => this.setState({ address: text })}
                             onError={(error) => this.setState({ formError: error })} />
                         <AgenciesInput
@@ -160,6 +212,7 @@ class Signup extends Component {
                             handleTagClick={this.handleAgencyTagClick} />
                         <PicInput
                             value={this.state.first_name}
+                            showErrors={this.state.showErrors}
                             onChange={(url) => this.setState({ pic: url })}
                             onError={(error) => this.setState({ formError: error })} />
                         <input
