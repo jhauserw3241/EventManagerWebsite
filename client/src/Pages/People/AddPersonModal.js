@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PersonAgencyTags from './../Common/PersonAgencyTags';
+import PersonAgencyTags from './../UserForm/PersonAgencyTags';
 import { formatTagsForDatabase } from './../Common/TagHelper';
 import FileInput from './../Common/FileInput';
 import fire from './../../fire';

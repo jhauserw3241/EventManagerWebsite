@@ -27,7 +27,7 @@ class PasswordInput extends Component {
     updatePassword(event) {
         var password = event.target.value;
         this.setState({ password: password });
-        this.props.onChange(password);
+        this.props.onChange ? this.props.onChange(password) : {};
     }
 
     getFieldValue(fieldName) {

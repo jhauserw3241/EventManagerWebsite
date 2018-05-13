@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AgencyTags from './../Common/PersonAgencyTags';
+import AgencyTags from './../UserForm/PersonAgencyTags';
 import fire from './../../fire';
 import './../../CSS/Card.css';
 

@@ -7,7 +7,7 @@ class PicInput extends Component {
             <div className="form-group">
                 <label htmlFor="pic">Picture:</label>
                 <FileInput 
-                    handleSuccess={(url) => this.props.onChange(url)}
+                    handleSuccess={(url) => this.props.onChange ? this.props.onChange(url) : {}}
                     handleError={(error) => this.props.onError(error)}
                     folderName="Profiles"
                     fieldName="pic"

@@ -31,16 +31,21 @@ class PersonEventTags extends Component {
     var event_ids = [];
     var event_names = [];
 
+    // Check if user is logged in
+    var user = fire.auth().currentUser;
     if(!fire.auth().currentUser) {
         return;
     }
 
-    var cur_user_id = fire.auth().currentUser.uid;
+    if(!self.props.id) {
+      this.props.onError ? this.props.onError("User ID was not specified") : {};
+      return;
+    }
 
     fire.database().ref("users").child(self.props.id).child("events").on("value", function(person_events_data) {
         var person_event_ids = person_events_data.val() ? Object.values(person_events_data.val()) : {};
 
-        fire.database().ref("users").child(cur_user_id).child("events").on("value", function(cur_user_events_data) {
+        fire.database().ref("users").child(user.uid).child("events").on("value", function(cur_user_events_data) {
             var cur_user_event_ids = cur_user_events_data.val() ? Object.values(cur_user_events_data.val()) : {};
 
             for(var person_event_index in person_event_ids) {

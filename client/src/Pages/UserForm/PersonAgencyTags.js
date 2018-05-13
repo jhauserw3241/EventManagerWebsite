@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import TagInput from './TagInput';
+import TagInput from './../Common/TagInput';
 import fire from './../../fire';
 import './../../CSS/Tag.css';
 
@@ -24,9 +24,11 @@ class PersonAgencyTags extends Component {
     var self = this;
 
     // Get tags
+    console.log(this.props.id);
     if(this.props.id) {
       fire.database().ref("users").child(this.props.id).child("agencies").on("value", function(data) {
         var agencies = data.val() ? Object.values(data.val()) : [];
+        console.log(data.val());
   
         var updatedAgencies = agencies.map((agency) => {
           return {
@@ -37,6 +39,9 @@ class PersonAgencyTags extends Component {
   
         self.setState({ tags: updatedAgencies });
       });
+    } else {
+      this.props.onError ?
+        this.props.onError("User ID was not provided") : {};
     }
 
     // Get suggestions

@@ -34,7 +34,7 @@ class AddressInput extends Component {
                     value={this.props.value}
                     style={this.isValid() ? {} : invalidFieldStyle}
                     placeholder="Address"
-                    onChange={(event) => this.props.onChange(event.target.value)}
+                    onChange={(event) => this.props.onChange ? this.props.onChange(event.target.value) : {}}
                     disabled={this.props.disabled ? this.props.disabled : false}
                     required></textarea>
                 <p style={this.isValid() ? validTipStyle : invalidTipStyle}>
