@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import FileInput from './../Common/FileInput';
 import fire from './../../fire';
-import './../../CSS/Form.css';import {
+import './../../CSS/Form.css';
+import {
     isEmptyString,
     isEmail,
     isPassword,

@@ -38,13 +38,13 @@ class ItemsDashboard extends Component {
 								onClick={this.toggleOrganization}
 								disabled={this.state.org === "list"}
 								bsStyle={this.state.org === "list" ? "primary" : "default"} >
-								<i class="fa fa-list-ul"></i>
+								<i className="fa fa-list-ul"></i>
 							</Button>
 							<Button
 								onClick={this.toggleOrganization}
 								disabled={this.state.org === "cards"}
 								bsStyle={this.state.org === "cards" ? "primary" : "default"} >
-								<i class="fa fa-th-large"></i>
+								<i className="fa fa-th-large"></i>
 							</Button>
 						</div>
 						<div>

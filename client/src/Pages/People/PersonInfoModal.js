@@ -12,7 +12,6 @@ import SharedEventsInput from './../UserForm/SharedEventsInput';
 
 class PersonInfoModal extends Component {
 	render() {
-        console.log(this.props.id);
 		return (
             <div className="modal fade" id={"personInfoModal-" + this.props.id} tabIndex="-1" role="dialog" aria-labelledby="personInfoModalTitle" aria-hidden="true">
                 <div className="modal-dialog" role="document">

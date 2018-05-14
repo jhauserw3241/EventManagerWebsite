@@ -24,11 +24,9 @@ class PersonAgencyTags extends Component {
     var self = this;
 
     // Get tags
-    console.log(this.props.id);
     if(this.props.id) {
       fire.database().ref("users").child(this.props.id).child("agencies").on("value", function(data) {
         var agencies = data.val() ? Object.values(data.val()) : [];
-        console.log(data.val());
   
         var updatedAgencies = agencies.map((agency) => {
           return {
