@@ -10,10 +10,12 @@ class Events extends Component {
 
 		this.state = {
 			events: {},
-			formError: ""
+			formError: "",
+			addModalVisibility: false,
 		};
 
 		this.deleteEvent = this.deleteEvent.bind(this);
+		this.updateAddModalVisibility = this.updateAddModalVisibility.bind(this);
 	}
 	
 	componentDidMount() {
@@ -57,6 +59,10 @@ class Events extends Component {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
 	}
+
+	updateAddModalVisibility(value) {
+		this.setState({ addModalVisibility: value });
+	}
 	
 	render() {
 		if(!fire.auth().currentUser) {
@@ -66,7 +72,9 @@ class Events extends Component {
 		return (
 			<div className="Events">
 				<div className="container">
-					<AddEventModal />
+					<AddEventModal
+						visible={this.state.addModalVisibility}
+						updateAddModalVisibility={this.updateAddModalVisibility} />
 	
 					{ (this.state.formError !== "") ?
 						<div class="alert alert-danger">
@@ -77,7 +85,7 @@ class Events extends Component {
 						dashboardName="Events"
 						newItemName="Event"
 						linkPrefix="/event/"
-						addModalId="#addEventModal"
+						updateAddModalVisibility={this.updateAddModalVisibility}
 						items={this.state.events}
 						deleteItem={this.deleteEvent} />
 				</div>

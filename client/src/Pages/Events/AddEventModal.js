@@ -7,7 +7,7 @@ import {
 	validPlanningEnd,
 	formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
-import './../../CSS/Modal.css';
+import Overlay from './../Common/Overlay';
 
 // CSS and JS for datetime picker	
 import moment from './../../../node_modules/moment/moment';	
@@ -110,140 +110,128 @@ class AddEventModal extends Component {
 				this.setState({ formError: error.code + ": " + error.message });
 			});
 		});
+
+		// Close the modal
+		this.props.updateAddModalVisibility(false);
 	}
 	
 	render() {
 		return (
-			<div
-				className="modal fade"
+			<Overlay
 				id="addEventModal"
-				tabIndex="-1"
-				role="dialog"
-				data-backdrop="static"
-				data-keyboard={false}
-				aria-labelledby="addEventModalTitle"
-				aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title" id="addEventModalTitle">Add Event</h5>
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div className="modal-body">
-							<div className="form-group">
-								<label htmlFor="name">Name:</label>
-								<input
-									type="text"
-									name="name"
-									className="form-control"
-									value={this.state.name}
-									placeholder="Name"
-									onChange={(event) => this.setState({name: event.target.value})}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="type">Type:</label>
-								<select
-									name="type"
-									className="form-control"
-									value={this.state.type}
-									placeholder="Type"
-									onChange={(event) => this.setState({type: event.target.value})}
-									required>
-									<option>Not Specified</option>
-									<option>Conference</option>
-									<option>Field trip</option>
-									<option>Training</option>
-									<option>Site Visit</option>
-									<option>Miscellaneous</option>
-								</select>
-							</div>
-							<div className="form-group">
-								<label htmlFor="planning-start">Planning Start:</label>
-								<DateTime
-									name="planning-start"
-									value={this.state.planningStart}
-									placeholder="Planning Start"
-									onChange={(event) => this.setState({planningStart: event._d})}
-									isValidDate={(current) => validPlanningStart(
-										current,
-										this.state.eventStart,
-										this.state.eventEnd,
-										this.state.planningEnd,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="event-start">Event Start:</label>
-								<DateTime
-									name="event-start"
-									value={this.state.eventStart}
-									placeholder="Event Start"
-									onChange={(event) => this.setState({eventStart: event._d})}
-									isValidDate={(current) => validEventStart(
-										this.state.planningStart,
-										current,
-										this.state.eventEnd,
-										this.state.planningEnd,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="event-end">Event End:</label>
-								<DateTime
-									name="event-end"
-									value={this.state.eventEnd}
-									placeholder="Event End"
-									onChange={(event) => this.setState({eventEnd: event._d})}
-									isValidDate={(current) => validEventEnd(
-										this.state.planningStart,
-										this.state.eventStart,
-										current,
-										this.state.planningEnd,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="planning-end">Planning End:</label>
-								<DateTime
-									name="planning-end"
-									value={this.state.planningEnd}
-									placeholder="Planning End"
-									onChange={(event) => this.setState({planningEnd: event._d})}
-									isValidDate={(current) => validPlanningEnd(
-										this.state.planningStart,
-										this.state.eventStart,
-										this.state.eventEnd,
-										current,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="location">Location:</label>
-								<input
-									type="text"
-									name="location"
-									placeholder="Location"
-									className="form-control"
-									value={this.state.location}
-									onChange={(event) => this.setState({location: event.target.value})}
-									required />
-							</div>
-						</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="btn btn-primary"
-								data-dismiss="modal"
-								onClick={this.addEvent}>
-								Submit
-							</button>
-						</div>
+				title="Add Event"
+				visible={this.props.visible}
+				updateModalVisibility={this.props.updateAddModalVisibility}>
+				<div className="modal-body">
+					<div className="form-group">
+						<label htmlFor="name">Name:</label>
+						<input
+							type="text"
+							name="name"
+							className="form-control"
+							value={this.state.name}
+							placeholder="Name"
+							onChange={(event) => this.setState({name: event.target.value})}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="type">Type:</label>
+						<select
+							name="type"
+							className="form-control"
+							value={this.state.type}
+							placeholder="Type"
+							onChange={(event) => this.setState({type: event.target.value})}
+							required>
+							<option>Not Specified</option>
+							<option>Conference</option>
+							<option>Field trip</option>
+							<option>Training</option>
+							<option>Site Visit</option>
+							<option>Miscellaneous</option>
+						</select>
+					</div>
+					<div className="form-group">
+						<label htmlFor="planning-start">Planning Start:</label>
+						<DateTime
+							name="planning-start"
+							value={this.state.planningStart}
+							placeholder="Planning Start"
+							onChange={(event) => this.setState({planningStart: event._d})}
+							isValidDate={(current) => validPlanningStart(
+								current,
+								this.state.eventStart,
+								this.state.eventEnd,
+								this.state.planningEnd,
+							)}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="event-start">Event Start:</label>
+						<DateTime
+							name="event-start"
+							value={this.state.eventStart}
+							placeholder="Event Start"
+							onChange={(event) => this.setState({eventStart: event._d})}
+							isValidDate={(current) => validEventStart(
+								this.state.planningStart,
+								current,
+								this.state.eventEnd,
+								this.state.planningEnd,
+							)}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="event-end">Event End:</label>
+						<DateTime
+							name="event-end"
+							value={this.state.eventEnd}
+							placeholder="Event End"
+							onChange={(event) => this.setState({eventEnd: event._d})}
+							isValidDate={(current) => validEventEnd(
+								this.state.planningStart,
+								this.state.eventStart,
+								current,
+								this.state.planningEnd,
+							)}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="planning-end">Planning End:</label>
+						<DateTime
+							name="planning-end"
+							value={this.state.planningEnd}
+							placeholder="Planning End"
+							onChange={(event) => this.setState({planningEnd: event._d})}
+							isValidDate={(current) => validPlanningEnd(
+								this.state.planningStart,
+								this.state.eventStart,
+								this.state.eventEnd,
+								current,
+							)}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="location">Location:</label>
+						<input
+							type="text"
+							name="location"
+							placeholder="Location"
+							className="form-control"
+							value={this.state.location}
+							onChange={(event) => this.setState({location: event.target.value})}
+							required />
 					</div>
 				</div>
-			</div>
+				<div className="modal-footer">
+					<button
+						type="button"
+						className="btn btn-primary"
+						onClick={this.addEvent}>
+						Submit
+					</button>
+				</div>
+			</Overlay>
 		);
 	}
 }

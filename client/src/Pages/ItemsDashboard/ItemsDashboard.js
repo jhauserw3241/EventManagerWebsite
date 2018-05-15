@@ -50,8 +50,7 @@ class ItemsDashboard extends Component {
 						<div>
 							<Button
 								className="btn btn-success"
-								data-toggle="modal"
-								data-target={this.props.addModalId}>
+								onClick={() => this.props.updateAddModalVisibility(true)}>
 								<i className="fa fa-plus"></i> {this.props.newItemName}
 							</Button>
 						</div>
