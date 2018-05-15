@@ -19,7 +19,7 @@ export default class Overlay extends Component {
                                 type="button"
                                 className="close"
                                 onClick={() => 
-                                    this.props.updateAddModalVisibility(false)}
+                                    this.props.updateModalVisibility(false)}
                                 aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

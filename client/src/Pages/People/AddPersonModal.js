@@ -3,8 +3,24 @@ import PersonAgencyTags from './../UserForm/PersonAgencyTags';
 import { formatTagsForDatabase } from './../Common/TagHelper';
 import FileInput from './../Common/FileInput';
 import fire from './../../fire';
+import {
+    isEmptyString,
+    isEmail,
+    isPassword,
+    isPhoneNumber,
+    invalidFieldStyle,
+    invalidTipStyle,
+    validTipStyle,
+} from './../Common/FormValidation';
 import Overlay from './../Common/Overlay';
-import './../../CSS/Modal.css';
+import AddressInput from './../UserForm/AddressInput';
+import AgenciesInput from './../UserForm/AgenciesInput';
+import EmailInput from './../UserForm/EmailInput';
+import FirstNameInput from './../UserForm/FirstNameInput';
+import LastNameInput from './../UserForm/LastNameInput';
+import PhoneNumberInput from './../UserForm/PhoneNumberInput';
+import PicInput from './../UserForm/PicInput';
+import PublicPlaceholderInput from './../UserForm/PublicPlaceholderInput';
 
 class AddPersonModal extends Component {
 	constructor(props) {
@@ -19,6 +35,7 @@ class AddPersonModal extends Component {
 			agencies: [],
 			pic: "https://firebasestorage.googleapis.com/v0/b/event-planner-website.appspot.com/o/Defaults%2Fprofile.png?alt=media&token=53565a4f-5e52-4837-a2e1-4f8ab8994e74",
 			public: false,
+			showErrors: false,
 		};
 
 		this.addMember = this.addMember.bind(this);
@@ -27,16 +44,49 @@ class AddPersonModal extends Component {
 		this.handleAgencyDrag = this.handleAgencyDrag.bind(this);
 	}
 
+	isFormValid() {
+        // Check the first name
+        if(isEmptyString(this.state.first_name)) {
+            return false;
+        }
+
+        // Check the last name
+        if(isEmptyString(this.state.last_name)) {
+            return false;
+        }
+
+        // Check the email
+        if(isEmptyString(this.state.email) || !isEmail(this.state.email)) {
+            return false;
+        }
+
+        // Check the phone number
+        if(isEmptyString(this.state.phone_number) || !isPhoneNumber(this.state.phone_number)) {
+            return false;
+        }
+
+        // Check the address
+        if(isEmptyString(this.state.address)) {
+            return false;
+        }
+
+        return true;
+	}
+
 	addMember() {
 		var self = this;
 
+		// Check if a user is logged in
 		var user = fire.auth().currentUser;
-
 		if(!user) {
 			return;
 		}
 
-		var cur_member_id = user.uid;
+		// Check if the fields are correctly formatted
+		if(!this.isFormValid()) {
+			this.setState({ showErrors: true });
+			return;
+		}
 
 		// Add user with no account
 		var newMemberRef = fire.database().ref("users").push();
@@ -51,7 +101,7 @@ class AddPersonModal extends Component {
 			pic: self.state.pic,
 			public: self.state.public,
 			status: "placeholder",
-			creator_id: cur_member_id,
+			creator_id: user.uid,
 		}).catch(function(error) {
 			self.setState({ formError: error.code + ": " + error.message });
 		});
@@ -86,85 +136,47 @@ class AddPersonModal extends Component {
 				id="addPersonModal"
 				title="Add Placeholder Person"
 				visible={this.props.visible}
-				updateAddModalVisibility={this.props.updateAddModalVisibility}>
+				updateModalVisibility={this.props.updateAddModalVisibility}>
 				<div className="modal-body">
-					<div className="form-group">
-						<label htmlFor="firstName">First Name:</label>
-						<input
-							type="text"
-							name="firstName"
-							className="form-control"
-							placeholder="First Name"
-							onChange={(event) => this.setState({ first_name: event.target.value })}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="lastName">Last Name:</label>
-						<input
-							type="text"
-							name="lastName"
-							className="form-control"
-							placeholder="Last Name"
-							onChange={(event) => this.setState({ last_name: event.target.value })}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="email">Email:</label>
-						<input
-							type="text"
-							name="email"
-							className="form-control"
-							placeholder="Email"
-							onChange={(event) => this.setState({ email: event.target.value })}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="phone_number">Phone Number:</label>
-						<input
-							type="text"
-							name="phone_number"
-							className="form-control"
-							placeholder="Phone Number"
-							onChange={(event) => this.setState({ phone_number: event.target.value })}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="address">Address:</label>
-						<textarea
-							type="text"
-							name="address"
-							className="form-control"
-							placeholder="Address"
-							onChange={(event) => this.setState({ address: event.target.value })}
-							required></textarea>
-					</div>
-					<div className="form-group">
-						<label htmlFor="agencies">Associated Agencies:</label>
-						<PersonAgencyTags
-							tags={this.state.agencies}
-							shouldStore={false}
-							handleDelete={this.handleAgencyDelete}
-							handleAddition={this.handleAgencyAddition}
-							handleDrag={this.handleAgencyDrag} />
-					</div>
-					<div className="form-group">
-						<label htmlFor="pic">Picture:</label>
-						<FileInput
-							handleSuccess={(url) => this.setState({ pic: url })}
-							handleError={(error) => this.setState({ formError: error })}
-							folderName="Profiles"
-							fieldName="pic" />
-					</div>
-					<div className="form-check">
-						<input
-							type="checkbox"
-							className="form-check-input"
-							onChange={(event) => this.setState({ public: event.target.checked })}
-							id="public" />
-						<label
-							className="form-check-label"
-							htmlFor="public">Should this person's information be public?</label>
-					</div>
+					<FirstNameInput
+						value={this.state.first_name}
+						showErrors={this.state.showErrors}
+						onChange={(text) => this.setState({ first_name: text })}
+						onError={(error) => this.setState({ formError: error })} />
+					<LastNameInput
+						value={this.state.last_name}
+						showErrors={this.state.showErrors}
+						onChange={(text) => this.setState({ last_name: text })}
+						onError={(error) => this.setState({ formError: error })} />
+					<EmailInput
+						value={this.state.email}
+						showErrors={this.state.showErrors}
+						onChange={(text) => this.setState({ email: text })}
+						onError={(error) => this.setState({ formError: error })} />
+					<PhoneNumberInput
+						value={this.state.phone_number}
+						showErrors={this.state.showErrors}
+						onChange={(text) => this.setState({ phone_number: text })}
+						onError={(error) => this.setState({ formError: error })} />
+					<AddressInput
+						value={this.state.address}
+						showErrors={this.state.showErrors}
+						onChange={(text) => this.setState({ address: text })}
+						onError={(error) => this.setState({ formError: error })} />
+					<AgenciesInput
+						tags={this.state.agencies}
+						handleDelete={this.handleAgencyDelete}
+						handleAddition={this.handleAgencyAddition}
+						handleDrag={this.handleAgencyDrag}
+						handleTagClick={this.handleAgencyTagClick} />
+					<PicInput
+						value={this.state.first_name}
+						showErrors={this.state.showErrors}
+						onChange={(url) => this.setState({ pic: url })}
+						onError={(error) => this.setState({ formError: error })} />
+					<PublicPlaceholderInput
+						value={this.props.public}
+						onChange={(event) => this.setState({ public: event.target.checked})} />
 				</div>
 				<div className="modal-footer">
 					<button
