@@ -10,9 +10,11 @@ class AgencyCard extends Component {
 
         this.state = {
             people: [],
+            visible: false,
         }
 
         this.deleteAgency = this.deleteAgency.bind(this);
+        this.updateModalVisibility = this.updateModalVisibility.bind(this);
     }
 
     componentDidMount() {
@@ -44,22 +46,29 @@ class AgencyCard extends Component {
         fire.database().ref("agencies").child(this.props.id).remove();
     }
 
+    updateModalVisibility(value) {
+        this.setState({ visible: value });
+    }
+
 	render() {
 		return (
 			<div className="AgencyCard people-card">
                 <AgencyInfoModal
                     id={this.props.id}
-                    name={this.props.name} />
+                    name={this.props.name}
+                    visible={this.state.visible}
+                    updateModalVisibility={this.updateModalVisibility} />
 
                 <div
                     className="people-card-img"
-                    style={{ backgroundImage: `url(${this.props.pic})` }}
-                    data-toggle="modal"
-                    data-target={"#agencyInfoModal-" + this.props.id}></div>
+                    style={{
+                        backgroundImage: `url(${this.props.pic})`
+                    }}
+                    onClick={() => this.updateModalVisibility(true)}>
+                </div>
                 <div
                     className="people-card-text"
-                    data-toggle="modal"
-                    data-target={"#agencyInfoModal-" + this.props.id}>
+                    onClick={() => this.updateModalVisibility(true)}>
                     <strong>{this.props.name}</strong>
                 </div>
                 <LoginRequired requiredRole="admin">
