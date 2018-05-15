@@ -130,7 +130,6 @@ class AddPersonModal extends Component {
 	}
 	
 	render() {
-		console.log(this.props.visible)
 		return (
 			<Overlay
 				id="addPersonModal"

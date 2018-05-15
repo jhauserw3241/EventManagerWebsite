@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import FileInput from './../Common/FileInput';
-import AliasTags from './../Common/AliasTags';
 import fire from './../../fire';
 import { formatTagsForDatabase } from '../Common/TagHelper';
 import Overlay from './../Common/Overlay';
+import NameInput from './../AgencyForm/NameInput';
+import AliasInput from './../AgencyForm/AliasInput';
+import PicInput from './../AgencyForm/PicInput';
+import {
+    isEmptyString,
+    invalidFieldStyle,
+    invalidTipStyle,
+    validTipStyle,
+} from './../Common/FormValidation';
 
 class AddAgencyModal extends Component {
     constructor(props) {
@@ -13,18 +20,34 @@ class AddAgencyModal extends Component {
 			name: "",
 			aliases: [],
 			pic: "",
+			showErrors: false,
         };
 
+		this.isFormValid = this.isFormValid.bind(this);
 		this.addAgency = this.addAgency.bind(this);
 		this.handleAliasAddition = this.handleAliasAddition.bind(this);
 		this.handleAliasDelete = this.handleAliasDelete.bind(this);
 		this.handleAliasDrag = this.handleAliasDrag.bind(this);
-    }
+	}
+	
+	isFormValid() {
+		// Check if the agency name is valid
+		if(isEmptyString(this.state.name)) {
+			return false;
+		}
+
+		return true;
+	}
 
     addAgency(event) {
         event.preventDefault();
 
 		var self = this;
+
+		if(!this.isFormValid()) {
+			this.setState({ showErrors: true });
+			return;
+		}
 
 		// Create event
 		var curAgencyRef = fire.database().ref("agencies").push();
@@ -81,34 +104,20 @@ class AddAgencyModal extends Component {
 				visible={this.props.visible}
 				updateModalVisibility={this.props.updateModalVisibility}>
 				<div className="modal-body">
-					<div className="form-group">
-						<label htmlFor="name">Name:</label>
-						<input
-							type="text"
-							name="name"
-							className="form-control"
-							value={this.state.name}
-							placeholder="Name"
-							onChange={(event) => this.setState({ name: event.target.value })}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="aliases">Aliases:</label>
-						<AliasTags
-							tags={this.state.aliases}
-							shouldStore={false}
-							handleDelete={this.handleAliasDelete}
-							handleAddition={this.handleAliasAddition}
-							handleDrag={this.handleAliasDrag} />
-					</div>
-					<div className="form-group">
-						<label htmlFor="pic">Picture:</label>
-						<FileInput
-							handleSuccess={(url) => this.setState({ pic: url })}
-							handleError={(error) => this.setState({ formError: error })}
-							folderName="Agencies"
-							fieldName="pic" />
-					</div>
+					<NameInput
+						value={this.state.name}
+						showErrors={this.props.showErrors}
+						onChange={(text) => this.setState({ name: text })}
+						onError={(error) => this.setState({ formError: error })} />
+					<AliasInput
+						tags={this.state.aliases}
+						handleDelete={this.handleAliasDelete}
+						handleAddition={this.handleAliasAddition}
+						handleDrag={this.handleAliasDrag}
+						onChange={(tags) => this.setState({ aliases: tags })} />
+					<PicInput
+						onChange={(url) => this.setState({ pic: url })}
+						onError={(error) => this.setState({ formError: error })} />
 				</div>
 				<div className="modal-footer">
 					<button
