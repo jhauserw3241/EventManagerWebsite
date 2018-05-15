@@ -6,3 +6,46 @@
 .modal-submit-btn {
     float: right;
 }
+
+/**
+ * Modified from code from Nathan Bean
+ */
+
+.modal.active {
+    z-index: 100;
+    width: 100%;
+}
+  
+.close-overlay {
+    position: absolute;
+    right: 0;
+}
+
+.close-overlay i {
+    padding-right: 0.5rem;
+}
+
+.close-overlay a {
+    display: inline-block;
+    border: 1px solid gray;
+    background-color: #fff;
+    color: #777;
+    text-decoration: none;
+    margin: .5rem;
+    padding: .5rem;
+}
+        
+.close-overlay a:hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #333;
+}
+
+.overlay-content {
+    min-height: 100vh;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

@@ -12,8 +12,10 @@ class People extends Component {
 			cur_user: {},
 			users: [],
 			formError: "",
+			addModalVisible: false,
 		};
 
+		this.updateAddModalVisibility = this.updateAddModalVisibility.bind(this);
 		this.shouldShowPerson = this.shouldShowPerson.bind(this);
 	}
 	
@@ -60,15 +62,20 @@ class People extends Component {
 			(	(member.status === "placeholder") && // Check if the user is a placeholder created by the current user
 				(member.creator_id === cur_member_id));
 	}
+
+	updateAddModalVisibility(value) {
+		this.setState({ addModalVisible: value });
+	}
 	
 	render() {
-
 		return (
 			<div className="People">
-				<div className="container">
-					<AddPersonModal
-						handleErrors={(error) => this.setState({ formError: error })} />
+				<AddPersonModal
+					visible={this.state.addModalVisible}
+					handleErrors={(error) => this.setState({ formError: error })}
+					updateAddModalVisibility={this.updateAddModalVisibility} />
 
+				<div className="container">
 					{ (this.state.formError !== "") ?
 						<div className="alert alert-danger">
 							<strong>Error:</strong> {this.state.formError}
@@ -76,9 +83,10 @@ class People extends Component {
 
 					<button
 						className="btn btn-success"
-						data-toggle="modal"
-						data-target="#addPersonModal">
-						<i className="fa fa-plus"></i> Person</button>
+						onClick={() => this.setState({ addModalVisible: true })}>
+						<i className="fa fa-plus"></i> Person
+					</button>
+
 					<div className="list-container">
 						{this.state.users.map(person =>
 							<PersonCard

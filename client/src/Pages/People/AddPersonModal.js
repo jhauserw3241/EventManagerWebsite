@@ -3,6 +3,7 @@ import PersonAgencyTags from './../UserForm/PersonAgencyTags';
 import { formatTagsForDatabase } from './../Common/TagHelper';
 import FileInput from './../Common/FileInput';
 import fire from './../../fire';
+import Overlay from './../Common/Overlay';
 import './../../CSS/Modal.css';
 
 class AddPersonModal extends Component {
@@ -54,6 +55,8 @@ class AddPersonModal extends Component {
 		}).catch(function(error) {
 			self.setState({ formError: error.code + ": " + error.message });
 		});
+
+		this.props.updateAddModalVisibility(false);
 	}
 
     handleAgencyDelete(i) {
@@ -77,119 +80,108 @@ class AddPersonModal extends Component {
 	}
 	
 	render() {
+		console.log(this.props.visible)
 		return (
-			<div
-				className="modal fade"
+			<Overlay
 				id="addPersonModal"
-				tabIndex="-1"
-				role="dialog"
-				aria-labelledby="addPersonModalTitle"
-				aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title" id="addPersonModalTitle">Add Placeholder Person</h5>
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div className="modal-body">
-							<div className="form-group">
-								<label htmlFor="firstName">First Name:</label>
-								<input
-									type="text"
-									name="firstName"
-									className="form-control"
-									placeholder="First Name"
-									onChange={(event) => this.setState({ first_name: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="lastName">Last Name:</label>
-								<input
-									type="text"
-									name="lastName"
-									className="form-control"
-									placeholder="Last Name"
-									onChange={(event) => this.setState({ last_name: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="email">Email:</label>
-								<input
-									type="text"
-									name="email"
-									className="form-control"
-									placeholder="Email"
-									onChange={(event) => this.setState({ email: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="phone_number">Phone Number:</label>
-								<input
-									type="text"
-									name="phone_number"
-									className="form-control"
-									placeholder="Phone Number"
-									onChange={(event) => this.setState({ phone_number: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="address">Address:</label>
-								<textarea
-									type="text"
-									name="address"
-									className="form-control"
-									placeholder="Address"
-									onChange={(event) => this.setState({ address: event.target.value })}
-									required></textarea>
-							</div>
-							<div className="form-group">
-								<label htmlFor="agencies">Associated Agencies:</label>
-								<PersonAgencyTags
-									tags={this.state.agencies}
-									shouldStore={false}
-									handleDelete={this.handleAgencyDelete}
-									handleAddition={this.handleAgencyAddition}
-									handleDrag={this.handleAgencyDrag} />
-							</div>
-							<div className="form-group">
-								<label htmlFor="pic">Picture:</label>
-								<FileInput
-									handleSuccess={(url) => this.setState({ pic: url })}
-									handleError={(error) => this.setState({ formError: error })}
-									folderName="Profiles"
-									fieldName="pic" />
-							</div>
-							<div className="form-check">
-								<input
-									type="checkbox"
-									className="form-check-input"
-									onChange={(event) => this.setState({ public: event.target.checked })}
-									id="public" />
-								<label
-									className="form-check-label"
-									htmlFor="public">Should this person's information be public?</label>
-							</div>
-						</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="btn btn-primary"
-								onClick={this.addMember}
-								data-dismiss="modal">
-								Save
-							</button>
-							<button
-								type="button"
-								className="btn btn-primary"
-								data-dismiss="modal">
-								Close
-							</button>
-						</div>
+				title="Add Placeholder Person"
+				visible={this.props.visible}
+				updateAddModalVisibility={this.props.updateAddModalVisibility}>
+				<div className="modal-body">
+					<div className="form-group">
+						<label htmlFor="firstName">First Name:</label>
+						<input
+							type="text"
+							name="firstName"
+							className="form-control"
+							placeholder="First Name"
+							onChange={(event) => this.setState({ first_name: event.target.value })}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="lastName">Last Name:</label>
+						<input
+							type="text"
+							name="lastName"
+							className="form-control"
+							placeholder="Last Name"
+							onChange={(event) => this.setState({ last_name: event.target.value })}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="email">Email:</label>
+						<input
+							type="text"
+							name="email"
+							className="form-control"
+							placeholder="Email"
+							onChange={(event) => this.setState({ email: event.target.value })}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="phone_number">Phone Number:</label>
+						<input
+							type="text"
+							name="phone_number"
+							className="form-control"
+							placeholder="Phone Number"
+							onChange={(event) => this.setState({ phone_number: event.target.value })}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="address">Address:</label>
+						<textarea
+							type="text"
+							name="address"
+							className="form-control"
+							placeholder="Address"
+							onChange={(event) => this.setState({ address: event.target.value })}
+							required></textarea>
+					</div>
+					<div className="form-group">
+						<label htmlFor="agencies">Associated Agencies:</label>
+						<PersonAgencyTags
+							tags={this.state.agencies}
+							shouldStore={false}
+							handleDelete={this.handleAgencyDelete}
+							handleAddition={this.handleAgencyAddition}
+							handleDrag={this.handleAgencyDrag} />
+					</div>
+					<div className="form-group">
+						<label htmlFor="pic">Picture:</label>
+						<FileInput
+							handleSuccess={(url) => this.setState({ pic: url })}
+							handleError={(error) => this.setState({ formError: error })}
+							folderName="Profiles"
+							fieldName="pic" />
+					</div>
+					<div className="form-check">
+						<input
+							type="checkbox"
+							className="form-check-input"
+							onChange={(event) => this.setState({ public: event.target.checked })}
+							id="public" />
+						<label
+							className="form-check-label"
+							htmlFor="public">Should this person's information be public?</label>
 					</div>
 				</div>
-			</div>
+				<div className="modal-footer">
+					<button
+						type="button"
+						className="btn btn-primary"
+						onClick={this.addMember}>
+						Save
+					</button>
+					<button
+						type="button"
+						className="btn btn-primary"
+						onClick={() =>
+							this.props.updateAddModalVisibility(false)}>
+						Close
+					</button>
+				</div>
+			</Overlay>
 		);
 	}
 }
