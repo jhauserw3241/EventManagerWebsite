@@ -8,6 +8,10 @@ class PersonCard extends Component {
       constructor(props) {
             super(props);
 
+            this.state = {
+                  visible: false,
+            };
+
             this.changePriv = this.changePriv.bind(this);
       }
 
@@ -19,7 +23,7 @@ class PersonCard extends Component {
 
 	render() {
 		return (
-			<div className="PersonCard people-card">
+                  <div className="PersonCard people-card">
                         <PersonInfoModal
                               key={this.props.id}
                               id={this.props.id}
@@ -30,17 +34,18 @@ class PersonCard extends Component {
                               address={this.props.address}
                               notes={this.props.notes}
                               pic={this.props.pic}
-                              color={this.props.color} />
+                              color={this.props.color}
+                              visible={this.state.visible}
+                              updateVisibility={(value) => this.setState({ visible: value })} />
 
                         <div
                               className="people-card-img"
                               style={{ backgroundImage: `url(${this.props.pic})` }}
-                              data-toggle="modal"
-                              data-target={"#personInfoModal-" + this.props.id}></div>
+                              onClick={() => this.setState({ visible: true })}>
+                        </div>
                         <div
                               className="people-card-text"
-                              data-toggle="modal"
-                              data-target={"#personInfoModal-" + this.props.id}>
+                              onClick={() => this.setState({ visible: true })}>
                               <strong>{this.props.first_name} {this.props.last_name}</strong><br />
                               {this.props.email}<br />
                               {this.props.phone_number}
@@ -48,23 +53,23 @@ class PersonCard extends Component {
                         <LoginRequired requiredRole="admin">
                               <div
                                     className="people-card-btns">
-                                          {(this.props.priv === "member") ?
-                                                <button
-                                                      className="btn btn-success"
-                                                      onClick={(event) => this.changePriv("admin")}>
-                                                      <i class="fa fa-star" aria-hidden="true"></i>
-                                                </button> : null
-                                          }
-                                          {(this.props.priv === "admin") ?
-                                                <button
-                                                      className="btn btn-danger"
-                                                      onClick={(event) => this.changePriv("member")}>
-                                                      <i class="fa fa-users" aria-hidden="true"></i>
-                                                </button> : null
-                                          }
+                                    {(this.props.priv === "member") ?
+                                          <button
+                                                className="btn btn-success"
+                                                onClick={(event) => this.changePriv("admin")}>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                          </button> : null
+                                    }
+                                    {(this.props.priv === "admin") ?
+                                          <button
+                                                className="btn btn-danger"
+                                                onClick={(event) => this.changePriv("member")}>
+                                                <i class="fa fa-users" aria-hidden="true"></i>
+                                          </button> : null
+                                    }
                               </div>
                         </LoginRequired>
-			</div>
+                  </div>
 		);
 	}
 }
