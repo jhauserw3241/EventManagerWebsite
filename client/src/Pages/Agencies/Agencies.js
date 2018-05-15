@@ -12,12 +12,19 @@ class Agencies extends Component {
 		this.state = {
 			agencies: [],
 			formError: "",
+			addModalVisible: false,
 		};
+
+		this.updateAddModalVisibility = this.updateAddModalVisibility.bind(this);
 	}
 	
 	componentDidMount() {
 		fire.database().ref("agencies").on("value", (data) =>
 			this.setState({ agencies: data.val() ? Object.values(data.val()) : [] }));
+	}
+
+	updateAddModalVisibility(value) {
+		this.setState({ addModalVisible: value });
 	}
 	
 	render() {
@@ -27,7 +34,10 @@ class Agencies extends Component {
 		return (
 			<div className="Agencies">
 				<div className="container">
-					<AddAgencyModal />
+					<AddAgencyModal
+						visible={this.state.addModalVisible}
+						updateModalVisibility={this.updateAddModalVisibility}
+						onError={(error) => this.setState({ formError: error })} />
 
 					{ (this.state.formError !== "") ?
 						<div class="alert alert-danger">
@@ -37,10 +47,9 @@ class Agencies extends Component {
 					<div className="mod-btns">
 						<Button
 							className="btn btn-success"
-							data-toggle="modal"
-							data-target="#addAgencyModal">
-								<i className="fa fa-plus"></i> Agency
-							</Button>
+							onClick={() => this.updateAddModalVisibility(true)}>
+							<i className="fa fa-plus"></i> Agency
+						</Button>
 					</div>
 
 					<div className="list-container">

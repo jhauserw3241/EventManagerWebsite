@@ -3,6 +3,7 @@ import FileInput from './../Common/FileInput';
 import AliasTags from './../Common/AliasTags';
 import fire from './../../fire';
 import { formatTagsForDatabase } from '../Common/TagHelper';
+import Overlay from './../Common/Overlay';
 
 class AddAgencyModal extends Component {
     constructor(props) {
@@ -25,8 +26,6 @@ class AddAgencyModal extends Component {
 
 		var self = this;
 
-		console.log(self.state.pic);
-
 		// Create event
 		var curAgencyRef = fire.database().ref("agencies").push();
 		var agency_id = curAgencyRef.key;
@@ -47,8 +46,11 @@ class AddAgencyModal extends Component {
 			});
 		})
 		.catch(function(error) {
-			this.setState({ formError: error.code + ": " + error.message });
+			this.props.onError(error.code + ": " + error.message);
 		});
+
+		// Close the modal
+		this.props.updateModalVisibility(false);
 	}
 
     handleAliasDelete(i) {
@@ -73,71 +75,57 @@ class AddAgencyModal extends Component {
 
 	render() {
         return (
-			<div
-				className="modal fade"
+			<Overlay
 				id="addAgencyModal"
-				tabIndex="-1"
-				role="dialog"
-				data-backdrop="static"
-				data-keyboard={false}
-				aria-labelledby="addAgencyModalTitle"
-				aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title" id="addAgencyModalTitle">Add Agency</h5>
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div className="modal-body">
-							<div className="form-group">
-								<label htmlFor="name">Name:</label>
-								<input
-									type="text"
-									name="name"
-									className="form-control"
-									value={this.state.name}
-									placeholder="Name"
-									onChange={(event) => this.setState({ name: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="aliases">Aliases:</label>
-								<AliasTags
-									tags={this.state.aliases}
-									shouldStore={false}
-									handleDelete={this.handleAliasDelete}
-									handleAddition={this.handleAliasAddition}
-									handleDrag={this.handleAliasDrag} />
-							</div>
-                            <div className="form-group">
-                                <label htmlFor="pic">Picture:</label>
-								<FileInput
-									handleSuccess={(url) => this.setState({ pic: url })}
-									handleError={(error) => this.setState({ formError: error })}
-									folderName="Agencies"
-									fieldName="pic" />
-                            </div>
-						</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="btn btn-success"
-								data-dismiss="modal"
-								onClick={this.addAgency}>
-								Add
-							</button>
-							<button
-								type="button"
-								className="btn btn-danger"
-								data-dismiss="modal">
-								Close
-							</button>
-						</div>
+				title="Add Agency"
+				visible={this.props.visible}
+				updateModalVisibility={this.props.updateModalVisibility}>
+				<div className="modal-body">
+					<div className="form-group">
+						<label htmlFor="name">Name:</label>
+						<input
+							type="text"
+							name="name"
+							className="form-control"
+							value={this.state.name}
+							placeholder="Name"
+							onChange={(event) => this.setState({ name: event.target.value })}
+							required />
+					</div>
+					<div className="form-group">
+						<label htmlFor="aliases">Aliases:</label>
+						<AliasTags
+							tags={this.state.aliases}
+							shouldStore={false}
+							handleDelete={this.handleAliasDelete}
+							handleAddition={this.handleAliasAddition}
+							handleDrag={this.handleAliasDrag} />
+					</div>
+					<div className="form-group">
+						<label htmlFor="pic">Picture:</label>
+						<FileInput
+							handleSuccess={(url) => this.setState({ pic: url })}
+							handleError={(error) => this.setState({ formError: error })}
+							folderName="Agencies"
+							fieldName="pic" />
 					</div>
 				</div>
-			</div>
+				<div className="modal-footer">
+					<button
+						type="button"
+						className="btn btn-success"
+						data-dismiss="modal"
+						onClick={this.addAgency}>
+						Add
+					</button>
+					<button
+						type="button"
+						className="btn btn-danger"
+						onClick={() => this.props.updateModalVisibility(false)}>
+						Close
+					</button>
+				</div>
+			</Overlay>
 		);
 	}
 }
