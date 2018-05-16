@@ -4,7 +4,6 @@ import fire from './../../fire';
 
 class EventComponentTypeModal extends Component {
 	render() {
-		console.log(this.props.component_type)
         return (
             <div
                 className="modal fade"

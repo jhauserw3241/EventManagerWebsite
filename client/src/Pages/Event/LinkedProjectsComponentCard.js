@@ -27,8 +27,6 @@ class LinkedProjectsComponentCard extends Component {
 	}
 
 	render() {
-		console.log(this.state.color);
-
 		return (
 			<Link className="LinkedProjectsComponentCard side-card" to={this.props.link}>
 				<div className="side-card-img" style={{ backgroundColor: this.state.color }}></div>

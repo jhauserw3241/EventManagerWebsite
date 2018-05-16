@@ -7,7 +7,16 @@ import {
 	validPlanningEnd,
 	formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
-import DateTime from "./../../../node_modules/react-datetime/DateTime.js";
+import DateTime from './../../../node_modules/react-datetime/DateTime.js';
+import Overlay from './../Common/Overlay';
+import NameInput from './../EventForm/NameInput';
+import TypeInput from './../EventForm/TypeInput';
+import PlanningStartInput from './../EventForm/PlanningStartInput';
+import EventStartInput from './../EventForm/EventStartInput';
+import EventEndInput from './../EventForm/EventEndInput';
+import PlanningEndInput from './../EventForm/PlanningEndInput';
+import LocationInput from './../EventForm/LocationInput';
+import ColorInput from './../EventForm/ColorInput';
 
 class EditEventModal extends Component {
     constructor(props) {
@@ -23,6 +32,7 @@ class EditEventModal extends Component {
 			event_end: "",
 			planning_end: "",
 			color: "",
+			showErrors: false,
         };
 
 		this.editEvent = this.editEvent.bind(this);
@@ -63,144 +73,65 @@ class EditEventModal extends Component {
 		updates['/events/' + self.state.id + '/event_end'] = formatDateTime(self.state.event_end);
 		updates['/events/' + self.state.id + '/planning_end'] = formatDateTime(self.state.planning_end);
 		updates['/events/' + self.state.id + '/color'] = self.state.color;
-        fire.database().ref().update(updates);
+		fire.database().ref().update(updates);
+
+		// Close the modal
+		this.props.updateModalVisibility(false);
 	}
 
 	changeEventColor = (color) => {
-	  this.setState({ color: color.hex });
+		this.setState({ color: color.hex });
 	};
 
 	render() {
         return (
-			<div
-				className="modal fade"
+			<Overlay
 				id="editEventModal"
-				tabIndex="-1"
-				role="dialog"
-				data-backdrop="static"
-				data-keyboard={false}
-				aria-labelledby="editEventModalTitle"
-				aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title" id="editEventModalTitle">Add Event</h5>
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div className="modal-body">
-							<div className="form-group">
-								<label htmlFor="name">Name:</label>
-								<input
-									type="text"
-									name="name"
-									className="form-control"
-									value={this.state.name}
-									onChange={(event) => this.setState({ name: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="type">Type:</label>
-								<select
-									name="type"
-									className="form-control"
-									value={this.state.type}
-									onChange={(event) => this.setState({ type: event.target.value })}
-									required>
-									<option>Not Specified</option>
-									<option>Conference</option>
-									<option>Field trip</option>
-									<option>Training</option>
-									<option>Site Visit</option>
-									<option>Miscellaneous</option>
-								</select>
-							</div>
-							<div className="form-group">
-								<label htmlFor="planning-start">Planning Start:</label>
-								<DateTime
-									name="planning-start"
-									value={formatDateTime(this.state.planning_start)}
-									onChange={(event) => this.setState({ planning_start: event._d })}
-									isValidDate={(current) => validPlanningStart(
-										current,
-										this.state.event_start,
-										this.state.event_end,
-										this.state.planning_end,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="event-start">Event Start:</label>
-								<DateTime
-									name="event-start"
-									value={formatDateTime(this.state.event_start)}
-									onChange={(event) => this.setState({ event_start: event._d })}
-									isValidDate={(current) => validEventStart(
-										this.state.planning_start,
-										current,
-										this.state.event_end,
-										this.state.planning_end,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="event-end">Event End:</label>
-								<DateTime
-									name="event-end"
-									value={formatDateTime(this.state.event_end)}
-									onChange={(event) => this.setState({ event_end: event._d })}
-									isValidDate={(current) => validEventEnd(
-										this.state.planning_start,
-										this.state.event_start,
-										current,
-										this.state.planning_end,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="planning-end">Planning End Date:</label>
-								<DateTime
-									name="planning-end"
-									value={formatDateTime(this.state.planning_end)}
-									onChange={(event) => this.setState({ planning_end: event._d })}
-									isValidDate={(current) => validPlanningEnd(
-										this.state.planning_start,
-										this.state.event_start,
-										this.state.event_end,
-										current,
-									)}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="location">Location:</label>
-								<input
-									type="text"
-									name="location"
-									className="form-control"
-									value={this.state.location}
-									onChange={(event) => this.setState({ location: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="color">Color:</label>
-								<SketchPicker
-									color={this.state.color}
-									onChangeComplete={ this.changeEventColor } />
-							</div>
-						</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="btn btn-primary"
-								data-dismiss="modal"
-								onClick={this.editEvent}>
-								Save
-							</button>
-						</div>
-					</div>
+				title="Add Event"
+				visible={this.props.visible}
+				updateModalVisibility={this.props.updateModalVisibility}>
+				<div className="modal-body">
+					<NameInput 
+						value={this.state.name}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ name: value })} />
+					<TypeInput
+						value={this.state.type}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ type: value })} />
+					<PlanningStartInput
+						value={this.state.planning_start}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ planning_start: value })} />
+					<EventStartInput
+						value={this.state.event_start}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ event_start: value })} />
+					<EventEndInput
+						value={this.state.event_end}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ event_end: value })} />
+					<PlanningEndInput 
+						value={this.state.planning_end}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ planning_end: value })} />
+					<LocationInput
+						value={this.state.location}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ location: value })} />
+					<ColorInput 
+						value={this.state.color}
+						onChange={this.changeEventColor} />
 				</div>
-			</div>
+				<div className="modal-footer">
+					<button
+						type="button"
+						className="btn btn-primary"
+						onClick={this.editEvent}>
+						Save
+					</button>
+				</div>
+			</Overlay>
 		);
 	}
 }

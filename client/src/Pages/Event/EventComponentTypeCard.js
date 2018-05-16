@@ -18,6 +18,7 @@ class EventComponentTypeCard extends Component {
     componentDidMount() {
 		var self = this;
 		
+		// Check if the user is logged in
 		var user = fire.auth().currentUser;
 		if(!user) {
 			return;

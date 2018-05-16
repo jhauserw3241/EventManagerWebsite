@@ -36,9 +36,11 @@ class Event extends Component {
 				{type: "other", name: "Other"}],
 			people: [],
 			event_partners: [],
+			edit_modal_visible: false,
         };
 
 		this.canEditEvent = this.canEditEvent.bind(this);
+		this.updateEditModalVisibility = this.updateEditModalVisibility.bind(this);
     }
 
     componentDidMount() {
@@ -67,21 +69,21 @@ class Event extends Component {
 	}
 	
 	canEditEvent() {
-		if(!fire.auth().currentUser) {
+		// Check if the current user is logged in
+		var user = fire.auth().currentUser;
+		if(!user) {
 			return false;
 		}
 
-		var cur_user_id = fire.auth().currentUser.uid;
-
 		// Check if the user is the event owner
-		if(cur_user_id === this.state.owner_id) {
+		if(user.uid === this.state.owner_id) {
 			return true;
 		}
 
 		// Check if the user is a partner with edit privileges
 		for(var partner_id in this.state.partners) {
 			var partner = this.state.partners[partner_id];
-			if(cur_user_id === partner_id) {
+			if(user.uid === partner_id) {
 				return (partner.priv === "Edit") || (partner.priv === "Owner");
 			}
 		}
@@ -95,10 +97,17 @@ class Event extends Component {
 		fire.database().ref().update(updates);
 	}
 
+	updateEditModalVisibility(value) {
+		this.setState({ edit_modal_visible: value });
+	}
+
 	render() {
 		return (
 			<div className="Event">
-				<EditEventModal id={this.state.event_id} />
+				<EditEventModal
+					id={this.state.event_id}
+					visible={this.state.edit_modal_visible}
+					updateModalVisibility={this.updateEditModalVisibility} />
 
 				<AddComponentModal event_id={this.state.event_id} />
 
@@ -163,8 +172,7 @@ class Event extends Component {
 									</Button>
 									<Button
 										className="btn btn-warning"
-										data-toggle="modal"
-										data-target={"#editEventModal"}>
+										onClick={() => this.updateEditModalVisibility(true)}>
 										<i className="fa fa-edit"></i> Event
 									</Button>
 								</div> : null }
