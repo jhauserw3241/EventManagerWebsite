@@ -12,3 +12,7 @@ fieldset {
 input[type="submit"] {
     margin-left: calc(50% - 40px);
 }
+
+.invalid-datetime-field > input {
+    box-shadow: 0 0 1pt 1.5pt red;
+}

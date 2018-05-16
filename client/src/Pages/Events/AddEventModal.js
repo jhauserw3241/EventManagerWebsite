@@ -6,8 +6,16 @@ import {
 	validEventEnd,
 	validPlanningEnd,
 	formatDateTime } from './../Common/EventHelpers';
+import { isEmptyString } from './../Common/FormValidation';
 import fire from './../../fire';
 import Overlay from './../Common/Overlay';
+import NameInput from './../EventForm/NameInput';
+import TypeInput from './../EventForm/TypeInput';
+import PlanningStartInput from './../EventForm/PlanningStartInput';
+import EventStartInput from './../EventForm/EventStartInput';
+import EventEndInput from './../EventForm/EventEndInput';
+import PlanningEndInput from './../EventForm/PlanningEndInput';
+import LocationInput from './../EventForm/LocationInput';
 
 // CSS and JS for datetime picker	
 import moment from './../../../node_modules/moment/moment';	
@@ -26,9 +34,50 @@ class AddEventModal extends Component {
 			planningEnd: "",
 			eventStart: "",
 			eventEnd: "",
+			showErrors: false,
 		};
 
+		this.isFormValid = this.isFormValid.bind(this);
 		this.addEvent = this.addEvent.bind(this);
+	}
+
+	isFormValid() {
+		// Check if the name is an empty string
+		if(isEmptyString(this.state.name)) {
+			return false;
+		}
+
+		// Check if the type is an empty string
+		if(isEmptyString(this.state.type)) {
+			return false;
+		}
+
+		// Check if the location is an empty string
+		if(isEmptyString(this.state.location)) {
+			return false;
+		}
+
+		// Check if the planning start is an empty string
+		if(isEmptyString(this.state.planningStart)) {
+			return false;
+		}
+
+		// Check if the name is an empty string
+		if(isEmptyString(this.state.eventStart)) {
+			return false;
+		}
+
+		// Check if the type is an empty string
+		if(isEmptyString(this.state.eventEnd)) {
+			return false;
+		}
+
+		// Check if the name is an empty string
+		if(isEmptyString(this.state.planningEnd)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	addEvent(event) {
@@ -36,13 +85,24 @@ class AddEventModal extends Component {
 
 		var self = this;
 
-		var owner_id = fire.auth().currentUser.uid;
-		fire.database().ref("users").child(owner_id).once("value", function(data) {
+		// Check if the user is logged in
+		var owner = fire.auth().currentUser;
+		if(!owner) {
+			return;
+		}
+
+		// Check if the form is valid
+		if(!this.isFormValid()) {
+			this.setState({ showErrors: true });
+			return;
+		}
+
+		fire.database().ref("users").child(owner.uid).once("value", function(data) {
 			var user = data.val();
 			var user_name = user.first_name + " " + user.last_name;
 
 			var partnersList = {};
-			partnersList[owner_id] = {
+			partnersList[owner.uid] = {
 				name: user_name,
 				role: "Owner",
 				priv: "Owner",
@@ -60,7 +120,7 @@ class AddEventModal extends Component {
 				event_start: formatDateTime(self.state.eventStart),
 				event_end: formatDateTime(self.state.eventEnd),
 				planning_end: formatDateTime(self.state.planningEnd),
-				owner_id: owner_id,
+				owner_id: owner.uid,
 				partners: partnersList,
 				color: generateColor(),
 			}).then(function() {
@@ -77,7 +137,7 @@ class AddEventModal extends Component {
 
 			// Add this event to the list of events that is being tracked for the current user
 			var updates = {};
-			updates['/users/' + owner_id + '/events/' + event_id] = event_id;
+			updates['/users/' + owner.uid + '/events/' + event_id] = event_id;
 			fire.database().ref().update(updates);
 
 			// Create default agenda for the event
@@ -123,105 +183,46 @@ class AddEventModal extends Component {
 				visible={this.props.visible}
 				updateModalVisibility={this.props.updateAddModalVisibility}>
 				<div className="modal-body">
-					<div className="form-group">
-						<label htmlFor="name">Name:</label>
-						<input
-							type="text"
-							name="name"
-							className="form-control"
-							value={this.state.name}
-							placeholder="Name"
-							onChange={(event) => this.setState({name: event.target.value})}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="type">Type:</label>
-						<select
-							name="type"
-							className="form-control"
-							value={this.state.type}
-							placeholder="Type"
-							onChange={(event) => this.setState({type: event.target.value})}
-							required>
-							<option>Not Specified</option>
-							<option>Conference</option>
-							<option>Field trip</option>
-							<option>Training</option>
-							<option>Site Visit</option>
-							<option>Miscellaneous</option>
-						</select>
-					</div>
-					<div className="form-group">
-						<label htmlFor="planning-start">Planning Start:</label>
-						<DateTime
-							name="planning-start"
-							value={this.state.planningStart}
-							placeholder="Planning Start"
-							onChange={(event) => this.setState({planningStart: event._d})}
-							isValidDate={(current) => validPlanningStart(
-								current,
-								this.state.eventStart,
-								this.state.eventEnd,
-								this.state.planningEnd,
-							)}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="event-start">Event Start:</label>
-						<DateTime
-							name="event-start"
-							value={this.state.eventStart}
-							placeholder="Event Start"
-							onChange={(event) => this.setState({eventStart: event._d})}
-							isValidDate={(current) => validEventStart(
-								this.state.planningStart,
-								current,
-								this.state.eventEnd,
-								this.state.planningEnd,
-							)}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="event-end">Event End:</label>
-						<DateTime
-							name="event-end"
-							value={this.state.eventEnd}
-							placeholder="Event End"
-							onChange={(event) => this.setState({eventEnd: event._d})}
-							isValidDate={(current) => validEventEnd(
-								this.state.planningStart,
-								this.state.eventStart,
-								current,
-								this.state.planningEnd,
-							)}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="planning-end">Planning End:</label>
-						<DateTime
-							name="planning-end"
-							value={this.state.planningEnd}
-							placeholder="Planning End"
-							onChange={(event) => this.setState({planningEnd: event._d})}
-							isValidDate={(current) => validPlanningEnd(
-								this.state.planningStart,
-								this.state.eventStart,
-								this.state.eventEnd,
-								current,
-							)}
-							required />
-					</div>
-					<div className="form-group">
-						<label htmlFor="location">Location:</label>
-						<input
-							type="text"
-							name="location"
-							placeholder="Location"
-							className="form-control"
-							value={this.state.location}
-							onChange={(event) => this.setState({location: event.target.value})}
-							required />
-					</div>
+					<NameInput
+						value={this.state.name}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ name: value })} />
+					<TypeInput
+						value={this.state.type}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ type: value })} />
+					<PlanningStartInput
+						value={this.state.planningStart}
+						eventStart={this.state.eventStart}
+						eventEnd={this.state.eventEnd}
+						planningEnd={this.state.planningEnd}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ planningStart: value })} />
+					<EventStartInput
+						value={this.state.eventStart}
+						planningStart={this.state.planningStart}
+						eventEnd={this.state.eventEnd}
+						planningEnd={this.state.planningEnd}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ eventStart: value })} />
+					<EventEndInput
+						value={this.state.eventEnd}
+						planningStart={this.state.planningStart}
+						eventStart={this.state.eventStart}
+						planningEnd={this.state.planningEnd}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ eventEnd: value })} />
+					<PlanningEndInput
+						value={this.state.planningEnd}
+						planningStart={this.state.planningStart}
+						eventStart={this.state.eventStart}
+						eventEnd={this.state.eventEnd}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ planningEnd: value })} />
+					<LocationInput
+						value={this.state.location}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ location: value })} />
 				</div>
 				<div className="modal-footer">
 					<button
