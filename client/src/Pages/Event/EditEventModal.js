@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import { SketchPicker } from 'react-color';
-import {
-	validPlanningStart,
-	validEventStart,
-	validEventEnd,
-	validPlanningEnd,
-	formatDateTime } from './../Common/EventHelpers';
+import { formatDateTime } from './../Common/EventHelpers';
 import fire from './../../fire';
-import DateTime from './../../../node_modules/react-datetime/DateTime.js';
 import Overlay from './../Common/Overlay';
 import NameInput from './../EventForm/NameInput';
 import TypeInput from './../EventForm/TypeInput';

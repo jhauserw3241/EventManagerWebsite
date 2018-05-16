@@ -113,13 +113,13 @@ class PartnerTable extends Component {
                                                         className="btn btn-success"
                                                         onClick={() => this.props.allowEdit(d["id"])}
                                                         disabled={d["priv"] === "Edit"}>
-                                                        <i class="fa fa-edit"></i>
+                                                        <i className="fa fa-edit"></i>
                                                     </button>
                                                     <button
                                                         className="btn btn-danger"
                                                         onClick={() => this.props.removeEdit(d["id"])}
                                                         disabled={d["priv"] === "View"}>
-                                                        <i class="fa fa-eye"></i>
+                                                        <i className="fa fa-eye"></i>
                                                     </button>
                                                 </div> : null }
                                             {((user.uid === this.props.owner_id) && (d["priv"] === "Owner")) ?
