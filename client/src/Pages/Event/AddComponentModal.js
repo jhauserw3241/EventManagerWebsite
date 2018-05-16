@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import FileInput from './../Common/FileInput';
 import fire from './../../fire';
+import { isEmptyString } from './../Common/FormValidation';
+import ComponentTypeInput from './../ComponentForm/ComponentTypeInput';
+import NameInput from './../ComponentForm/NameInput';
+import ContentTypeInput from './../ComponentForm/ContentTypeInput';
+import ComponentFileInput from './../ComponentForm/ComponentFileInput';
+import UrlInput from './../ComponentForm/UrlInput';
+import Overlay from './../Common/Overlay';
 
 class AddComponentModal extends Component {
     constructor(props) {
@@ -13,8 +20,10 @@ class AddComponentModal extends Component {
 			content_type: "",
 			file: "",
 			url: "",
+			showErrors: false,
         };
 
+		this.isFormValid = this.isFormValid.bind(this);
 		this.addComponent = this.addComponent.bind(this);
     }
 
@@ -30,10 +39,47 @@ class AddComponentModal extends Component {
 		});
 	}
 
+	isFormValid() {
+		// Check if the component type is valid
+		if(isEmptyString(this.state.component_type)) {
+			return false;
+		}
+		
+		// Check if the component name is valid
+		if(isEmptyString(this.state.name)) {
+			return false;
+		}
+		
+		// Check if the content type is valid
+		if(isEmptyString(this.state.content_type)) {
+			return false;
+		}
+		
+		if(this.state.content_type === "file") {
+			// Check if the file is valid
+			if(isEmptyString(this.state.file)) {
+				return false;
+			}
+		} else if(this.state.content_type === "url") {
+			// Check if the URL is valid
+			if(isEmptyString(this.state.url)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
     addComponent(event) {
         event.preventDefault();
 
 		var self = this;
+
+		// Check if the form is valid
+		if(!this.isFormValid()) {
+			this.setState({ showErrors: true });
+			return;
+		}
 
 		// Create event
 		var curCompenentRef = fire.database().ref("events").child(self.props.event_id).child("components").push();
@@ -60,110 +106,58 @@ class AddComponentModal extends Component {
 		.catch(function(error) {
 			this.setState({ formError: error.code + ": " + error.message });
 		});
+
+		// Close the modal
+		this.props.updateModalVisibility(false);
 	}
 
 	render() {
         return (
-			<div
-				className="modal fade"
+			<Overlay
 				id={"addComponentModal-" + this.props.id}
-				tabIndex="-1"
-				role="dialog"
-				data-backdrop="static"
-				data-keyboard={false}
-				aria-labelledby="personInfoModalTitle"
-				aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title" id="addComponentModalTitle">Add Component</h5>
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div className="modal-body">
-							<div className="form-group">
-								<label htmlFor="componentType">Component Type:</label>
-								<select
-									name="componentType"
-									className="form-control"
-									value={this.state.component_type}
-									placeholder="Component Type"
-									onChange={(event) => this.setState({component_type: event.target.value})}
-									required>
-									<option>Not Specified</option>
-									<option value="agenda">Agenda</option>
-									<option value="budget">Budget</option>
-									<option value="meetingNotes">Meeting Notes</option>
-									<option value="other">Other</option>
-								</select>
-							</div>
-							<div className="form-group">
-								<label htmlFor="componentName">Component Name:</label>
-								<input
-									type="text"
-									name="componentName"
-									className="form-control"
-									value={this.state.name}
-									placeholder="Component Name"
-									onChange={(event) => this.setState({ name: event.target.value })}
-									required />
-							</div>
-							<div className="form-group">
-								<label htmlFor="contentType">Content Type:</label>
-								<select
-									type="text"
-									name="contentType"
-									className="form-control"
-									value={this.state.content_type}
-									placeholder="Content Type"
-									onChange={(event) => this.setState({ content_type: event.target.value })}
-									required>
-									<option>Not Specified</option>
-									<option value="file">File</option>
-									<option value="url">URL</option>
-								</select>
-							</div>
-							{ (this.state.content_type === "file") ? 
-								<div className="form-group">
-									<label htmlFor="componentFile">File:</label>
-									<FileInput
-										handleSuccess={(url) => this.setState({ file: url })}
-										handleError={(error) => this.setState({ formError: error })}
-										folderName="ComponentFiles"
-										fieldName="file" />
-								</div> : null }
-							
-							{ (this.state.content_type === "url") ? 
-								<div className="form-group">
-									<label htmlFor="componentUrl">URL:</label>
-									<input
-										type="text"
-										name="componentUrl"
-										className="form-control"
-										value={this.state.url}
-										placeholder="URL"
-										onChange={(event) => this.setState({ url: event.target.value })} />
-								</div> : null }
-						</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="btn btn-success"
-								data-dismiss="modal"
-								onClick={this.addComponent}>
-								Add
-							</button>
-							<button
-								type="button"
-								className="btn btn-danger"
-								data-dismiss="modal">
-								Close
-							</button>
-						</div>
-					</div>
+				title="Add Component"
+				visible={this.props.visible}
+				updateModalVisibility={this.props.updateModalVisibility}>
+				<div className="modal-body">
+					<ComponentTypeInput
+						value={this.state.component_type}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({component_type: value})} />
+					<NameInput 
+						value={this.state.name}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ name: value })} />
+					<ContentTypeInput
+						value={this.state.content_type}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ content_type: value })} />
+					{ (this.state.content_type === "file") ?
+						<ComponentFileInput
+							onChange={(url) => this.setState({ file: url })}
+							onError={(error) => this.setState({ formError: error })} />
+						: null }
+					{ (this.state.content_type === "url") ?
+						<UrlInput
+							value={this.state.url}
+							showErrors={this.state.showErrors}
+							onChange={(value) => this.setState({ url: value })} />
+						: null }
 				</div>
-			</div>
+				<div className="modal-footer">
+					<button
+						type="button"
+						className="btn btn-success"
+						onClick={this.addComponent}>
+						Add
+					</button>
+					<button
+						type="button"
+						className="btn btn-danger"
+						onClick={() => this.props.updateModalVisibility(false)}>
+						Close
+					</button>
+				</div>
+			</Overlay>
 		);
 	}
 }
