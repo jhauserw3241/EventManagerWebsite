@@ -36,11 +36,11 @@ class TypeInput extends Component {
 					disabled={this.props.disabled ? this.props.disabled : false}
 					required>
 					<option value="">Not Specified</option>
-					<option value="conference">Conference</option>
-					<option value="fieldtrip">Field trip</option>
-					<option value="training">Training</option>
-					<option value="sitevisit">Site Visit</option>
-					<option value="misc">Miscellaneous</option>
+					<option>Conference</option>
+					<option>Field trip</option>
+					<option>Training</option>
+					<option>Site Visit</option>
+					<option>Miscellaneous</option>
 				</select>
                 <p style={this.isValid() ? validTipStyle : invalidTipStyle}>
                     This field must have a specified value.

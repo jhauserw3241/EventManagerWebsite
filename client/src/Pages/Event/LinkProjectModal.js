@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import Overlay from './../Common/Overlay';
+import ProjectType from './../LinkProjectForm/ProjectType';
+import ProjectSelectInput from './../LinkProjectForm/ProjectSelectInput';
+import {
+    isEmptyString,
+    invalidFieldStyle,
+    invalidTipStyle,
+    validTipStyle,
+} from './../Common/FormValidation';
 import fire from './../../fire';
 
 class LinkProjectModal extends Component {
@@ -12,13 +20,11 @@ class LinkProjectModal extends Component {
 			linked_events: [],
 			all_products: {},
 			linked_products: [],
+			showErrors: false,
         };
 
-		this.createEventSelectItems = this.createEventSelectItems.bind(this);
-		this.onEventDropdownSelected = this.onEventDropdownSelected.bind(this);
-		this.createProductSelectItems = this.createProductSelectItems.bind(this);
-		this.onProductDropdownSelected = this.onProductDropdownSelected.bind(this);
 		this.combineJSONObjects = this.combineJSONObjects.bind(this);
+		this.isFormValid = this.isFormValid.bind(this);
 		this.linkProject = this.linkProject.bind(this);
     }
 
@@ -68,114 +74,6 @@ class LinkProjectModal extends Component {
 		fire.database().ref("products").on("value", (data) =>
 			this.setState({ all_products: data.val() ? data.val() : {} }));
 	}
-	
-	createEventSelectItems() {
-		var items = [];
-		var options_count = 0;
-
-		// Add not specified option
-		items.push(
-			<option
-				key={options_count}
-				value=""
-				// Check if the product is already linked
-				disabled={false}>
-				Not Specified
-			</option>);
-
-		options_count += 1;
-
-		// Add options for all events
-		for (var event_id in this.state.all_events) {
-			var event = this.state.all_events[event_id];
-			items.push(
-				<option
-					key={options_count}
-					value={event_id}
-					// Check if the event is already linked
-					disabled={
-						(event_id === this.props.event_id) ||
-						(Object.keys(this.state.linked_events).indexOf(event_id) > -1)
-					}>
-					{event.name}
-				</option>);
-
-			options_count += 1;
-		}
-		return items;
-	}  
-   
-	onEventDropdownSelected(event) {
-		console.log("test")
-		var event_id = event.target.value;
-
-		console.log(this.state.linked_events);
-		// Check if event is already linked
-		if(Object.keys(this.state.linked_events).indexOf(event_id) <= -1) {
-			// Get event information
-			var event = this.state.all_events[event_id];
-
-			// Add event to list of linked evnets
-			var temp = this.state.linked_events;
-			console.log(temp);
-			temp[event_id] = "event";
-			console.log(temp);
-			this.setState({ linked_events: temp });
-		}
-	}
-
-	createProductSelectItems() {
-		var items = [];
-		var options_count = 0;
-
-		// Add not specified option
-		items.push(
-			<option
-				key={options_count}
-				value=""
-				// Check if the product is already linked
-				disabled={false}>
-				Not Specified
-			</option>);
-
-		options_count += 1;
-
-		// Add options for all products
-		for (var product_id in this.state.all_products) {
-			var product = this.state.all_products[product_id];
-			items.push(
-				<option
-					key={options_count}
-					value={product_id}
-					// Check if the product is already linked
-					disabled={
-						(Object.keys(this.state.linked_products).indexOf(product_id) > -1)
-					}>
-					{product.name}
-				</option>);
-
-			options_count += 1;
-		}
-		return items;
-	}  
-   
-	onProductDropdownSelected(event) {
-		var product_id = event.target.value;
-
-		console.log(this.state.linked_products);
-		// Check if product is already linked
-		if(Object.keys(this.state.linked_products).indexOf(product_id) <= -1) {
-			// Get product information
-			var product = this.state.all_products[product_id];
-
-			// Add product to list of linked products
-			var temp = this.state.linked_products;
-			console.log(temp);
-			temp[product_id] = "product";
-			console.log(temp);
-			this.setState({ linked_products: temp });
-		}
-	}
 
 	combineJSONObjects(objA, objB) {
 		for(var item_id in objB) {
@@ -185,7 +83,21 @@ class LinkProjectModal extends Component {
 		return objA;
 	}
 
+	isFormValid() {
+		if(isEmptyString(this.state.project_type)) {
+			return false;
+		}
+
+		return true;
+	}
+
 	linkProject() {
+		// Check if the form is valid
+		if(!this.isFormValid()) {
+			this.setState({ showErrors: true });
+			return;
+		}
+
 		var projects = this.combineJSONObjects(this.state.linked_events, this.state.linked_products);
 		var updates = {};
 		for(var project_id in projects) {
@@ -206,44 +118,25 @@ class LinkProjectModal extends Component {
 				visible={this.props.visible}
 				updateModalVisibility={this.props.updateModalVisibility}>
 				<div className="modal-body">
-					<div className="form-group">
-						<label htmlFor="projectType">Project Type:</label>
-						<select
-							type="text"
-							name="projectType"
-							className="form-control"
-							value={this.state.project_type}
-							placeholder="Project Type"
-							onChange={(event) => this.setState({ project_type: event.target.value })}
-							required>
-							<option value="">Not Specified</option>
-							<option value="event">Event</option>
-							<option value="product">Product</option>
-						</select>
-					</div>
-					{ (this.state.project_type === "event") ? 
-						<div className="form-group">
-							<label htmlFor="eventName">Event Name:</label>
-							<select
-								label="eventName"
-								className="form-control"
-								onChange={this.onEventDropdownSelected}
-								multiple>
-								{this.createEventSelectItems()}
-							</select>
-						</div> : null }
+					<ProjectType
+						value={this.state.project_type}
+						showErrors={this.state.showErrors}
+						onChange={(value) => this.setState({ project_type: value })} />
+					{ (this.state.project_type === "event") ?
+						<ProjectSelectInput
+							available_list={this.state.all_events}
+							selected_list={this.state.linked_events}
+							project_type="event"
+							updateSelectedOptions={(list) => this.setState({ linked_events: list })} />
+						: null }
 					
 					{ (this.state.project_type === "product") ? 
-						<div className="form-group">
-							<label htmlFor="productName">Product Names:</label>
-							<select
-								label="productName"
-								className="form-control"
-								onChange={this.onProductDropdownSelected}
-								multiple>
-								{this.createProductSelectItems()}
-							</select>
-						</div> : null }
+						<ProjectSelectInput
+							available_list={this.state.all_products}
+							selected_list={this.state.linked_products}
+							project_type="product"
+							updateSelectedOptions={(list) => this.setState({ linked_products: list })} />
+						: null }
 				</div>
 				<div className="modal-footer">
 					<button
