@@ -39,6 +39,7 @@ class Event extends Component {
 			edit_modal_visible: false,
 			add_partner_modal_visible: false,
 			add_component_modal_visible: false,
+			link_project_modal_visible: false,
         };
 
 		this.canEditEvent = this.canEditEvent.bind(this);
@@ -122,7 +123,11 @@ class Event extends Component {
 					updateModalVisibility={(value) =>
 						this.setState({ add_partner_modal_visible: value })} />
 
-				<LinkProjectModal event_id={this.state.event_id} />
+				<LinkProjectModal
+					event_id={this.state.event_id}
+					visible={this.state.link_project_modal_visible}
+					updateModalVisibility={(value) =>
+						this.setState({ link_project_modal_visible: value })} />
 
                 <div className="container">
                     <div className="content">
@@ -173,8 +178,7 @@ class Event extends Component {
 									</Button>
 									<Button
 										className="btn btn-success"
-										data-toggle="modal"
-										data-target={"#linkProjectModal-" + this.props.id}>
+										onClick={() => this.setState({ link_project_modal_visible: true })}>
 										<i className="fa fa-link" aria-hidden="true"></i> Project
 									</Button>
 									<Button

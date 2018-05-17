@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Overlay from './../Common/Overlay';
 import fire from './../../fire';
 
 class LinkProjectModal extends Component {
@@ -185,95 +186,80 @@ class LinkProjectModal extends Component {
 	}
 
 	linkProject() {
-		console.log(this.state.linked_events);
-		console.log(this.state.linked_products);
 		var projects = this.combineJSONObjects(this.state.linked_events, this.state.linked_products);
-		console.log(projects);
-		console.log('/events/' + this.props.event_id + "/linked_projects/");
 		var updates = {};
 		for(var project_id in projects) {
 			var project_type = projects[project_id];
 			updates['/events/' + this.props.event_id + "/linked_projects/" + project_id] = project_type;
 		}
-        fire.database().ref().update(updates);
+		fire.database().ref().update(updates);
+
+		// Close the modal
+		this.props.updateModalVisibility(false);
 	}
 
 	render() {
         return (
-			<div
-				className="modal fade"
+			<Overlay
 				id={"linkProjectModal-" + this.props.id}
-				tabIndex="-1"
-				role="dialog"
-				aria-labelledby="personInfoModalTitle"
-				aria-hidden="true">
-				<div className="modal-dialog" role="document">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title" id="linkProjectModalTitle">Link Project</h5>
-							<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-
-						<div className="modal-body">
-							<div className="form-group">
-								<label htmlFor="projectType">Project Type:</label>
-								<select
-									type="text"
-									name="projectType"
-									className="form-control"
-									value={this.state.project_type}
-									placeholder="Project Type"
-									onChange={(event) => this.setState({ project_type: event.target.value })}
-									required>
-									<option value="">Not Specified</option>
-									<option value="event">Event</option>
-									<option value="product">Product</option>
-								</select>
-							</div>
-							{ (this.state.project_type === "event") ? 
-								<div className="form-group">
-									<label htmlFor="eventName">Event Name:</label>
-									<select
-										label="eventName"
-										className="form-control"
-										onChange={this.onEventDropdownSelected}
-										multiple>
-										{this.createEventSelectItems()}
-									</select>
-								</div> : null }
-							
-							{ (this.state.project_type === "product") ? 
-								<div className="form-group">
-									<label htmlFor="productName">Product Names:</label>
-									<select
-										label="productName"
-										className="form-control"
-										onChange={this.onProductDropdownSelected}
-										multiple>
-										{this.createProductSelectItems()}
-									</select>
-								</div> : null }
-						</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="btn btn-success"
-								data-dismiss="modal"
-								onClick={() => this.linkProject()}>
-								Add
-							</button>
-							<button
-								type="button"
-								className="btn btn-danger"
-								data-dismiss="modal">
-								Close
-							</button>
-						</div>
+				title="Link Project"
+				visible={this.props.visible}
+				updateModalVisibility={this.props.updateModalVisibility}>
+				<div className="modal-body">
+					<div className="form-group">
+						<label htmlFor="projectType">Project Type:</label>
+						<select
+							type="text"
+							name="projectType"
+							className="form-control"
+							value={this.state.project_type}
+							placeholder="Project Type"
+							onChange={(event) => this.setState({ project_type: event.target.value })}
+							required>
+							<option value="">Not Specified</option>
+							<option value="event">Event</option>
+							<option value="product">Product</option>
+						</select>
 					</div>
+					{ (this.state.project_type === "event") ? 
+						<div className="form-group">
+							<label htmlFor="eventName">Event Name:</label>
+							<select
+								label="eventName"
+								className="form-control"
+								onChange={this.onEventDropdownSelected}
+								multiple>
+								{this.createEventSelectItems()}
+							</select>
+						</div> : null }
+					
+					{ (this.state.project_type === "product") ? 
+						<div className="form-group">
+							<label htmlFor="productName">Product Names:</label>
+							<select
+								label="productName"
+								className="form-control"
+								onChange={this.onProductDropdownSelected}
+								multiple>
+								{this.createProductSelectItems()}
+							</select>
+						</div> : null }
 				</div>
-			</div>
+				<div className="modal-footer">
+					<button
+						type="button"
+						className="btn btn-success"
+						onClick={() => this.linkProject()}>
+						Add
+					</button>
+					<button
+						type="button"
+						className="btn btn-danger"
+						onClick={() => this.props.updateModalVisibility(false)}>
+						Close
+					</button>
+				</div>
+			</Overlay>
 		);
 	}
 }

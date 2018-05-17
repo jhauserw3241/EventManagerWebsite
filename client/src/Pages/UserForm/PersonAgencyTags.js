@@ -99,7 +99,7 @@ class PersonAgencyTags extends Component {
 
   render() {
     if (this.state.redirect) {
-      return(<Redirect to="/agencies" />);
+      return(<Redirect to="/agencies/-LBU-bOSRID2tYc8U6dt" />);
     }
 
     return (
