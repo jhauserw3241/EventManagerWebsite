@@ -58,7 +58,8 @@ class Agencies extends Component {
 								key={agency.id}
 								id={agency.id}
 								name={agency.name}
-								pic={agency.pic} />
+								pic={agency.pic}
+								visible={agency.id === this.props.match.params.id} />
 						)}
 					</div>
 				</div>

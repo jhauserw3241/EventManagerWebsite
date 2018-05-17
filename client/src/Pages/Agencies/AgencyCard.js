@@ -10,7 +10,7 @@ class AgencyCard extends Component {
 
         this.state = {
             people: [],
-            visible: false,
+            visible: this.props.visible ? this.props.visible : false,
         }
 
         this.deleteAgency = this.deleteAgency.bind(this);
