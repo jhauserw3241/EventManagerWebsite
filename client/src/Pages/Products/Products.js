@@ -11,7 +11,8 @@ class Products extends Component {
 
 		this.state = {
 			products: {},
-			formError: ""
+			formError: "",
+			visible: false,
 		};
 
 		this.deleteProduct = this.deleteProduct.bind(this);
@@ -68,7 +69,9 @@ class Products extends Component {
 		return (
 			<div className="Products">
 				<div className="container">
-					<AddProductModal />
+					<AddProductModal
+						visible={this.state.visible}
+						updateModalVisibility={(value) => this.setState({ visible: value })} />
 	
 					{ (this.state.formError !== "") ?
 						<div class="alert alert-danger">
@@ -79,7 +82,7 @@ class Products extends Component {
 						dashboardName="Products"
 						newItemName="Product"
 						linkPrefix="/product/"
-						addModalId="#addProductModal"
+						updateAddModalVisibility={(value) => this.setState({ visible: value })}
 						items={this.state.products}
 						deleteItem={this.deleteProduct} />
 				</div>
